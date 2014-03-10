@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-http="http://www.springframework.org/schema/integration/http"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                  http://www.springframework.org/schema/beans/spring-beans.xsd
+                  http://www.springframework.org/schema/integration
+                  http://www.springframework.org/schema/integration/spring-integration.xsd
+                  http://www.springframework.org/schema/integration/http
+                  http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+                  http://www.springframework.org/schema/integration/jdbc
+                  http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+    <int:chain input-channel="workService.findWorkByProjectId">
+        <int-jdbc:outbound-gateway data-source="dataSource" max-rows-per-poll="0"
+                                   query="select * from
+             work where isDone=:payload[isDone] and projectId=:payload[projectId] order by createTime desc">
+            <int-jdbc:request-handler-advice-chain>
+                <bean class="com.hs.pm.transform.NullReplyAdvice"/>
+            </int-jdbc:request-handler-advice-chain>
+        </int-jdbc:outbound-gateway>
+    </int:chain>
+    <int:channel id="projectAlterationReplyChannel"/>
+    <int:chain input-channel="workService.createWork">
+        <int-jdbc:stored-proc-outbound-gateway data-source="dataSource" stored-procedure-name="create_work">
+            <int-jdbc:parameter name="work_name" expression="payload[workName][0]"/>
+            <int-jdbc:parameter name="backup" expression="payload[backup][0]"/>
+            <int-jdbc:parameter name="project_id" expression="payload[projectId][0]"/>
+            <int-jdbc:parameter name="create_user_id" expression="payload[createUserId][0]"/>
+            <int-jdbc:parameter name="crew_id" expression="payload[crewId][0]"/>
+            <int-jdbc:parameter name="create_time" expression="headers[nowDate]"/>
+            <int-jdbc:parameter name="deadline" expression="payload[deadline][0]"/>
+            <int-jdbc:parameter name="operator_id" expression="payload[operatorId][0]"/>
+            <int-jdbc:parameter name="operate_time" expression="headers[nowDate]"/>
+            <int-jdbc:request-handler-advice-chain>
+                <bean class="com.hs.pm.transform.NullReplyAdvice"/>
+            </int-jdbc:request-handler-advice-chain>
+        </int-jdbc:stored-proc-outbound-gateway>
+    </int:chain>
+    <int:chain input-channel="workService.updateWork">
+        <int-jdbc:outbound-gateway data-source="dataSource"
+                                   update="update work set workName=:payload[workName],backup=:payload[backup],crewId=:payload[crewId],deadline=:payload[deadline],isDone=:payload[isDone])
+                                   where workId=:payload[workId]"/>
+    </int:chain>
+    <int:chain input-channel="workService.setWorkIsDone">
+        <int-jdbc:outbound-gateway data-source="dataSource"
+                                   update="update work set isDone=true where workId=:payload[workId]"/>
+    </int:chain>
+    <int:chain input-channel="workService.distributeWork">
+        <int-jdbc:outbound-gateway data-source="dataSource"
+                                   update="update work set crewId=:payload[crewId] where workId=:payload[workId]"/>
+    </int:chain>
+    <int:chain input-channel="workService.deleteWork">
+        <int-jdbc:outbound-gateway data-source="dataSource" update="delete from work where workId=:payload[workId]"/>
+    </int:chain>
+</beans>

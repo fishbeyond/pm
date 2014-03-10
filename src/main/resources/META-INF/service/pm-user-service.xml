@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-http="http://www.springframework.org/schema/integration/http"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                  http://www.springframework.org/schema/beans/spring-beans.xsd
+                  http://www.springframework.org/schema/integration
+                  http://www.springframework.org/schema/integration/spring-integration.xsd
+                  http://www.springframework.org/schema/integration/http
+                  http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+                  http://www.springframework.org/schema/integration/jdbc
+                  http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd">
+
+    <int:chain input-channel="userService.getAuthCode">
+        <int-jdbc:outbound-gateway data-source="dataSource"
+                                   update="insert into user_authCode (phoneNo,authCode) values (:payload[phoneNo],get_authCode())"
+                                   query="select authCode from user_authCode where phoneNo=:payload[phoneNo]"/>
+    </int:chain>
+    <int:chain input-channel="userService.loginByAuthCode">
+        <int-jdbc:stored-proc-outbound-gateway data-source="dataSource"
+                                               stored-procedure-name="login_byAuthCode">
+            <int-jdbc:sql-parameter-definition name="isSuccess" direction="OUT" type="BOOLEAN"/>
+            <int-jdbc:parameter name="phone_no" expression="payload[phoneNo][0]"/>
+            <int-jdbc:parameter name="auth_code" expression="payload[authCode][0]"/>
+        </int-jdbc:stored-proc-outbound-gateway>
+    </int:chain>
+
+    <int:chain input-channel="userService.updateUser">
+        <int-jdbc:outbound-gateway data-source="dataSource"
+                                   update="update user set userName=:payload[userName],password=:payload[password],mailAddress=:payload[mailAddress]
+                                   where userId=:payload[userId]"/>
+    </int:chain>
+</beans>

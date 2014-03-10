@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-http="http://www.springframework.org/schema/integration/http"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                  http://www.springframework.org/schema/beans/spring-beans.xsd
+                  http://www.springframework.org/schema/integration
+                  http://www.springframework.org/schema/integration/spring-integration.xsd
+                  http://www.springframework.org/schema/integration/http
+                  http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+                  http://www.springframework.org/schema/integration/jdbc
+                  http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd">
+
+
+    <int-http:inbound-gateway supported-methods="GET,POST" path="/pm/{service}/{method}"
+                              request-channel="pmServiceChannel" error-channel="jsonErrorResultChannel"
+                              reply-timeout="5000"
+                              mapped-request-headers="Content-Type,user-agent,host,outbound"
+                              mapped-response-headers="Content-Type">
+        <int-http:header name="serviceChannel" expression="#pathVariables.service + '.' + #pathVariables.method"/>
+    </int-http:inbound-gateway>
+
+    <int:channel id="pmServiceChannel"/>
+    <int:chain input-channel="pmServiceChannel" output-channel="pmJsonOutputChannel">
+        <int:header-enricher>
+            <int:header name="nowDate" expression="new java.util.Date()"/>
+        </int:header-enricher>
+        <int:gateway request-channel="pmServiceRouter"/>
+    </int:chain>
+
+    <int:channel id="pmServiceRouter"/>
+    <int:header-value-router header-name="serviceChannel" input-channel="pmServiceRouter">
+    </int:header-value-router>
+
+    <int:channel id="pmJsonOutputChannel"/>
+    <int:service-activator input-channel="pmJsonOutputChannel"
+                           expression="@jsonResultService.createSuccessResult(payload)"/>
+
+    <int:channel id="jsonErrorResultChannel"/>
+    <int:transformer input-channel="jsonErrorResultChannel"
+                     expression="@jsonResultService.createExceptionResult(payload)"/>
+
+</beans>
