@@ -22,4 +22,5 @@
     <import resource="service/pm-project-service.xml"/>
     <import resource="service/pm-work-service.xml"/>
     <import resource="service/pm-chat-service.xml"/>
+    <import resource="service/pm-linkman-service.xml"/>
 </beans>

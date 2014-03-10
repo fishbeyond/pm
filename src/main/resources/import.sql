@@ -5,10 +5,11 @@ CREATE TABLE pm.user (
   phoneNo     VARCHAR(50) NOT NULL UNIQUE,
   mailAddress VARCHAR(50),
   password    VARCHAR(50),
+  authCode    INT,
   PRIMARY KEY (userId));
 CREATE TABLE pm.user_authCode (
   authCodeId INT NOT NULL AUTO_INCREMENT,
-  phoneNo    VARCHAR(50) UNICODE,
+  phoneNo    VARCHAR(50),
   authCode   INT,
   PRIMARY KEY (authCodeId));
 CREATE TABLE pm.linkman (
@@ -62,16 +63,6 @@ CREATE TABLE pm.chat (
   createTime   DATETIME,
   PRIMARY KEY (chatId));
 #==============================================
-DROP FUNCTION IF EXISTS `pm`.`get_authCode`;
-DELIMITER $$
-USE `pm`$$
-CREATE FUNCTION `get_authCode`()
-  RETURNS INTEGER
-  BEGIN
-    RETURN (SELECT
-              FLOOR(100000 + (RAND() * 888888)));
-  END$$
-DELIMITER ;
 DROP FUNCTION IF EXISTS `pm`.`find_userNameById`;
 DELIMITER $$
 CREATE DEFINER =`root`@`localhost` FUNCTION `find_userNameById`(user_id INT)
@@ -160,20 +151,42 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE `create_project`(project_name VARCH
   END$$
 DELIMITER ;
 #用户===================================================================================================================
+DROP PROCEDURE IF EXISTS `get_authCode`;
+DELIMITER $$
+CREATE DEFINER =`root`@`localhost` PROCEDURE `get_authCode`(IN  phone_no VARCHAR(50), OUT auth_code INT,
+                                                            OUT mobile   VARCHAR(50))
+  BEGIN
+    SET mobile = phone_no;
+    SET auth_code = FLOOR(100000 + (RAND() * 888888));
+    IF ((SELECT
+           userId
+         FROM pm.user
+         WHERE phoneNo = phone_no) IS null)
+    THEN
+      INSERT INTO pm.user (phoneNo, authCode) VALUES (phone_no, auth_code);
+    ELSE
+      UPDATE pm.user
+      SET authCode=auth_code
+      WHERE phoneNo = phone_no;
+    END IF;
+  END$$
+DELIMITER ;
+
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `login_byAuthCode`;
 CREATE DEFINER =`root`@`localhost` PROCEDURE `login_byAuthCode`(phone_no  VARCHAR(50), auth_code VARCHAR(50),
   OUT                                                           isSuccess BOOLEAN)
   BEGIN
+    DECLARE result INT;
     SELECT
-      @authCode := authCode
-    FROM user_authCode
-    WHERE phoneNo = phone_no;
-    IF @authCode = auth_code
+      userId
+    INTO result
+    FROM user
+    WHERE phoneNo = phone_no AND authCode = auth_code;
+    IF (result IS NOT null)
     THEN
-      INSERT INTO user (phoneNo) VALUES (phone_no);
       UPDATE crew
-      SET userId=@userId
+      SET userId=result
       WHERE phoneNo = phone_no;
       SET isSuccess = 1;
     ELSE

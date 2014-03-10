@@ -12,8 +12,21 @@
                   http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
                   http://www.springframework.org/schema/integration/jdbc
                   http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd">
-    <!--<int:chain input-channel="linkManService.uploadLinkMan">-->
-    <!--</int:chain>-->
-    <!--<int:chain input-channel="linkManService.deleteLinkMan">-->
-    <!--</int:chain>-->
+
+    <bean id="linkmanDao" class="com.hs.pm.linkman.LinkmanDao"/>
+    <bean id="linkmanTransform" class="com.hs.pm.linkman.LinkmanTransformer"/>
+    <int:chain input-channel="linkmanService.uploadLinkman">
+        <!--<int:map-to-object-transformer type="com.hs.pm.linkman.Linkmen"/>-->
+        <!--<int:transformer ref="linkmanTransform" method="transform"/>-->
+        <int:service-activator ref="linkmanDao" method="uploadLinkMan"/>
+    </int:chain>
+    <int:chain input-channel="linkmanService.updateLinkman">
+        <int-jdbc:outbound-gateway data-source="dataSource"
+                                   update="update linkman set phoneNo=:payload[phoneNo],mailAddress=:payload[mailAddress], linkmanName=:payload[linkmanName]
+                                   where linkmanId=:payload[linkmanId]"/>
+    </int:chain>
+    <int:chain input-channel="linkManService.deleteLinkman">
+        <int-jdbc:outbound-gateway data-source="dataSource"
+                                   update="delete from linkman where linkmanId=:payload[linkmanId]"/>
+    </int:chain>
 </beans>

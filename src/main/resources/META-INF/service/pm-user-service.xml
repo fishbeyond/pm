@@ -14,9 +14,13 @@
                   http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd">
 
     <int:chain input-channel="userService.getAuthCode">
-        <int-jdbc:outbound-gateway data-source="dataSource"
-                                   update="insert into user_authCode (phoneNo,authCode) values (:payload[phoneNo],get_authCode())"
-                                   query="select authCode from user_authCode where phoneNo=:payload[phoneNo]"/>
+        <int-jdbc:stored-proc-outbound-gateway data-source="dataSource"
+                                               stored-procedure-name="get_authCode">
+            <int-jdbc:sql-parameter-definition direction="OUT" name="mobile" type="VARCHAR"/>
+            <int-jdbc:sql-parameter-definition direction="OUT" name="auth_code" type="INTEGER"/>
+            <int-jdbc:parameter name="phone_no" expression="payload[phoneNo][0]"/>
+        </int-jdbc:stored-proc-outbound-gateway>
+        <int:service-activator expression="@mtService.send(payload[mobile],'本次验证码：'+payload[auth_code])"/>
     </int:chain>
     <int:chain input-channel="userService.loginByAuthCode">
         <int-jdbc:stored-proc-outbound-gateway data-source="dataSource"
