@@ -19,12 +19,12 @@ CREATE TABLE pm.linkman (
   mailAddress VARCHAR(50),
   linkmanName VARCHAR(50),
   PRIMARY KEY (linkmanId));
-CREATE TABLE pm.project_alteration (
-  alterationId INT NOT NULL AUTO_INCREMENT,
-  message      VARCHAR(255),
-  alterTime    DATETIME,
-  projectId    INT NOT NULL,
-  PRIMARY KEY (alterationId));
+CREATE TABLE pm.project_detail (
+  detailId    INT NOT NULL AUTO_INCREMENT,
+  message     VARCHAR(255),
+  operateTime DATETIME,
+  projectId   INT NOT NULL,
+  PRIMARY KEY (detailId));
 CREATE TABLE pm.project (
   projectId    INT NOT NULL AUTO_INCREMENT,
   projectName  VARCHAR(50),
@@ -56,7 +56,7 @@ CREATE TABLE pm.work (
 
 CREATE TABLE pm.chat (
   chatId       INT NOT NULL AUTO_INCREMENT,
-  content      VARCHAR(255),
+  message      VARCHAR(255),
   fromUserName VARCHAR(50),
   fromUserId   INT,
   projectId    INT NOT NULL,
@@ -83,17 +83,17 @@ CREATE DEFINER =`root`@`localhost` FUNCTION `find_userNameById`(user_id INT)
     RETURN user;
   END$$
 DELIMITER ;
-DROP FUNCTION IF EXISTS `pm`.`save_project_alteration`;
+DROP FUNCTION IF EXISTS `pm`.`save_project_detail`;
 DELIMITER $$
-CREATE DEFINER =`root`@`localhost` FUNCTION `save_project_alteration`(operator_id INT, message VARCHAR(50),
-                                                                      alter_time  DATETIME, project_id VARCHAR(50))
+CREATE DEFINER =`root`@`localhost` FUNCTION `save_project_detail`(operator_id INT, message VARCHAR(50),
+                                                                  alter_time  DATETIME, project_id VARCHAR(50))
   RETURNS INT(11)
   BEGIN
     DECLARE operator VARCHAR(50);
     DECLARE save_msg VARCHAR(255);
     SET operator = find_userNameById(operator_id);
     SET save_msg = if((operator IS null || @operator = ''), message, concat(message, '--变更人--', operator));
-    INSERT INTO pm.project_alteration (message, alterTime, projectId) VALUES (save_msg, alter_time, project_id);
+    INSERT INTO pm.project_detail (message, operateTime, projectId) VALUES (save_msg, alter_time, project_id);
     RETURN 1;
   END$$
 DELIMITER ;
@@ -108,7 +108,7 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE `update_project`(project_name VARCH
     SET projectName=project_name, content=content
     WHERE projectId = project_id;
     SELECT
-      save_project_alteration(create_user_id, concat('更改项目名为:', project_name), create_time, project_id);
+      save_project_detail(create_user_id, concat('更改项目名为:', project_name), create_time, project_id);
   END$$
 DELIMITER ;
 
@@ -125,7 +125,7 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE `project_add_member`(project_id   I
                    WHERE phoneNo = phone_no);
     INSERT INTO crew (projectId, userId, phoneNo, mailAddress, userName) VALUES (project_id, user_id, phone_no, mail_address, user_name);
     SELECT
-      save_project_alteration(operator_id, concat(user_name, '加入项目'), operate_time, project_id);
+      save_project_detail(operator_id, concat(user_name, '加入项目'), operate_time, project_id);
   END$$
 
 DELIMITER ;
@@ -152,7 +152,7 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE `create_project`(project_name VARCH
       VALUES (project_name, content, create_time, create_user_id);
     SET project_id = LAST_INSERT_ID();
     SELECT
-      save_project_alteration(create_user_id, concat('创建项目:', project_name), create_time, project_id);
+      save_project_detail(create_user_id, concat('创建项目:', project_name), create_time, project_id);
   END$$
 DELIMITER ;
 #用户===================================================================================================================
@@ -211,6 +211,6 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE `create_work`(operator_id INT, oper
     INSERT INTO work (workName, backup, createTime, projectId, createUserId, crewId, deadline, isDone)
       VALUES (work_name, backup, create_time, project_id, create_user_id, crew_id, deadline, FALSE);
     SELECT
-      save_project_alteration(operator_id, concat('创建工作:', work_name), operate_time, project_id);
+      save_project_detail(operator_id, concat('创建工作:', work_name), operate_time, project_id);
   END$$
 DELIMITER ;

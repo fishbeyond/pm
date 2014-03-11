@@ -41,7 +41,10 @@ public class PushService {
 
     }
 
-    public static void push(String p12File, String p12Pass,String content,List<Device> devices) {
+       public void push(){
+
+       }
+       public static void push(String p12File, String p12Pass,String content,List<Device> devices) {
         try {
             PushNotificationPayload payLoad = new PushNotificationPayload();
             payLoad.addAlert(content);
