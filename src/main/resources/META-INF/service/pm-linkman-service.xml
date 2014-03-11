@@ -14,10 +14,8 @@
                   http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd">
 
     <bean id="linkmanDao" class="com.hs.pm.linkman.LinkmanDao"/>
-    <bean id="linkmanTransform" class="com.hs.pm.linkman.LinkmanTransformer"/>
     <int:chain input-channel="linkmanService.uploadLinkman">
-        <!--<int:map-to-object-transformer type="com.hs.pm.linkman.Linkmen"/>-->
-        <!--<int:transformer ref="linkmanTransform" method="transform"/>-->
+        <!--<int:map-to-object-transformer type="com.hs.pm.linkman.LinkmanList"/>-->
         <int:service-activator ref="linkmanDao" method="uploadLinkMan"/>
     </int:chain>
     <int:chain input-channel="linkmanService.updateLinkman">

@@ -13,6 +13,7 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="packagesToScan">
             <list>
+                <value>com.hs.pm.linkman</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -21,7 +22,8 @@
                 <!--<prop key="hibernate.hbm2ddl.auto">create</prop>-->
                 <prop key="show_sql">true</prop>
                 <prop key="format_sql">true</prop>
-                <prop key="hibernate.connection.autocommit">true</prop>
+                <prop key="hibernate.jdbc.batch_size">100</prop>
+                <!--<prop key="hibernate.connection.autocommit">true</prop>-->
             </props>
         </property>
     </bean>

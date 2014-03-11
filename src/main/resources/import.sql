@@ -13,15 +13,15 @@ CREATE TABLE pm.user_authCode (
   authCode   INT,
   PRIMARY KEY (authCodeId));
 CREATE TABLE pm.linkman (
-  linkManId   INT NOT NULL AUTO_INCREMENT,
+  linkmanId   INT NOT NULL AUTO_INCREMENT,
   ownerId     INT,
   phoneNo     VARCHAR(50),
   mailAddress VARCHAR(50),
-  linkManName VARCHAR(50),
-  PRIMARY KEY (linkManId));
+  linkmanName VARCHAR(50),
+  PRIMARY KEY (linkmanId));
 CREATE TABLE pm.project_alteration (
   alterationId INT NOT NULL AUTO_INCREMENT,
-  message      VARCHAR(100),
+  message      VARCHAR(255),
   alterTime    DATETIME,
   projectId    INT NOT NULL,
   PRIMARY KEY (alterationId));
@@ -57,11 +57,16 @@ CREATE TABLE pm.work (
 CREATE TABLE pm.chat (
   chatId       INT NOT NULL AUTO_INCREMENT,
   content      VARCHAR(255),
-  fromUserName VARCHAR(30),
+  fromUserName VARCHAR(50),
   fromUserId   INT,
   projectId    INT NOT NULL,
   createTime   DATETIME,
   PRIMARY KEY (chatId));
+CREATE TABLE pm.deviceToken (
+  tokenId INT NOT NULL AUTO_INCREMENT,
+  userId  INT,
+  token   VARCHAR(50),
+  PRIMARY KEY (tokenId));
 #==============================================
 DROP FUNCTION IF EXISTS `pm`.`find_userNameById`;
 DELIMITER $$
@@ -85,7 +90,7 @@ CREATE DEFINER =`root`@`localhost` FUNCTION `save_project_alteration`(operator_i
   RETURNS INT(11)
   BEGIN
     DECLARE operator VARCHAR(50);
-    DECLARE save_msg VARCHAR(100);
+    DECLARE save_msg VARCHAR(255);
     SET operator = find_userNameById(operator_id);
     SET save_msg = if((operator IS null || @operator = ''), message, concat(message, '--变更人--', operator));
     INSERT INTO pm.project_alteration (message, alterTime, projectId) VALUES (save_msg, alter_time, project_id);

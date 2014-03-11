@@ -5,18 +5,18 @@ import java.util.List;
 /**
  * Created with IntelliJ IDEA.
  * User: fish
- * Date: 14-3-10
- * Time: 上午10:17
+ * Date: 14-3-11
+ * Time: 上午10:25
  * To change this template use File | Settings | File Templates.
  */
-public class Linkmen {
-    private Linkman[] linkmanList;
+public class LinkmanList {
+    private List<Linkman> linkmanList;
 
-    public Linkman[] getLinkmanList() {
+    public List<Linkman> getLinkmanList() {
         return linkmanList;
     }
 
-    public void setLinkmanList(Linkman[] linkmanList) {
+    public void setLinkmanList(List<Linkman> linkmanList) {
         this.linkmanList = linkmanList;
     }
 }

@@ -1,10 +1,13 @@
 package com.hs.pm.linkman;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,15 +21,24 @@ public class LinkmanDao {
     @Resource
     private SessionFactory sessionFactory;
 
-    public void uploadLinkMan(LinkedMultiValueMap linkmanList) {
-        List<Linkman> transform = transform(linkmanList);
-    }
-    public List<Linkman> transform(LinkedMultiValueMap linkmanList){
-        int num = linkmanList.size()/4;
-        for(int i=0;i<num;i++){
+    @Transactional
+    public boolean uploadLinkMan(LinkedMultiValueMap linkmanList) {
+        int num = linkmanList.size() / 4;
+        Session currentSession = sessionFactory.getCurrentSession();
+        for (int i = 0; i < num; i++) {
             Linkman linkman = new Linkman();
-            List list = linkmanList.get("linkmanList[" + i + "]" + "ownerId");
+            String sOwnerId = linkmanList.get("linkmanList[" + i + "]" + "[ownerId]").get(0).toString();
+            String phoneNo = linkmanList.get("linkmanList[" + i + "]" + "[phoneNo]").get(0).toString();
+            String mailAddress = linkmanList.get("linkmanList[" + i + "]" + "[mailAddress]").get(0).toString();
+            String linkmanName = linkmanList.get("linkmanList[" + i + "]" + "[linkmanName]").get(0).toString();
+            linkman.setOwnerId(Integer.valueOf(sOwnerId));
+            linkman.setLinkmanName(linkmanName);
+            linkman.setPhoneNo(phoneNo);
+            linkman.setMailAddress(mailAddress);
+            currentSession.save(linkman);
         }
-        return null;
+        currentSession.flush();
+        currentSession.clear();
+        return true;
     }
 }
