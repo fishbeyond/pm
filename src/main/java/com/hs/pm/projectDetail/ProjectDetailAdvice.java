@@ -18,9 +18,8 @@ import javax.annotation.Resource;
 @Transactional
 public class ProjectDetailAdvice extends AbstractRequestHandlerAdvice {
     @Resource
-    private ProjectDetailDao projectDetailDao;
+    private ProjectDetailService projectDetailService;
 
-    private String messageTemplate;
     @Override
     @Transactional
     protected Object doInvoke(ExecutionCallback callback, Object target, Message<?> message) throws Exception {
@@ -28,19 +27,9 @@ public class ProjectDetailAdvice extends AbstractRequestHandlerAdvice {
         LinkedMultiValueMap payload = (LinkedMultiValueMap) message.getPayload();
         Object result = callback.execute();
         String detail = headers.get("detail").toString();
-        String projectId = payload.get("projectId").get(0).toString();
-        ProjectDetail projectDetail = new ProjectDetail();
-        projectDetail.setProjectId(Integer.valueOf(projectId));
-        projectDetail.setMessage(detail);
-        projectDetailDao.save(projectDetail);
-        return result==null?null:result;
-    }
-
-    public String getMessageTemplate() {
-        return messageTemplate;
-    }
-
-    public void setMessageTemplate(String messageTemplate) {
-        this.messageTemplate = messageTemplate;
+        payload.set("detail",detail);
+        projectDetailService.save(message);
+        return result == null ? null : result;
     }
 }
+

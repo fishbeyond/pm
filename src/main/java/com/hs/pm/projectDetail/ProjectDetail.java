@@ -14,7 +14,7 @@ import java.util.Date;
 @Table(name="project_detail")
 public class ProjectDetail {
     private int detailId;
-    private String message;
+    private String detail;
     private Date operateTime;
     private int projectId;
     @Id
@@ -23,8 +23,8 @@ public class ProjectDetail {
         return detailId;
     }
     @Column
-    public String getMessage() {
-        return message;
+    public String getDetail() {
+        return detail;
     }
     @Column
     public Date getOperateTime() {
@@ -39,8 +39,8 @@ public class ProjectDetail {
         this.detailId = detailId;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     public void setOperateTime(Date operateTime) {

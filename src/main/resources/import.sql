@@ -1,17 +1,12 @@
 USE `pm`;
 CREATE TABLE pm.user (
-  userId      INT         NOT NULL AUTO_INCREMENT,
+  userId      VARCHAR(50),
   userName    VARCHAR(50),
   phoneNo     VARCHAR(50) NOT NULL UNIQUE,
   mailAddress VARCHAR(50),
   password    VARCHAR(50),
   authCode    INT,
   PRIMARY KEY (userId));
-CREATE TABLE pm.user_authCode (
-  authCodeId INT NOT NULL AUTO_INCREMENT,
-  phoneNo    VARCHAR(50),
-  authCode   INT,
-  PRIMARY KEY (authCodeId));
 CREATE TABLE pm.linkman (
   linkmanId   INT NOT NULL AUTO_INCREMENT,
   ownerId     INT,
@@ -21,7 +16,7 @@ CREATE TABLE pm.linkman (
   PRIMARY KEY (linkmanId));
 CREATE TABLE pm.project_detail (
   detailId    INT NOT NULL AUTO_INCREMENT,
-  message     VARCHAR(255),
+  detail      VARCHAR(255),
   operateTime DATETIME,
   projectId   INT NOT NULL,
   PRIMARY KEY (detailId));
@@ -32,12 +27,12 @@ CREATE TABLE pm.project (
   createTime   DATETIME,
   deadline     DATETIME,
   isDone       BOOLEAN,
-  createUserId INT,
+  createUserId VARCHAR(50),
   PRIMARY KEY (projectId));
 CREATE TABLE pm.crew (
-  crewId      INT NOT NULL AUTO_INCREMENT,
+  crewId      VARCHAR(50),
   projectId   INT NOT NULL,
-  userId      INT,
+  userId      VARCHAR(50),
   phoneNo     VARCHAR(50),
   mailAddress VARCHAR(50),
   userName    VARCHAR(50),
@@ -48,8 +43,8 @@ CREATE TABLE pm.work (
   backup       VARCHAR(255),
   createTime   DATETIME,
   projectId    INT NOT NULL,
-  createUserId INT,
-  crewId       INT,
+  createUserId VARCHAR(50),
+  crewId       varchar(50),
   deadline     DATETIME,
   isDone       BOOLEAN,
   PRIMARY KEY (workId));
@@ -58,19 +53,19 @@ CREATE TABLE pm.chat (
   chatId       INT NOT NULL AUTO_INCREMENT,
   message      VARCHAR(255),
   fromUserName VARCHAR(50),
-  fromUserId   INT,
+  fromUserId   VARCHAR(50),
   projectId    INT NOT NULL,
   createTime   DATETIME,
   PRIMARY KEY (chatId));
-CREATE TABLE pm.deviceToken (
+CREATE TABLE pm.device_token (
   tokenId INT NOT NULL AUTO_INCREMENT,
-  userId  INT,
-  token   VARCHAR(50),
+  userId  VARCHAR(50),
+  token   VARCHAR(64),
   PRIMARY KEY (tokenId));
 #==============================================
 DROP FUNCTION IF EXISTS `pm`.`find_userNameById`;
 DELIMITER $$
-CREATE DEFINER =`root`@`localhost` FUNCTION `find_userNameById`(user_id INT)
+CREATE DEFINER =`root`@`localhost` FUNCTION `find_userNameById`(user_id VARCHAR(50))
   RETURNS VARCHAR(50)
   CHARSET utf8
   BEGIN
@@ -85,15 +80,15 @@ CREATE DEFINER =`root`@`localhost` FUNCTION `find_userNameById`(user_id INT)
 DELIMITER ;
 DROP FUNCTION IF EXISTS `pm`.`save_project_detail`;
 DELIMITER $$
-CREATE DEFINER =`root`@`localhost` FUNCTION `save_project_detail`(operator_id INT, message VARCHAR(50),
+CREATE DEFINER =`root`@`localhost` FUNCTION `save_project_detail`(operator_id VARCHAR(50), detail VARCHAR(50),
                                                                   alter_time  DATETIME, project_id VARCHAR(50))
   RETURNS INT(11)
   BEGIN
     DECLARE operator VARCHAR(50);
     DECLARE save_msg VARCHAR(255);
     SET operator = find_userNameById(operator_id);
-    SET save_msg = if((operator IS null || @operator = ''), message, concat(message, '--变更人--', operator));
-    INSERT INTO pm.project_detail (message, operateTime, projectId) VALUES (save_msg, alter_time, project_id);
+    SET save_msg = if((operator IS null || @operator = ''), detail, concat(detail, '--变更人--', operator));
+    INSERT INTO pm.project_detail (detail, operateTime, projectId) VALUES (save_msg, alter_time, project_id);
     RETURN 1;
   END$$
 DELIMITER ;
@@ -101,8 +96,9 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS `update_project`;
 DELIMITER $$
 USE `pm`$$
-CREATE DEFINER =`root`@`localhost` PROCEDURE `update_project`(project_name VARCHAR(50), content VARCHAR(50),
-                                                              create_time  DATETIME, project_id INT, create_user_id INT)
+CREATE DEFINER =`root`@`localhost` PROCEDURE `update_project`(project_name   VARCHAR(50), content VARCHAR(50),
+                                                              create_time    DATETIME, project_id INT,
+                                                              create_user_id VARCHAR(50))
   BEGIN
     UPDATE project
     SET projectName=project_name, content=content
@@ -116,14 +112,14 @@ DROP PROCEDURE IF EXISTS `project_add_member`;
 DELIMITER $$
 CREATE DEFINER =`root`@`localhost` PROCEDURE `project_add_member`(project_id   INT, phone_no VARCHAR(50),
                                                                   mail_address VARCHAR(50), user_name VARCHAR(50),
-                                                                  operator_id  INT, operate_time DATETIME)
+                                                                  operator_id  VARCHAR(50), operate_time DATETIME)
   BEGIN
-    DECLARE user_id INT;
+    DECLARE user_id VARCHAR(50);
     SET user_id = (SELECT
                      userId
                    FROM user
                    WHERE phoneNo = phone_no);
-    INSERT INTO crew (projectId, userId, phoneNo, mailAddress, userName) VALUES (project_id, user_id, phone_no, mail_address, user_name);
+    INSERT INTO crew (crewId,projectId, userId, phoneNo, mailAddress, userName) VALUES (uuid(),project_id, user_id, phone_no, mail_address, user_name);
     SELECT
       save_project_detail(operator_id, concat(user_name, '加入项目'), operate_time, project_id);
   END$$
@@ -145,7 +141,7 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS `create_project`;
 DELIMITER $$
 CREATE DEFINER =`root`@`localhost` PROCEDURE `create_project`(project_name VARCHAR(50), content VARCHAR(50),
-                                                              create_time  DATETIME, create_user_id INT)
+                                                              create_time  DATETIME, create_user_id VARCHAR(50))
   BEGIN
     DECLARE project_id INT;
     INSERT INTO project (projectName, content, createTime, createUserId)
@@ -168,7 +164,7 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE `get_authCode`(IN  phone_no VARCHAR
          FROM pm.user
          WHERE phoneNo = phone_no) IS null)
     THEN
-      INSERT INTO pm.user (phoneNo, authCode) VALUES (phone_no, auth_code);
+      INSERT INTO pm.user (userId, phoneNo, authCode) VALUES (uuid(), phone_no, auth_code);
     ELSE
       UPDATE pm.user
       SET authCode=auth_code
@@ -180,9 +176,9 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `login_byAuthCode`;
 CREATE DEFINER =`root`@`localhost` PROCEDURE `login_byAuthCode`(phone_no  VARCHAR(50), auth_code VARCHAR(50),
-  OUT                                                           isSuccess BOOLEAN)
+  OUT                                                           isSuccess BOOLEAN, OUT user_id VARCHAR(50))
   BEGIN
-    DECLARE result INT;
+    DECLARE result VARCHAR(50);
     SELECT
       userId
     INTO result
@@ -193,6 +189,7 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE `login_byAuthCode`(phone_no  VARCHA
       UPDATE crew
       SET userId=result
       WHERE phoneNo = phone_no;
+      SET user_id = result;
       SET isSuccess = 1;
     ELSE
       SET isSuccess = 0;
@@ -202,10 +199,10 @@ DELIMITER ;
 #工作===================================================================================================================
 DROP PROCEDURE IF EXISTS `create_work`;
 DELIMITER $$
-CREATE DEFINER =`root`@`localhost` PROCEDURE `create_work`(operator_id INT, operate_time DATETIME,
+CREATE DEFINER =`root`@`localhost` PROCEDURE `create_work`(operator_id VARCHAR(50), operate_time DATETIME,
                                                            work_name   VARCHAR(50),
                                                            backup      VARCHAR(255), create_time DATETIME,
-                                                           project_id  INT, create_user_id INT, crew_id INT,
+                                                           project_id  INT, create_user_id VARCHAR(50), crew_id varchar(50),
                                                            deadline    DATETIME)
   BEGIN
     INSERT INTO work (workName, backup, createTime, projectId, createUserId, crewId, deadline, isDone)

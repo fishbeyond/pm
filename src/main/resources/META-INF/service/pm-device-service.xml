@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-http="http://www.springframework.org/schema/integration/http"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                  http://www.springframework.org/schema/beans/spring-beans.xsd
+                  http://www.springframework.org/schema/integration
+                  http://www.springframework.org/schema/integration/spring-integration.xsd
+                  http://www.springframework.org/schema/integration/http
+                  http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+                  http://www.springframework.org/schema/integration/jdbc
+                  http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+    <int:chain input-channel="deviceService.saveToken">
+        <int-jdbc:outbound-gateway data-source="dataSource"
+                                   update="insert into device_token (userId,token) values (:payload[userId],:payload[token])">
+        </int-jdbc:outbound-gateway>
+    </int:chain>
+    <int:chain input-channel="deviceService.findToken">
+        <int-jdbc:outbound-gateway data-source="dataSource" max-rows-per-poll="0"
+                                   query="select token from device_token where userId in (:payload[userId])">
+            <int-jdbc:request-handler-advice-chain>
+                <bean class="com.hs.pm.transform.NullReplyAdvice"/>
+            </int-jdbc:request-handler-advice-chain>
+        </int-jdbc:outbound-gateway>
+    </int:chain>
+</beans>

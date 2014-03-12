@@ -15,7 +15,7 @@
 
     <int:chain input-channel="projectService.findProjectByUserId">
         <int-jdbc:outbound-gateway data-source="dataSource" max-rows-per-poll="0"
-                                   query="select * from project where projectId in (select projectID from project_user_mapper where userId=:payload[userId])">
+                                   query="select * from project where projectId in (select projectId from crew where userId=:payload[userId])">
             <int-jdbc:request-handler-advice-chain>
                 <bean class="com.hs.pm.transform.NullReplyAdvice"/>
             </int-jdbc:request-handler-advice-chain>
@@ -70,14 +70,12 @@
         </int-jdbc:stored-proc-outbound-gateway>
     </int:chain>
 
-    <int:chain input-channel="saveProjectAlteration">
-        <int-jdbc:stored-proc-outbound-gateway data-source="dataSource" return-value-required="false"
-                                               is-function="true"
-                                               stored-procedure-name="save_project_alteration">
-            <int-jdbc:parameter name="operator_id" expression="payload[operatorId][0]"/>
-            <int-jdbc:parameter name="message" expression="payload[message][0]"/>
-            <int-jdbc:parameter name="alter_time" expression="payload[alterTime][0]"/>
-            <int-jdbc:parameter name="project_id" expression="payload[projectId][0]"/>
-        </int-jdbc:stored-proc-outbound-gateway>
+    <int:gateway service-interface="com.hs.pm.projectDetail.ProjectDetailService">
+        <int:method name="save" request-channel="saveProjectDetail"/>
+    </int:gateway>
+    <int:chain input-channel="saveProjectDetail">
+        <int-jdbc:outbound-gateway data-source="dataSource"
+                                   update="insert into project_detail (detail,operateTime,projectId) values (:payload[detail],:headers[nowDate],:payload[projectId])">
+        </int-jdbc:outbound-gateway>
     </int:chain>
 </beans>

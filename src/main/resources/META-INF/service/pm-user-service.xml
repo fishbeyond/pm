@@ -20,12 +20,13 @@
             <int-jdbc:sql-parameter-definition direction="OUT" name="auth_code" type="INTEGER"/>
             <int-jdbc:parameter name="phone_no" expression="payload[phoneNo][0]"/>
         </int-jdbc:stored-proc-outbound-gateway>
-        <int:service-activator expression="@mtService.send(payload[mobile],'本次验证码：'+payload[auth_code])"/>
+        <int:service-activator expression="@smsService.send(payload[mobile],'本次验证码：'+payload[auth_code])"/>
     </int:chain>
     <int:chain input-channel="userService.loginByAuthCode">
         <int-jdbc:stored-proc-outbound-gateway data-source="dataSource"
                                                stored-procedure-name="login_byAuthCode">
             <int-jdbc:sql-parameter-definition name="isSuccess" direction="OUT" type="BOOLEAN"/>
+            <int-jdbc:sql-parameter-definition name="user_id" direction="OUT" type="VARCHAR"/>
             <int-jdbc:parameter name="phone_no" expression="payload[phoneNo][0]"/>
             <int-jdbc:parameter name="auth_code" expression="payload[authCode][0]"/>
         </int-jdbc:stored-proc-outbound-gateway>
@@ -35,5 +36,10 @@
         <int-jdbc:outbound-gateway data-source="dataSource"
                                    update="update user set userName=:payload[userName],password=:payload[password],mailAddress=:payload[mailAddress]
                                    where userId=:payload[userId]"/>
+    </int:chain>
+
+    <int:chain input-channel="findUserName">
+        <int-jdbc:outbound-gateway data-source="dataSource"
+                                   update="select userName from user where userId=:payload[userId]"/>
     </int:chain>
 </beans>
