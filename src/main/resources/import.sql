@@ -44,7 +44,7 @@ CREATE TABLE pm.work (
   createTime   DATETIME,
   projectId    INT NOT NULL,
   createUserId VARCHAR(50),
-  crewId       varchar(50),
+  crewId       VARCHAR(50),
   deadline     DATETIME,
   isDone       BOOLEAN,
   PRIMARY KEY (workId));
@@ -110,16 +110,15 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS `project_add_member`;
 DELIMITER $$
-CREATE DEFINER =`root`@`localhost` PROCEDURE `project_add_member`(project_id   INT, phone_no VARCHAR(50),
-                                                                  mail_address VARCHAR(50), user_name VARCHAR(50),
-                                                                  operator_id  VARCHAR(50), operate_time DATETIME)
+CREATE DEFINER =`root`@`localhost` PROCEDURE `project_add_member`(project_id   INT, operator_id VARCHAR(50),
+                                                                  operate_time DATETIME,linkman_id VARCHAR(50))
   BEGIN
     DECLARE user_id VARCHAR(50);
     SET user_id = (SELECT
-                     userId
-                   FROM user
+                     *
+                   FROM linkman
                    WHERE phoneNo = phone_no);
-    INSERT INTO crew (crewId,projectId, userId, phoneNo, mailAddress, userName) VALUES (uuid(),project_id, user_id, phone_no, mail_address, user_name);
+    INSERT INTO crew (crewId, projectId, userId, phoneNo, mailAddress, userName) VALUES (uuid(), project_id, user_id, phone_no, mail_address, user_name);
     SELECT
       save_project_detail(operator_id, concat(user_name, '加入项目'), operate_time, project_id);
   END$$
@@ -202,7 +201,8 @@ DELIMITER $$
 CREATE DEFINER =`root`@`localhost` PROCEDURE `create_work`(operator_id VARCHAR(50), operate_time DATETIME,
                                                            work_name   VARCHAR(50),
                                                            backup      VARCHAR(255), create_time DATETIME,
-                                                           project_id  INT, create_user_id VARCHAR(50), crew_id varchar(50),
+                                                           project_id  INT, create_user_id VARCHAR(50),
+                                                           crew_id     VARCHAR(50),
                                                            deadline    DATETIME)
   BEGIN
     INSERT INTO work (workName, backup, createTime, projectId, createUserId, crewId, deadline, isDone)

@@ -61,9 +61,7 @@
             <int-jdbc:parameter name="operate_time" expression="headers[nowDate]"/>
             <int-jdbc:parameter name="operator_id" expression="payload[operatorId][0]"/>
             <int-jdbc:parameter name="project_id" expression="payload[projectId][0]"/>
-            <int-jdbc:parameter name="phone_no" expression="payload[phoneNo][0]"/>
-            <int-jdbc:parameter name="mail_address" expression="payload[mailAddress][0]"/>
-            <int-jdbc:parameter name="user_name" expression="payload[userName][0]"/>
+            <int-jdbc:parameter name="linkman_id" expression="payload[linkmanId][0]"/>
             <int-jdbc:request-handler-advice-chain>
                 <bean class="com.hs.pm.transform.NullReplyAdvice"/>
             </int-jdbc:request-handler-advice-chain>
