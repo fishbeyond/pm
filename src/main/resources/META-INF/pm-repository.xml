@@ -13,8 +13,7 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="packagesToScan">
             <list>
-                <value>com.hs.pm.linkman</value>
-                <value>com.hs.pm.device</value>
+                <value>com.hs.pm</value>
             </list>
         </property>
         <property name="hibernateProperties">

@@ -15,7 +15,7 @@
 
     <int:chain input-channel="projectService.findProjectByUserId">
         <int-jdbc:outbound-gateway data-source="dataSource" max-rows-per-poll="0"
-                                   query="select * from project where projectId in (select projectId from crew where userId=:payload[userId])">
+                                   query="select * from project where projectId in (select projectId from contact where userId=:payload[userId])">
             <int-jdbc:request-handler-advice-chain>
                 <bean class="com.hs.pm.transform.NullReplyAdvice"/>
             </int-jdbc:request-handler-advice-chain>
@@ -55,18 +55,11 @@
             </int-jdbc:request-handler-advice-chain>
         </int-jdbc:stored-proc-outbound-gateway>
     </int:chain>
-    <int:chain input-channel="projectService.addMember">
-        <int-jdbc:stored-proc-outbound-gateway data-source="dataSource"
-                                               stored-procedure-name="project_add_member">
-            <int-jdbc:parameter name="operate_time" expression="headers[nowDate]"/>
-            <int-jdbc:parameter name="operator_id" expression="payload[operatorId][0]"/>
-            <int-jdbc:parameter name="project_id" expression="payload[projectId][0]"/>
-            <int-jdbc:parameter name="linkman_id" expression="payload[linkmanId][0]"/>
-            <int-jdbc:request-handler-advice-chain>
-                <bean class="com.hs.pm.transform.NullReplyAdvice"/>
-            </int-jdbc:request-handler-advice-chain>
-        </int-jdbc:stored-proc-outbound-gateway>
+
+    <int:chain input-channel="projectService.addContact">
+        <int:service-activator ref="contactDao" method="uploadContact"/>
     </int:chain>
+    <bean id="contactDao" class="com.hs.pm.linkman.ContactDao"/>
 
     <int:gateway service-interface="com.hs.pm.projectDetail.ProjectDetailService">
         <int:method name="save" request-channel="saveProjectDetail"/>

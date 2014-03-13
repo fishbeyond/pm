@@ -24,6 +24,7 @@ public class SmsAdvice extends AbstractRequestHandlerAdvice {
         String phoneNo = payload.get("phoneNo").get(0).toString();
         String content = payload.get("smsContent").get(0).toString();
         SmsService smsService = new SmsService();
-        return smsService.send(phoneNo, content);
+        smsService.send(phoneNo,content);
+        return result;
     }
 }

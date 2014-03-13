@@ -7,13 +7,6 @@ CREATE TABLE pm.user (
   password    VARCHAR(50),
   authCode    INT,
   PRIMARY KEY (userId));
-CREATE TABLE pm.linkman (
-  linkmanId   INT NOT NULL AUTO_INCREMENT,
-  ownerId     INT,
-  phoneNo     VARCHAR(50),
-  mailAddress VARCHAR(50),
-  linkmanName VARCHAR(50),
-  PRIMARY KEY (linkmanId));
 CREATE TABLE pm.project_detail (
   detailId    INT NOT NULL AUTO_INCREMENT,
   detail      VARCHAR(255),
@@ -29,14 +22,14 @@ CREATE TABLE pm.project (
   isDone       BOOLEAN,
   createUserId VARCHAR(50),
   PRIMARY KEY (projectId));
-CREATE TABLE pm.crew (
-  crewId      VARCHAR(50),
+CREATE TABLE pm.contact (
+  contactId   VARCHAR(50),
   projectId   INT NOT NULL,
   userId      VARCHAR(50),
   phoneNo     VARCHAR(50),
   mailAddress VARCHAR(50),
   userName    VARCHAR(50),
-  PRIMARY KEY (crewId));
+  PRIMARY KEY (contactId));
 CREATE TABLE pm.work (
   workId       INT NOT NULL AUTO_INCREMENT,
   workName     VARCHAR(50),
@@ -44,7 +37,7 @@ CREATE TABLE pm.work (
   createTime   DATETIME,
   projectId    INT NOT NULL,
   createUserId VARCHAR(50),
-  crewId       VARCHAR(50),
+  contactId    VARCHAR(50),
   deadline     DATETIME,
   isDone       BOOLEAN,
   PRIMARY KEY (workId));
@@ -80,15 +73,15 @@ CREATE DEFINER =`root`@`localhost` FUNCTION `find_userNameById`(user_id VARCHAR(
 DELIMITER ;
 DROP FUNCTION IF EXISTS `pm`.`save_project_detail`;
 DELIMITER $$
-CREATE DEFINER =`root`@`localhost` FUNCTION `save_project_detail`(operator_id VARCHAR(50), detail VARCHAR(50),
-                                                                  alter_time  DATETIME, project_id VARCHAR(50))
+CREATE DEFINER =`root`@`localhost` FUNCTION `save_project_detail`(operator_id  VARCHAR(50), detail VARCHAR(50),
+                                                                  operate_time DATETIME, project_id VARCHAR(50))
   RETURNS INT(11)
   BEGIN
     DECLARE operator VARCHAR(50);
     DECLARE save_msg VARCHAR(255);
     SET operator = find_userNameById(operator_id);
     SET save_msg = if((operator IS null || @operator = ''), detail, concat(detail, '--变更人--', operator));
-    INSERT INTO pm.project_detail (detail, operateTime, projectId) VALUES (save_msg, alter_time, project_id);
+    INSERT INTO pm.project_detail (detail, operateTime, projectId) VALUES (save_msg, operate_time, project_id);
     RETURN 1;
   END$$
 DELIMITER ;
@@ -108,29 +101,13 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE `update_project`(project_name   VAR
   END$$
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS `project_add_member`;
-DELIMITER $$
-CREATE DEFINER =`root`@`localhost` PROCEDURE `project_add_member`(project_id   INT, operator_id VARCHAR(50),
-                                                                  operate_time DATETIME,linkman_id VARCHAR(50))
-  BEGIN
-    DECLARE user_id VARCHAR(50);
-    SET user_id = (SELECT
-                     *
-                   FROM linkman
-                   WHERE phoneNo = phone_no);
-    INSERT INTO crew (crewId, projectId, userId, phoneNo, mailAddress, userName) VALUES (uuid(), project_id, user_id, phone_no, mail_address, user_name);
-    SELECT
-      save_project_detail(operator_id, concat(user_name, '加入项目'), operate_time, project_id);
-  END$$
-
-DELIMITER ;
 DROP PROCEDURE IF EXISTS `delete_project`;
 DELIMITER $$
 CREATE DEFINER =`root`@`localhost` PROCEDURE `delete_project`(project_Id INT)
   BEGIN
     DELETE FROM pm.project
     WHERE projectId = project_Id;
-    DELETE FROM pm.crew
+    DELETE FROM pm.contact
     WHERE projectId = project_Id;
     DELETE FROM work
     WHERE projectId = project_id;
@@ -185,7 +162,7 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE `login_byAuthCode`(phone_no  VARCHA
     WHERE phoneNo = phone_no AND authCode = auth_code;
     IF (result IS NOT null)
     THEN
-      UPDATE crew
+      UPDATE contact
       SET userId=result
       WHERE phoneNo = phone_no;
       SET user_id = result;
@@ -202,12 +179,26 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE `create_work`(operator_id VARCHAR(5
                                                            work_name   VARCHAR(50),
                                                            backup      VARCHAR(255), create_time DATETIME,
                                                            project_id  INT, create_user_id VARCHAR(50),
-                                                           crew_id     VARCHAR(50),
+                                                           contact_id  VARCHAR(50),
                                                            deadline    DATETIME)
   BEGIN
-    INSERT INTO work (workName, backup, createTime, projectId, createUserId, crewId, deadline, isDone)
-      VALUES (work_name, backup, create_time, project_id, create_user_id, crew_id, deadline, FALSE);
+    INSERT INTO work (workName, backup, createTime, projectId, createUserId, contactId, deadline, isDone)
+      VALUES (work_name, backup, create_time, project_id, create_user_id, contact_id, deadline, FALSE);
     SELECT
       save_project_detail(operator_id, concat('创建工作:', work_name), operate_time, project_id);
   END$$
 DELIMITER ;
+#trigger===========================================
+DROP TRIGGER IF EXISTS `t_contact`;
+DELIMITER $$
+CREATE TRIGGER t_contact BEFORE INSERT ON contact FOR EACH ROW
+
+  BEGIN
+    DECLARE user_id VARCHAR(50);
+    SET user_id = (SELECT
+                    userId
+                  FROM user
+                  WHERE phoneNo = NEW.phoneNo);
+    SET NEW.userId = user_id;
+    END$$
+    DELIMITER ;

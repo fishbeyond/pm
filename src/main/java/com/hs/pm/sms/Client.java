@@ -26,11 +26,14 @@ public class Client {
     /*
      * 构造函数
      */
-    public Client(String sn, String password)
-            throws UnsupportedEncodingException {
-        this.sn = sn;
-        this.password = password;
-        this.pwd = this.getMD5(sn + password);
+    public Client(String sn, String password) {
+        try {
+            this.sn = sn;
+            this.password = password;
+            this.pwd = this.getMD5(sn + password);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /*

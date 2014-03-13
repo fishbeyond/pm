@@ -30,7 +30,7 @@
             <int-jdbc:parameter name="backup" expression="payload[backup][0]"/>
             <int-jdbc:parameter name="project_id" expression="payload[projectId][0]"/>
             <int-jdbc:parameter name="create_user_id" expression="payload[createUserId][0]"/>
-            <int-jdbc:parameter name="crew_id" expression="payload[crewId][0]"/>
+            <int-jdbc:parameter name="contact_id" expression="payload[contactId][0]"/>
             <int-jdbc:parameter name="create_time" expression="headers[nowDate]"/>
             <int-jdbc:parameter name="deadline" expression="payload[deadline][0]"/>
             <int-jdbc:parameter name="operator_id" expression="payload[operatorId][0]"/>
@@ -42,7 +42,7 @@
     </int:chain>
     <int:chain input-channel="workService.updateWork">
         <int-jdbc:outbound-gateway data-source="dataSource"
-                                   update="update work set workName=:payload[workName],backup=:payload[backup],crewId=:payload[crewId],deadline=:payload[deadline],isDone=:payload[isDone])
+                                   update="update work set workName=:payload[workName],backup=:payload[backup],contactId=:payload[contactId],deadline=:payload[deadline],isDone=:payload[isDone])
                                    where workId=:payload[workId]"/>
     </int:chain>
     <int:chain input-channel="workService.setWorkIsDone">
@@ -51,7 +51,7 @@
     </int:chain>
     <int:chain input-channel="workService.distributeWork">
         <int-jdbc:outbound-gateway data-source="dataSource"
-                                   update="update work set crewId=:payload[crewId] where workId=:payload[workId]"/>
+                                   update="update work set contactId=:payload[contactId] where workId=:payload[workId]"/>
     </int:chain>
     <int:chain input-channel="workService.deleteWork">
         <int-jdbc:outbound-gateway data-source="dataSource" update="delete from work where workId=:payload[workId]"/>
