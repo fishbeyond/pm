@@ -27,7 +27,8 @@
             <int-jdbc:parameter name="project_name" expression="payload[projectName][0]"/>
             <int-jdbc:parameter name="content" expression="payload[content][0]"/>
             <int-jdbc:parameter name="create_time" expression="headers[nowDate]"/>
-            <int-jdbc:parameter name="create_user_id" expression="payload[createUserId][0]"/>
+            <int-jdbc:parameter name="dead_line" expression="payload[deadline][0]"/>
+            <int-jdbc:parameter name="create_user_id" expression="payload[userId]"/>
             <int-jdbc:request-handler-advice-chain>
                 <bean class="com.hs.pm.transform.NullReplyAdvice"/>
             </int-jdbc:request-handler-advice-chain>

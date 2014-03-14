@@ -20,7 +20,7 @@
             <int-jdbc:sql-parameter-definition direction="OUT" name="auth_code" type="INTEGER"/>
             <int-jdbc:parameter name="phone_no" expression="payload[phoneNo][0]"/>
         </int-jdbc:stored-proc-outbound-gateway>
-        <int:service-activator expression="@smsService.send(payload[mobile],'本次验证码：'+payload[auth_code])"/>
+        <int:service-activator expression="@smsService.send(payload[mobile],'您的验证码是：'+payload[auth_code]+'[互看]')"/>
     </int:chain>
     <int:chain input-channel="userService.loginByAuthCode">
         <int-jdbc:stored-proc-outbound-gateway data-source="dataSource"

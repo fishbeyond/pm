@@ -56,21 +56,6 @@ CREATE TABLE pm.device_token (
   token   VARCHAR(64),
   PRIMARY KEY (tokenId));
 #==============================================
-DROP FUNCTION IF EXISTS `pm`.`find_userNameById`;
-DELIMITER $$
-CREATE DEFINER =`root`@`localhost` FUNCTION `find_userNameById`(user_id VARCHAR(50))
-  RETURNS VARCHAR(50)
-  CHARSET utf8
-  BEGIN
-    DECLARE user VARCHAR(50);
-    SELECT
-      userName
-    INTO user
-    FROM user
-    WHERE userId = user_id;
-    RETURN user;
-  END$$
-DELIMITER ;
 DROP FUNCTION IF EXISTS `pm`.`save_project_detail`;
 DELIMITER $$
 CREATE DEFINER =`root`@`localhost` FUNCTION `save_project_detail`(operator_id  VARCHAR(50), detail VARCHAR(50),
@@ -79,13 +64,32 @@ CREATE DEFINER =`root`@`localhost` FUNCTION `save_project_detail`(operator_id  V
   BEGIN
     DECLARE operator VARCHAR(50);
     DECLARE save_msg VARCHAR(255);
-    SET operator = find_userNameById(operator_id);
-    SET save_msg = if((operator IS null || @operator = ''), detail, concat(detail, '--变更人--', operator));
-    INSERT INTO pm.project_detail (detail, operateTime, projectId) VALUES (save_msg, operate_time, project_id);
-    RETURN 1;
-  END$$
+    SELECT
+      userName
+    INTO operator
+    FROM user
+    WHERE userId = operator_id;
+SET save_msg = if((operator IS null || operator = ''), detail, concat(detail, '--变更人--', operator));
+INSERT INTO pm.project_detail (detail, operateTime, projectId) VALUES (save_msg, operate_time, project_id);
+RETURN 1;
+END$$
 DELIMITER ;
 #项目===================================================================================================================
+
+DROP PROCEDURE IF EXISTS `create_project`;
+DELIMITER $$
+CREATE DEFINER =`root`@`localhost` PROCEDURE `create_project`(project_name   VARCHAR(50), content VARCHAR(50),
+                                                              create_time    DATETIME, dead_line DATETIME,
+                                                              create_user_id VARCHAR(50))
+  BEGIN
+    DECLARE project_id INT;
+    INSERT INTO project (projectName, content, createTime, deadline, createUserId)
+      VALUES (project_name, content, create_time, dead_line, create_user_id);
+    SET project_id = LAST_INSERT_ID();
+    SELECT
+      save_project_detail(create_user_id, concat('创建项目:', project_name), create_time, project_id);
+  END$$
+DELIMITER ;
 DROP PROCEDURE IF EXISTS `update_project`;
 DELIMITER $$
 USE `pm`$$
@@ -114,19 +118,6 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE `delete_project`(project_Id INT)
   END$$
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS `create_project`;
-DELIMITER $$
-CREATE DEFINER =`root`@`localhost` PROCEDURE `create_project`(project_name VARCHAR(50), content VARCHAR(50),
-                                                              create_time  DATETIME, create_user_id VARCHAR(50))
-  BEGIN
-    DECLARE project_id INT;
-    INSERT INTO project (projectName, content, createTime, createUserId)
-      VALUES (project_name, content, create_time, create_user_id);
-    SET project_id = LAST_INSERT_ID();
-    SELECT
-      save_project_detail(create_user_id, concat('创建项目:', project_name), create_time, project_id);
-  END$$
-DELIMITER ;
 #用户===================================================================================================================
 DROP PROCEDURE IF EXISTS `get_authCode`;
 DELIMITER $$
@@ -196,9 +187,9 @@ CREATE TRIGGER t_contact BEFORE INSERT ON contact FOR EACH ROW
   BEGIN
     DECLARE user_id VARCHAR(50);
     SET user_id = (SELECT
-                    userId
-                  FROM user
-                  WHERE phoneNo = NEW.phoneNo);
+                     userId
+                   FROM user
+                   WHERE phoneNo = NEW.phoneNo);
     SET NEW.userId = user_id;
-    END$$
-    DELIMITER ;
+  END$$
+DELIMITER ;
