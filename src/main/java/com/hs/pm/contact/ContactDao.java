@@ -1,7 +1,6 @@
-package com.hs.pm.linkman;
+package com.hs.pm.contact;
 
 import com.hs.pm.projectDetail.ProjectDetail;
-import com.hs.pm.projectDetail.ProjectDetailService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +11,7 @@ import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
- * User: fish
+ * user: fish
  * Date: 14-3-10
  * Time: 上午9:43
  * To change this template use File | Settings | File Templates.

@@ -14,13 +14,14 @@
                   http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd">
 
     <int:chain input-channel="userService.getAuthCode">
-        <int-jdbc:stored-proc-outbound-gateway data-source="dataSource"
-                                               stored-procedure-name="get_authCode">
-            <int-jdbc:sql-parameter-definition direction="OUT" name="mobile" type="VARCHAR"/>
-            <int-jdbc:sql-parameter-definition direction="OUT" name="auth_code" type="INTEGER"/>
-            <int-jdbc:parameter name="phone_no" expression="payload[phoneNo][0]"/>
-        </int-jdbc:stored-proc-outbound-gateway>
-        <int:service-activator expression="@smsService.send(payload[mobile],'您的验证码是：'+payload[auth_code]+'[互看]')"/>
+        <int:service-activator expression="@userService.sendAuthCode(payload[phoneNo])"/>
+        <!--<int-jdbc:stored-proc-outbound-gateway data-source="dataSource"-->
+                                               <!--stored-procedure-name="get_authCode">-->
+            <!--<int-jdbc:sql-parameter-definition direction="OUT" name="mobile" type="VARCHAR"/>-->
+            <!--<int-jdbc:sql-parameter-definition direction="OUT" name="auth_code" type="INTEGER"/>-->
+            <!--<int-jdbc:parameter name="phone_no" expression="payload[phoneNo][0]"/>-->
+        <!--</int-jdbc:stored-proc-outbound-gateway>-->
+        <!--<int:service-activator expression="@smsService.send(payload[mobile],'您的验证码是：'+payload[auth_code]+'[互看]')"/>-->
     </int:chain>
     <int:chain input-channel="userService.loginByAuthCode">
         <int-jdbc:stored-proc-outbound-gateway data-source="dataSource"

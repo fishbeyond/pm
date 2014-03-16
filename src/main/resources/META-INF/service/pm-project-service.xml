@@ -60,7 +60,7 @@
     <int:chain input-channel="projectService.addContact">
         <int:service-activator ref="contactDao" method="uploadContact"/>
     </int:chain>
-    <bean id="contactDao" class="com.hs.pm.linkman.ContactDao"/>
+    <bean id="contactDao" class="com.hs.pm.contact.ContactDao"/>
 
     <int:gateway service-interface="com.hs.pm.projectDetail.ProjectDetailService">
         <int:method name="save" request-channel="saveProjectDetail"/>

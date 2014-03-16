@@ -5,12 +5,9 @@ import org.springframework.integration.handler.advice.AbstractRequestHandlerAdvi
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created with IntelliJ IDEA.
- * User: fish
+ * user: fish
  * Date: 14-3-10
  * Time: 下午5:27
  * To change this template use File | Settings | File Templates.

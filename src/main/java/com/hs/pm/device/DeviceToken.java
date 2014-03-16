@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 /**
  * Created with IntelliJ IDEA.
- * User: fish
+ * user: fish
  * Date: 14-3-12
  * Time: 下午3:10
  * To change this template use File | Settings | File Templates.

@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * Created with IntelliJ IDEA.
- * User: fish
+ * user: fish
  * Date: 14-3-14
  * Time: 上午10:04
  * To change this template use File | Settings | File Templates.

@@ -1,10 +1,10 @@
-package com.hs.pm.linkman;
+package com.hs.pm.contact;
 
 import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
- * User: fish
+ * user: fish
  * Date: 14-3-11
  * Time: 上午10:25
  * To change this template use File | Settings | File Templates.
