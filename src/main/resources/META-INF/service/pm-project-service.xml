@@ -14,52 +14,27 @@
                   http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd">
 
     <int:chain input-channel="projectService.findProjectByUserId">
-        <int-jdbc:outbound-gateway data-source="dataSource" max-rows-per-poll="0"
-                                   query="select * from project where projectId in (select projectId from contact where userId=:payload[userId])">
-            <int-jdbc:request-handler-advice-chain>
-                <bean class="com.hs.pm.transform.NullReplyAdvice"/>
-            </int-jdbc:request-handler-advice-chain>
-        </int-jdbc:outbound-gateway>
+        <int:service-activator expression="@projectService.findProjectByUserId(payload[userId])"/>
     </int:chain>
     <int:chain input-channel="projectService.createProject">
-        <int-jdbc:stored-proc-outbound-gateway data-source="dataSource"
-                                               stored-procedure-name="create_project">
-            <int-jdbc:parameter name="project_name" expression="payload[projectName][0]"/>
-            <int-jdbc:parameter name="content" expression="payload[content][0]"/>
-            <int-jdbc:parameter name="create_time" expression="headers[nowDate]"/>
-            <int-jdbc:parameter name="dead_line" expression="payload[deadline][0]"/>
-            <int-jdbc:parameter name="create_user_id" expression="payload[userId]"/>
-            <int-jdbc:request-handler-advice-chain>
-                <bean class="com.hs.pm.transform.NullReplyAdvice"/>
-            </int-jdbc:request-handler-advice-chain>
-        </int-jdbc:stored-proc-outbound-gateway>
+        <int:map-to-object-transformer type="com.hs.pm.project.dao.Project"/>
+        <int:service-activator expression="@projectService.createProject(payload)"/>
+    </int:chain>
+    <int:chain input-channel="projectService.modifyProject">
+        <int:map-to-object-transformer type="com.hs.pm.project.dao.Project"/>
+        <int:service-activator expression="@projectService.modifyProject(payload)"/>
     </int:chain>
     <int:chain input-channel="projectService.deleteProject">
-        <int-jdbc:stored-proc-outbound-gateway data-source="dataSource"
-                                               stored-procedure-name="delete_project">
-            <int-jdbc:parameter name="project_id" expression="payload[projectId][0]"/>
-            <int-jdbc:request-handler-advice-chain>
-                <bean class="com.hs.pm.transform.NullReplyAdvice"/>
-            </int-jdbc:request-handler-advice-chain>
-        </int-jdbc:stored-proc-outbound-gateway>
-    </int:chain>
-    <int:chain input-channel="projectService.updateProject">
-        <int-jdbc:stored-proc-outbound-gateway data-source="dataSource"
-                                               stored-procedure-name="update_project">
-            <int-jdbc:parameter name="create_time" expression="headers[nowDate]"/>
-            <int-jdbc:parameter name="project_name" expression="payload[projectName][0]"/>
-            <int-jdbc:parameter name="content" expression="payload[content][0]"/>
-            <int-jdbc:parameter name="project_id" expression="payload[projectId][0]"/>
-            <int-jdbc:parameter name="create_user_id" expression="payload[createUserId][0]"/>
-            <int-jdbc:request-handler-advice-chain>
-                <bean class="com.hs.pm.transform.NullReplyAdvice"/>
-            </int-jdbc:request-handler-advice-chain>
-        </int-jdbc:stored-proc-outbound-gateway>
+        <int:service-activator expression="@projectService.deleteProject(payload[projectId])"/>
     </int:chain>
 
-    <int:chain input-channel="projectService.addContact">
-        <int:service-activator ref="contactDao" method="uploadContact"/>
+    <int:chain input-channel="projectService.addMemberFromFriend">
+        <int:service-activator expression="@projectService.addMemberFromFriend(payload[projectId],payload[userIdList])"/>
     </int:chain>
+    <int:chain input-channel="projectService.addMemberFromLinkMan">
+        <int:service-activator expression="@projectService.addMemberFromLinkMan(payload[projectId],payload[phoneNoList])"/>
+    </int:chain>
+
     <bean id="contactDao" class="com.hs.pm.contact.ContactDao"/>
 
     <int:gateway service-interface="com.hs.pm.projectDetail.ProjectDetailService">

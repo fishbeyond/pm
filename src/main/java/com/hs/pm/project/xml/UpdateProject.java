@@ -1,6 +1,6 @@
-package com.hs.pm.project;
+package com.hs.pm.project.xml;
 
-import com.hs.pm.project.Project;
+import com.hs.pm.project.dao.Project;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -12,12 +12,12 @@ import java.util.List;
  * Created with IntelliJ IDEA.
  * user: fish
  * Date: 14-3-14
- * Time: 下午2:15
+ * Time: 下午2:31
  * To change this template use File | Settings | File Templates.
  */
-@XmlRootElement(name = "CreateProject")
+@XmlRootElement(name = "UpdateProject")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CreateProject {
+public class UpdateProject {
     @XmlElement(name = "Projects")
     private List<Project> projects;
 

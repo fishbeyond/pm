@@ -1,4 +1,4 @@
-package com.hs.pm.project;
+package com.hs.pm.project.dao;
 
 import javax.xml.bind.annotation.*;
 import java.util.Date;
@@ -14,7 +14,7 @@ import java.util.Date;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Project {
     @XmlTransient
-    private int projectId;
+    private String projectId;
     @XmlElement(name = "ProjectName")
     private String projectName;
     @XmlElement(name = "Content")
@@ -28,11 +28,11 @@ public class Project {
     @XmlElement(name = "OperateTime")
     private long createTime;
 
-    public int getProjectId() {
+    public String getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(int projectId) {
+    public void setProjectId(String projectId) {
         this.projectId = projectId;
     }
 

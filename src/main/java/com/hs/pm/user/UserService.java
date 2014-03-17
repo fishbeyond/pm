@@ -1,39 +1,62 @@
 package com.hs.pm.user;
 
 import com.hs.pm.sms.SmsService;
+import com.hs.pm.transform.ResultService;
+import com.hs.pm.user.dao.User;
+import com.hs.pm.user.dao.UserDao;
 import com.hs.pm.utils.RandomGenerator;
 import com.hs.pm.utils.UUIDGenerator;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by root on 14-3-16.
  */
 @Service
+@Transactional
 public class UserService {
     @Resource
     private UUIDGenerator uuidGenerator;
     @Resource
-    private RandomGenerator randomGenerator;
+    private ResultService resultService;
     @Resource
     private SmsService smsService;
     @Resource
     private UserDao userDao;
 
-    public void sendAuthCode(int phoneNo) {
+    public boolean sendAuthCode(String phoneNo) {
         int authCode = RandomGenerator.getRandom(111111, 888888);
         User user = userDao.findUserByPhoneNo(phoneNo);
         if (null != user) {
             user.setAuthCode(authCode);
         } else {
             String userId = uuidGenerator.shortUuid();
-            User newUser = new User(userId, phoneNo);
+            User newUser = new User(userId, phoneNo,authCode);
             userDao.createUser(newUser);
         }
-        smsService.send(Integer.toString(phoneNo), "您的验证码是：" + authCode + "[互看]");
+        return smsService.send(phoneNo, "您的验证码是：" + authCode + "[互看]");
     }
-    public boolean loginByAuthCode(){
-        return false;
+
+    public String loginByAuthCode(User user) {
+        String phoneNo = user.getPhoneNo();
+        int authCode = user.getAuthCode();
+        String userId = userDao.findUserIdByAuthCode(phoneNo, authCode);
+        return resultService.handler(userId);
+    }
+    public boolean modifyUser(User user){
+        userDao.modifyUser(user);
+        return true;
+    }
+
+    public List<User> findFriend(String userId){
+        List<User> friends = userDao.findFriendByUserId(userId);
+        return resultService.handler(friends);
+    }
+    public boolean addFriend(String userId,String friendId){
+        userDao.createUserMapper(userId, friendId);
+        return true;
     }
 }

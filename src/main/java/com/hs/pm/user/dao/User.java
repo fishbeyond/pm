@@ -1,4 +1,4 @@
-package com.hs.pm.user;
+package com.hs.pm.user.dao;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,12 +8,10 @@ import javax.persistence.Table;
 /**
  * Created by root on 14-3-16.
  */
-@Entity
-@Table(name = "user")
 public class User {
     private String userId;
     private String userName;
-    private int phoneNo;
+    private String phoneNo;
     private String mailAddress;
     private String password;
     private int authCode;
@@ -21,9 +19,10 @@ public class User {
     public User() {
     }
 
-    public User(String userId,int phoneNo) {
+    public User(String userId,String phoneNo,int authCode) {
         this.userId = userId;
         this.phoneNo = phoneNo;
+        this.authCode = authCode;
     }
 
     @Id
@@ -37,7 +36,7 @@ public class User {
     }
 
     @Column
-    public int getPhoneNo() {
+    public String getPhoneNo() {
         return phoneNo;
     }
 
@@ -64,7 +63,7 @@ public class User {
         this.userName = userName;
     }
 
-    public void setPhoneNo(int phoneNo) {
+    public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
     }
 
