@@ -24,6 +24,10 @@ public class ProjectUserMapperEntity {
     public ProjectUserMapperEntity(ProjectUserMapper projectUserMapper) {
         this.projectUserMapper = projectUserMapper;
     }
+    @Transient
+    public ProjectUserMapper getProjectUserMapper(){
+        return projectUserMapper;
+    }
     @Id
     @GenericGenerator(name="idGenerator", strategy="uuid")
     @GeneratedValue(generator="idGenerator")
@@ -38,10 +42,7 @@ public class ProjectUserMapperEntity {
     public String getUserName() {
         return projectUserMapper.getUserName();
     }
-    @Column
-    public String getMailAddress() {
-        return projectUserMapper.getMailAddress();
-    }
+
     @Column
     public String getPhoneNo() {
         return projectUserMapper.getPhoneNo();
@@ -63,9 +64,6 @@ public class ProjectUserMapperEntity {
         projectUserMapper.setUserId(userId);
     }
 
-    public void setMailAddress(String mailAddress) {
-        projectUserMapper.setMailAddress(mailAddress);
-    }
     @Column
     public String getProjectId() {
         return projectUserMapper.getProjectId();
@@ -75,11 +73,4 @@ public class ProjectUserMapperEntity {
         projectUserMapper.setMapperId(mapperId);
     }
 
-    public boolean getJoin() {
-        return projectUserMapper.isJoin();
-    }
-
-    public void setJoin(boolean join) {
-        projectUserMapper.setJoin(join);
-    }
 }

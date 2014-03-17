@@ -34,4 +34,7 @@
         <int:service-activator expression="@userService.findFriend(payload[userId])"/>
     </int:chain>
 
+    <int:chain input-channel="userService.findUserByProjectId">
+        <int:service-activator expression="@userService.findUserByProjectId(payload[projectId])"/>
+    </int:chain>
 </beans>

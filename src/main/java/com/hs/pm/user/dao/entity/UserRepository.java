@@ -50,13 +50,17 @@ public class UserRepository implements UserDao {
         sessionFactory.getCurrentSession().update(new UserEntity(user));
     }
 
-    public String findUserIdByAuthCode(String phoneNo, int authCode) {
-        final String hql = "select userId from UserEntity e where e.phoneNo = :phoneNo and e.authCode = :authCode";
+    public User findUserIdByAuthCode(String phoneNo, int authCode) {
+        final String hql = "from UserEntity e where e.phoneNo = :phoneNo and e.authCode = :authCode";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("phoneNo", phoneNo);
         query.setInteger("authCode", authCode);
-        Object result = query.uniqueResult();
-        return (String) query.uniqueResult();
+        UserEntity entity = (UserEntity) query.uniqueResult();
+        if(null!=entity){
+            entity.setIsActive(true);
+        }
+        sessionFactory.getCurrentSession().save(entity);
+        return entity != null ? entity.getUser() : null;
     }
 
     @Override
@@ -78,5 +82,18 @@ public class UserRepository implements UserDao {
         sessionFactory.getCurrentSession().save(new UserMapperEntity(userMapper));
     }
 
+
+    @Override
+    public List<User> findUserByProjectId(String projectId) {
+        final String hql = "from UserEntity u  where u.userId in (select e.userId from ProjectUserMapperEntity e where e.projectId = :projectId)";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("projectId", projectId);
+        List<UserEntity> entities = (List<UserEntity>) query.list();
+        List<User> users = new ArrayList<User>();
+        for (UserEntity entity : entities) {
+            users.add(entity.getUser());
+        }
+        return users;
+    }
 
 }

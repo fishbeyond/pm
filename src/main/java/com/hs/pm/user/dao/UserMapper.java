@@ -14,6 +14,7 @@ public class UserMapper {
     private String mapperId;
     private String userId;
     private String friendId;
+    private String phoneNo;
     private boolean isConfirm;
 
     public UserMapper() {
@@ -55,5 +56,13 @@ public class UserMapper {
 
     public void setConfirm(boolean confirm) {
         isConfirm = confirm;
+    }
+
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
     }
 }

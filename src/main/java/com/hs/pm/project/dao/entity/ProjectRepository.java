@@ -3,11 +3,14 @@ package com.hs.pm.project.dao.entity;
 import com.hs.pm.project.dao.Project;
 import com.hs.pm.project.dao.ProjectDao;
 import com.hs.pm.project.dao.ProjectUserMapper;
+import com.hs.pm.user.dao.User;
+import com.hs.pm.user.dao.entity.UserEntity;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,10 +37,15 @@ public class ProjectRepository implements ProjectDao {
 
     @Override
     public List<Project> findProjectByUserId(String userId) {
-        final String hql = "from ProjectEntity e where e.projectId in (select m.projectId from ProjectUserMapper m where m.userId = :userId)";
+        final String hql = "from ProjectEntity e where e.projectId in (select m.projectId from ProjectUserMapperEntity m where m.userId = :userId)";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("userId", userId);
-        return (List<Project>) query.list();
+        List<ProjectEntity> entities = (List<ProjectEntity>) query.list();
+        List<Project> projects = new ArrayList<Project>();
+        for (ProjectEntity projectEntity : entities) {
+            projects.add(projectEntity.getProject());
+        }
+        return projects;
     }
 
     @Override
@@ -58,6 +66,12 @@ public class ProjectRepository implements ProjectDao {
         final String hql = "from ProjectUserMapperEntity e where e.phoneNo = :phoneNo";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("phoneNo", phoneNo);
-        return (List<ProjectUserMapper>)query.list();
+        List<ProjectUserMapperEntity> entities = (List<ProjectUserMapperEntity>) query.list();
+        List<ProjectUserMapper> mappers = new ArrayList<ProjectUserMapper>();
+        for (ProjectUserMapperEntity entity : entities) {
+            mappers.add(entity.getProjectUserMapper());
+        }
+        return mappers;
     }
+
 }

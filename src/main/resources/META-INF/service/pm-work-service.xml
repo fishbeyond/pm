@@ -15,45 +15,15 @@
                   http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 
     <int:chain input-channel="workService.findWorkByProjectId">
-        <int-jdbc:outbound-gateway data-source="dataSource" max-rows-per-poll="0"
-                                   query="select * from
-             work where isDone=:payload[isDone] and projectId=:payload[projectId] order by createTime desc">
-            <int-jdbc:request-handler-advice-chain>
-                <bean class="com.hs.pm.transform.NullReplyAdvice"/>
-            </int-jdbc:request-handler-advice-chain>
-        </int-jdbc:outbound-gateway>
+        <int:service-activator expression="@workService.findWorkByProjectId(payload[projectId])"/>
     </int:chain>
-    <int:channel id="projectAlterationReplyChannel"/>
     <int:chain input-channel="workService.createWork">
-        <int-jdbc:stored-proc-outbound-gateway data-source="dataSource" stored-procedure-name="create_work">
-            <int-jdbc:parameter name="work_name" expression="payload[workName][0]"/>
-            <int-jdbc:parameter name="backup" expression="payload[backup][0]"/>
-            <int-jdbc:parameter name="project_id" expression="payload[projectId][0]"/>
-            <int-jdbc:parameter name="create_user_id" expression="payload[createUserId][0]"/>
-            <int-jdbc:parameter name="contact_id" expression="payload[contactId][0]"/>
-            <int-jdbc:parameter name="create_time" expression="headers[nowDate]"/>
-            <int-jdbc:parameter name="deadline" expression="payload[deadline][0]"/>
-            <int-jdbc:parameter name="operator_id" expression="payload[operatorId][0]"/>
-            <int-jdbc:parameter name="operate_time" expression="headers[nowDate]"/>
-            <int-jdbc:request-handler-advice-chain>
-                <bean class="com.hs.pm.transform.NullReplyAdvice"/>
-            </int-jdbc:request-handler-advice-chain>
-        </int-jdbc:stored-proc-outbound-gateway>
+        <int:service-activator expression="@workService.createWork(payload)"/>
     </int:chain>
-    <int:chain input-channel="workService.updateWork">
-        <int-jdbc:outbound-gateway data-source="dataSource"
-                                   update="update work set workName=:payload[workName],backup=:payload[backup],contactId=:payload[contactId],deadline=:payload[deadline],isDone=:payload[isDone])
-                                   where workId=:payload[workId]"/>
-    </int:chain>
-    <int:chain input-channel="workService.setWorkIsDone">
-        <int-jdbc:outbound-gateway data-source="dataSource"
-                                   update="update work set isDone=true where workId=:payload[workId]"/>
-    </int:chain>
-    <int:chain input-channel="workService.distributeWork">
-        <int-jdbc:outbound-gateway data-source="dataSource"
-                                   update="update work set contactId=:payload[contactId] where workId=:payload[workId]"/>
+    <int:chain input-channel="workService.modifyWork">
+        <int:service-activator expression="@workService.modifyWork(payload)"/>
     </int:chain>
     <int:chain input-channel="workService.deleteWork">
-        <int-jdbc:outbound-gateway data-source="dataSource" update="delete from work where workId=:payload[workId]"/>
+        <int:service-activator expression="@workService.deleteWork(payload[projectId])"/>
     </int:chain>
 </beans>

@@ -20,9 +20,6 @@
         <int-jdbc:outbound-gateway data-source="dataSource"
                                    update="insert into chat (message,fromUserName,projectId,createTime)
                                    values(:Payload[message],:Payload[fromUserName],:Payload[projectId],:headers[nowDate])">
-            <int-jdbc:request-handler-advice-chain>
-                <bean class="com.hs.pm.projectDetail.ProjectDetailAdvice"/>
-            </int-jdbc:request-handler-advice-chain>
         </int-jdbc:outbound-gateway>
     </int:chain>
     <int:chain input-channel="chatService.findChatByProjectId">

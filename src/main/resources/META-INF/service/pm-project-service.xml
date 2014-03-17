@@ -17,6 +17,9 @@
         <int:service-activator expression="@projectService.findProjectByUserId(payload[userId])"/>
     </int:chain>
     <int:chain input-channel="projectService.createProject">
+        <int:enricher>
+            <int:property name="createTime" expression="headers[nowDate]"/>
+        </int:enricher>
         <int:map-to-object-transformer type="com.hs.pm.project.dao.Project"/>
         <int:service-activator expression="@projectService.createProject(payload)"/>
     </int:chain>
@@ -33,16 +36,5 @@
     </int:chain>
     <int:chain input-channel="projectService.addMemberFromLinkMan">
         <int:service-activator expression="@projectService.addMemberFromLinkMan(payload[projectId],payload[phoneNoList])"/>
-    </int:chain>
-
-    <bean id="contactDao" class="com.hs.pm.contact.ContactDao"/>
-
-    <int:gateway service-interface="com.hs.pm.projectDetail.ProjectDetailService">
-        <int:method name="save" request-channel="saveProjectDetail"/>
-    </int:gateway>
-    <int:chain input-channel="saveProjectDetail">
-        <int-jdbc:outbound-gateway data-source="dataSource"
-                                   update="insert into project_detail (detail,operateTime,projectId) values (:payload[detail],:headers[nowDate],:payload[projectId])">
-        </int-jdbc:outbound-gateway>
     </int:chain>
 </beans>

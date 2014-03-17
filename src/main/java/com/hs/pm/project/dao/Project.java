@@ -26,7 +26,7 @@ public class Project {
     @XmlElement(name = "Operator")
     private String createUserId;
     @XmlElement(name = "OperateTime")
-    private long createTime;
+    private Date createTime;
 
     public String getProjectId() {
         return projectId;
@@ -76,11 +76,11 @@ public class Project {
         this.createUserId = createUserId;
     }
 
-    public long getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(long createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 }

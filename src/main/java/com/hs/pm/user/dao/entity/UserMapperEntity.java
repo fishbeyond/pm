@@ -17,16 +17,17 @@ import javax.persistence.*;
 public class UserMapperEntity {
     private UserMapper userMapper;
 
-    public UserMapperEntity(){
+    public UserMapperEntity() {
         this.userMapper = new UserMapper();
     }
+
     public UserMapperEntity(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
 
     @Id
-    @GenericGenerator(name="idGenerator", strategy="uuid")
-    @GeneratedValue(generator="idGenerator")
+    @GenericGenerator(name = "idGenerator", strategy = "uuid")
+    @GeneratedValue(generator = "idGenerator")
     public String getMapperId() {
         return userMapper.getMapperId();
     }
@@ -54,11 +55,20 @@ public class UserMapperEntity {
     }
 
     @Column
-    public boolean getConfirm() {
+    public boolean getIsConfirm() {
         return userMapper.isConfirm();
     }
 
-    public void setConfirm(boolean confirm) {
+    public void setIsConfirm(boolean confirm) {
         userMapper.setConfirm(confirm);
+    }
+
+    @Column
+    public String getPhoneNo() {
+        return userMapper.getPhoneNo();
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        userMapper.setPhoneNo(phoneNo);
     }
 }

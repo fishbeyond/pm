@@ -14,9 +14,11 @@ public interface UserDao {
 
     public void modifyUser(User user);
 
-    public String findUserIdByAuthCode(String phoneNo, int authCode);
+    public void createUserMapper(String userId, String friendId);
+
+    public User findUserIdByAuthCode(String phoneNo, int authCode);
 
     public List<User> findFriendByUserId(String userId);
 
-    public void createUserMapper(String userId, String friendId);
+    public List<User> findUserByProjectId(String projectId);
 }

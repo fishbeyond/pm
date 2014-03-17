@@ -15,42 +15,37 @@ public class User {
     private String mailAddress;
     private String password;
     private int authCode;
+    private boolean isActive;
 
     public User() {
     }
 
-    public User(String userId,String phoneNo,int authCode) {
-        this.userId = userId;
+    public User(String phoneNo,int authCode,boolean isActive) {
         this.phoneNo = phoneNo;
         this.authCode = authCode;
+        this.isActive = isActive;
     }
 
-    @Id
     public String getUserId() {
         return userId;
     }
 
-    @Column
     public String getUserName() {
         return userName;
     }
 
-    @Column
     public String getPhoneNo() {
         return phoneNo;
     }
 
-    @Column
     public String getMailAddress() {
         return mailAddress;
     }
 
-    @Column
     public String getPassword() {
         return password;
     }
 
-    @Column
     public int getAuthCode() {
         return authCode;
     }
@@ -77,5 +72,13 @@ public class User {
 
     public void setAuthCode(int authCode) {
         this.authCode = authCode;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
     }
 }

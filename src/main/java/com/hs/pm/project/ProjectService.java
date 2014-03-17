@@ -3,6 +3,7 @@ package com.hs.pm.project;
 import com.hs.pm.project.dao.Project;
 import com.hs.pm.project.dao.ProjectDao;
 import com.hs.pm.project.dao.ProjectUserMapper;
+import com.hs.pm.user.dao.User;
 import com.hs.pm.user.dao.UserDao;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +47,6 @@ public class ProjectService {
             ProjectUserMapper projectUserMapper = new ProjectUserMapper();
             projectUserMapper.setProjectId(projectId);
             projectUserMapper.setUserId(userId);
-            projectUserMapper.setJoin(true);
             projectDao.createProjectUserMapper(projectUserMapper);
         }
     }
@@ -56,7 +56,6 @@ public class ProjectService {
             ProjectUserMapper projectUserMapper = new ProjectUserMapper();
             projectUserMapper.setProjectId(projectId);
             projectUserMapper.setPhoneNo(phoneNo);
-            projectUserMapper.setJoin(false);
             projectDao.createProjectUserMapper(projectUserMapper);
         }
     }
@@ -65,7 +64,6 @@ public class ProjectService {
         List<ProjectUserMapper> projectUserMappers = projectDao.findProjectUserMapperByPhoneNo(phoneNo);
         for(ProjectUserMapper projectUserMapper: projectUserMappers){
             projectUserMapper.setUserId(userId);
-            projectUserMapper.setJoin(true);
         }
     }
 }

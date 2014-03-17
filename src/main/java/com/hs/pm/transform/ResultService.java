@@ -14,11 +14,11 @@ import java.util.List;
  */
 @Service
 public class ResultService {
-    public String handler(String str) {
-        return str == null ? "null" : str;
+    public String handle(String result) {
+        return result == null ? "null" : result;
     }
 
-    public List handler(List list) {
-        return (list == null) ? (new ArrayList<String>()) : list;
+    public List handle(List result) {
+        return (result == null) ? (new ArrayList<String>()) : result;
     }
 }

@@ -1,6 +1,7 @@
 package com.hs.pm.user.dao.entity;
 
 import com.hs.pm.user.dao.User;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -30,6 +31,8 @@ public class UserEntity {
     }
 
     @Id
+    @GenericGenerator(name="idGenerator", strategy="uuid")
+    @GeneratedValue(generator="idGenerator")
     public String getUserId() {
         return user.getUserId();
     }
@@ -81,5 +84,13 @@ public class UserEntity {
     @Column
     public String getPassword() {
         return user.getPassword();
+    }
+
+    public void setIsActive(boolean isActive) {
+        user.setActive(isActive);
+    }
+    @Column
+    public boolean getIsActive() {
+        return user.isActive();
     }
 }

@@ -1,5 +1,7 @@
 package com.hs.pm.project.dao;
 
+import com.hs.pm.user.dao.User;
+
 import java.util.List;
 
 /**
@@ -20,5 +22,6 @@ public interface ProjectDao {
 
     public void createProjectUserMapper(ProjectUserMapper projectUserMapper);
 
-    List<ProjectUserMapper> findProjectUserMapperByPhoneNo(String phoneNo);
+    public List<ProjectUserMapper> findProjectUserMapperByPhoneNo(String phoneNo);
+
 }

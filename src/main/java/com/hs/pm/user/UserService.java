@@ -1,5 +1,6 @@
 package com.hs.pm.user;
 
+import com.hs.pm.project.dao.ProjectUserMapper;
 import com.hs.pm.sms.SmsService;
 import com.hs.pm.transform.ResultService;
 import com.hs.pm.user.dao.User;
@@ -33,8 +34,7 @@ public class UserService {
         if (null != user) {
             user.setAuthCode(authCode);
         } else {
-            String userId = uuidGenerator.shortUuid();
-            User newUser = new User(userId, phoneNo,authCode);
+            User newUser = new User(phoneNo, authCode, false);
             userDao.createUser(newUser);
         }
         return smsService.send(phoneNo, "您的验证码是：" + authCode + "[互看]");
@@ -43,20 +43,26 @@ public class UserService {
     public String loginByAuthCode(User user) {
         String phoneNo = user.getPhoneNo();
         int authCode = user.getAuthCode();
-        String userId = userDao.findUserIdByAuthCode(phoneNo, authCode);
-        return resultService.handler(userId);
+        user = userDao.findUserIdByAuthCode(phoneNo, authCode);
+        return resultService.handle(user.getUserId());
     }
-    public boolean modifyUser(User user){
+
+    public boolean modifyUser(User user) {
         userDao.modifyUser(user);
         return true;
     }
 
-    public List<User> findFriend(String userId){
+    public List<User> findFriend(String userId) {
         List<User> friends = userDao.findFriendByUserId(userId);
-        return resultService.handler(friends);
+        return resultService.handle(friends);
     }
-    public boolean addFriend(String userId,String friendId){
+
+    public boolean addFriend(String userId, String friendId) {
         userDao.createUserMapper(userId, friendId);
         return true;
+    }
+
+    public List<User> findUserByProjectId(String projectId) {
+        return userDao.findUserByProjectId(projectId);
     }
 }

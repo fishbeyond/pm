@@ -4,6 +4,7 @@ import com.hs.pm.project.dao.Project;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,6 +24,10 @@ public class ProjectEntity {
 
     public ProjectEntity(Project project) {
         this.project = project;
+    }
+    @Transient
+    public Project getProject(){
+        return project;
     }
 
     @Id
@@ -44,7 +49,7 @@ public class ProjectEntity {
         return project.getDeadline();
     }
 
-    public void setCreateTime(long createTime) {
+    public void setCreateTime(Date createTime) {
         project.setCreateTime(createTime);
     }
 
@@ -72,7 +77,7 @@ public class ProjectEntity {
         return project.getCreateUserId();
     }
     @Column
-    public long getCreateTime() {
+    public Date getCreateTime() {
         return project.getCreateTime();
     }
     @Column

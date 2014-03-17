@@ -13,9 +13,7 @@ public class ProjectUserMapper {
     private String userId;
     private String userName;
     private String phoneNo;
-    private String mailAddress;
     private String projectId;
-    private boolean isJoin;
 
     public String getMapperId() {
         return mapperId;
@@ -49,14 +47,6 @@ public class ProjectUserMapper {
         this.phoneNo = phoneNo;
     }
 
-    public String getMailAddress() {
-        return mailAddress;
-    }
-
-    public void setMailAddress(String mailAddress) {
-        this.mailAddress = mailAddress;
-    }
-
     public String getProjectId() {
         return projectId;
     }
@@ -65,11 +55,4 @@ public class ProjectUserMapper {
         this.projectId = projectId;
     }
 
-    public boolean isJoin() {
-        return isJoin;
-    }
-
-    public void setJoin(boolean join) {
-        isJoin = join;
-    }
 }
