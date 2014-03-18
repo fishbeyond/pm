@@ -4,6 +4,7 @@
        xmlns:int="http://www.springframework.org/schema/integration"
        xmlns:int-http="http://www.springframework.org/schema/integration/http"
        xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:cache="http://www.springframework.org/schema/cache"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                   http://www.springframework.org/schema/beans/spring-beans.xsd
                   http://www.springframework.org/schema/integration
@@ -11,15 +12,12 @@
                   http://www.springframework.org/schema/integration/http
                   http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
                   http://www.springframework.org/schema/integration/jdbc
-                  http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd">
+                  http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 
     <int:chain input-channel="projectService.findProjectByUserId">
         <int:service-activator expression="@projectService.findProjectByUserId(payload[userId])"/>
     </int:chain>
     <int:chain input-channel="projectService.createProject">
-        <int:enricher>
-            <int:property name="createTime" expression="headers[nowDate]"/>
-        </int:enricher>
         <int:map-to-object-transformer type="com.hs.pm.project.dao.Project"/>
         <int:service-activator expression="@projectService.createProject(payload)"/>
     </int:chain>

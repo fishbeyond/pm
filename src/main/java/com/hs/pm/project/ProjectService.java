@@ -1,14 +1,19 @@
 package com.hs.pm.project;
 
+import com.hs.pm.operateRecord.OperateRecordService;
+import com.hs.pm.operateRecord.dao.OperateRecordDao;
 import com.hs.pm.project.dao.Project;
 import com.hs.pm.project.dao.ProjectDao;
 import com.hs.pm.project.dao.ProjectUserMapper;
+import com.hs.pm.security.dao.AccessInfo;
+import com.hs.pm.security.dao.AccessInfoDao;
 import com.hs.pm.user.dao.User;
 import com.hs.pm.user.dao.UserDao;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,45 +30,55 @@ public class ProjectService {
     private ProjectDao projectDao;
     @Resource
     private UserDao userDao;
+    @Resource
+    private AccessInfoDao accessInfoDao;
+    @Resource
+    private OperateRecordService operateRecordService;
 
     public List<Project> findProjectByUserId(String userId) {
         return projectDao.findProjectByUserId(userId);
     }
 
-    public void createProject(Project project) {
+    public boolean createProject(Project project) {
+        project.setCreateTime(new Date());
+        project.setDone(false);
         projectDao.createProject(project);
+        operateRecordService.createOperateRecord(project.getOperatorName()+":创建工程",project.getProjectId());
+        return true;
     }
 
-    public void modifyProject(Project project) {
+    public boolean modifyProject(Project project) {
         projectDao.modifyProject(project);
+        return true;
     }
 
-    public void deleteProject(String projectId) {
+    //todo 是否删除所有相关数据
+    public boolean deleteProject(String projectId) {
         projectDao.deleteProject(projectId);
+        projectDao.deleteProjectUserMapper(projectId);
+        return true;
     }
 
-    public void addMemberFromFriend(String projectId, List<String> userIdList) {
+    public boolean addMemberFromFriend(String projectId, List<String> userIdList) {
         for (String userId : userIdList) {
             ProjectUserMapper projectUserMapper = new ProjectUserMapper();
             projectUserMapper.setProjectId(projectId);
             projectUserMapper.setUserId(userId);
             projectDao.createProjectUserMapper(projectUserMapper);
         }
+        return true;
     }
 
-    public void addMemberFromLinkMan(String projectId, List<String> phoneNoList) {
+    public boolean addMemberFromLinkMan(String projectId, List<String> phoneNoList) {
         for (String phoneNo : phoneNoList) {
             ProjectUserMapper projectUserMapper = new ProjectUserMapper();
             projectUserMapper.setProjectId(projectId);
             projectUserMapper.setPhoneNo(phoneNo);
             projectDao.createProjectUserMapper(projectUserMapper);
+            userDao.createUser(new User(phoneNo));
+            accessInfoDao.createAccessInfo(new AccessInfo(phoneNo));
         }
+        return true;
     }
 
-    public void bindProjectAndUser(String userId,String phoneNo){
-        List<ProjectUserMapper> projectUserMappers = projectDao.findProjectUserMapperByPhoneNo(phoneNo);
-        for(ProjectUserMapper projectUserMapper: projectUserMappers){
-            projectUserMapper.setUserId(userId);
-        }
-    }
 }

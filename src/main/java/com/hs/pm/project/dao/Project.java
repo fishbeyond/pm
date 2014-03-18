@@ -20,13 +20,15 @@ public class Project {
     @XmlElement(name = "Content")
     private String content;
     @XmlElement(name = "Deadline")
-    private long deadline;
+    private Date deadline;
     @XmlElement(name = "IsDone")
     private boolean isDone;
     @XmlElement(name = "Operator")
     private String createUserId;
     @XmlElement(name = "OperateTime")
     private Date createTime;
+    private String operatorName;
+    private Date operateTime;
 
     public String getProjectId() {
         return projectId;
@@ -52,11 +54,11 @@ public class Project {
         this.content = content;
     }
 
-    public long getDeadline() {
+    public Date getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(long deadline) {
+    public void setDeadline(Date deadline) {
         this.deadline = deadline;
     }
 
@@ -82,5 +84,21 @@ public class Project {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getOperatorName() {
+        return operatorName;
+    }
+
+    public void setOperatorName(String operatorName) {
+        this.operatorName = operatorName;
+    }
+
+    public Date getOperateTime() {
+        return operateTime;
+    }
+
+    public void setOperateTime(Date operateTime) {
+        this.operateTime = operateTime;
     }
 }

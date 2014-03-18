@@ -19,6 +19,13 @@ public class OperateRecord {
     private String operateContent;
     private Date operateTime;
     private String projectId;
+    public OperateRecord(){}
+    public OperateRecord(String operateContent,String projectId){
+        this.operateContent = operateContent;
+        this.projectId = projectId;
+        this.operateTime = new Date();
+    }
+
     @Id
     @GenericGenerator(name="idGenerator", strategy="uuid")
     @GeneratedValue(generator="idGenerator")

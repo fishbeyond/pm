@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MessageService {
-    public Object receive(Object obj) {
+    public boolean receive(Object obj) {
         System.out.println(obj);
-        return obj;
+        return true;
     }
 }

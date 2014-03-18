@@ -41,11 +41,11 @@ public class ProjectEntity {
         project.setCreateUserId(createUserId);
     }
 
-    public void setDeadline(long deadline) {
+    public void setDeadline(Date deadline) {
         project.setDeadline(deadline);
     }
     @Column
-    public long getDeadline() {
+    public Date getDeadline() {
         return project.getDeadline();
     }
 

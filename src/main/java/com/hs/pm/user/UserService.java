@@ -1,16 +1,19 @@
 package com.hs.pm.user;
 
-import com.hs.pm.project.dao.ProjectUserMapper;
+import com.hs.pm.push.PushService;
+import com.hs.pm.security.dao.AccessInfo;
+import com.hs.pm.security.dao.AccessInfoDao;
 import com.hs.pm.sms.SmsService;
 import com.hs.pm.transform.ResultService;
 import com.hs.pm.user.dao.User;
 import com.hs.pm.user.dao.UserDao;
-import com.hs.pm.utils.RandomGenerator;
+import com.hs.pm.user.dao.UserMapper;
 import com.hs.pm.utils.UUIDGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,31 +23,19 @@ import java.util.List;
 @Transactional
 public class UserService {
     @Resource
-    private UUIDGenerator uuidGenerator;
-    @Resource
     private ResultService resultService;
     @Resource
-    private SmsService smsService;
-    @Resource
     private UserDao userDao;
+    @Resource
+    private AccessInfoDao accessInfoDao;
+    @Resource
+    private PushService pushService;
 
-    public boolean sendAuthCode(String phoneNo) {
-        int authCode = RandomGenerator.getRandom(111111, 888888);
-        User user = userDao.findUserByPhoneNo(phoneNo);
-        if (null != user) {
-            user.setAuthCode(authCode);
-        } else {
-            User newUser = new User(phoneNo, authCode, false);
-            userDao.createUser(newUser);
-        }
-        return smsService.send(phoneNo, "您的验证码是：" + authCode + "[互看]");
-    }
-
-    public String loginByAuthCode(User user) {
-        String phoneNo = user.getPhoneNo();
-        int authCode = user.getAuthCode();
-        user = userDao.findUserIdByAuthCode(phoneNo, authCode);
-        return resultService.handle(user.getUserId());
+    public List<String> findOperatorById(String userId) {
+        String operator = userDao.findUserNameOrPhoneNoById(userId);
+        List<String> list = new ArrayList<String>();
+        list.add(operator);
+        return list;
     }
 
     public boolean modifyUser(User user) {
@@ -57,12 +48,39 @@ public class UserService {
         return resultService.handle(friends);
     }
 
-    public boolean addFriend(String userId, String friendId) {
-        userDao.createUserMapper(userId, friendId);
+    public boolean addFriendAlreadyRegister(String userId, String friendId) {
+        userDao.createUserMapper(new UserMapper(userId, friendId, false));
+        userDao.createUserMapper(new UserMapper(friendId, userId, false));
+        pushService.pushToOne("添加好友邀请",friendId);
+        return true;
+    }
+
+    public boolean addFriendNoRegister(String userId, String phoneNo) {
+        userDao.createUser(new User(phoneNo));
+        accessInfoDao.createAccessInfo(new AccessInfo(phoneNo));
+        String friendId = userDao.findUserIdByPhoneNo(phoneNo);
+        userDao.createUserMapper(new UserMapper(userId, friendId, false));
+        userDao.createUserMapper(new UserMapper(friendId, userId, false));
+        return true;
+    }
+
+    public boolean confirmFriend(String userId, String friendId) {
+        UserMapper inviteUserMapper = userDao.findUserMapper(friendId, userId);
+        UserMapper myUserMapper = userDao.findUserMapper(userId, friendId);
+        if (null != inviteUserMapper) {
+            inviteUserMapper.setConfirm(true);
+            userDao.modifyUserMapper(inviteUserMapper);
+        }
+        if (null != myUserMapper) {
+            myUserMapper.setConfirm(true);
+            userDao.modifyUserMapper(myUserMapper);
+        }
         return true;
     }
 
     public List<User> findUserByProjectId(String projectId) {
         return userDao.findUserByProjectId(projectId);
     }
+
+
 }

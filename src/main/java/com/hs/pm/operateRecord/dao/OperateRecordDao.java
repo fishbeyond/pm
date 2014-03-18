@@ -22,10 +22,10 @@ public class OperateRecordDao {
         sessionFactory.getCurrentSession().save(operateRecord);
     }
 
-    public void deleteOperateRecord(String operateId) {
-        final String hql = "delete from OperateRecord where operateId = :operateId";
+    public void deleteOperateRecordBy(String projectId) {
+        final String hql = "delete from OperateRecord r where r.projectId = :projectId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setString("operateId", operateId);
+        query.setString("projectId", projectId);
         query.executeUpdate();
     }
 }

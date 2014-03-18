@@ -24,6 +24,26 @@ public class UserRepository implements UserDao {
     private SessionFactory sessionFactory;
 
     @Override
+    public String findUserIdByPhoneNo(String phoneNo) {
+        final String hql = "select e.userId from UserEntity e where e.phoneNo = :phoneNo";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("phoneNo", phoneNo);
+        return (String) query.uniqueResult();
+    }
+
+    @Override
+    public String findUserNameOrPhoneNoById(String userId) {
+        final String hql = "select userName,phoneNo from UserEntity e where e.userId = :userId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("userId", userId);
+        Object[] result = (Object[]) query.uniqueResult();
+        if (null != result) {
+            return result[0] != null ? result[0].toString() : result[1].toString();
+        }
+        return null;
+    }
+
+    @Override
     public User findUserById(String userId) {
         final String hql = "from UserEntity e where e.userId = :userId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
@@ -50,19 +70,6 @@ public class UserRepository implements UserDao {
         sessionFactory.getCurrentSession().update(new UserEntity(user));
     }
 
-    public User findUserIdByAuthCode(String phoneNo, int authCode) {
-        final String hql = "from UserEntity e where e.phoneNo = :phoneNo and e.authCode = :authCode";
-        Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setString("phoneNo", phoneNo);
-        query.setInteger("authCode", authCode);
-        UserEntity entity = (UserEntity) query.uniqueResult();
-        if(null!=entity){
-            entity.setIsActive(true);
-        }
-        sessionFactory.getCurrentSession().save(entity);
-        return entity != null ? entity.getUser() : null;
-    }
-
     @Override
     public List<User> findFriendByUserId(String userId) {
         final String hql = "from UserEntity e where e.userId in (select m.friendId from UserMapperEntity m where m.userId = :userId)";
@@ -77,9 +84,32 @@ public class UserRepository implements UserDao {
     }
 
     @Override
-    public void createUserMapper(String userId, String friendId) {
-        UserMapper userMapper = new UserMapper(userId, friendId, false);
+    public void createUserMapper(UserMapper userMapper) {
         sessionFactory.getCurrentSession().save(new UserMapperEntity(userMapper));
+    }
+
+    @Override
+    public void modifyUserMapper(UserMapper userMapper) {
+        sessionFactory.getCurrentSession().update(userMapper);
+    }
+
+    @Override
+    public UserMapper findUserMapper(String userId, String friendId) {
+        final String hql = "from UserMapperEntity e where e.userId = :userId and e.friendId = :friendId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("userId", userId);
+        query.setString("friendId", friendId);
+        UserMapperEntity entity = (UserMapperEntity) query.uniqueResult();
+        return entity != null ? entity.getUserMapper() : null;
+    }
+
+    @Override
+    public void deleteUserMapper(String userId, String friendId) {
+        final String hql = "delete from UserMapperEntity e where e.userId = :userId and e.friendId = :friendId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("userId", userId);
+        query.setString("friendId", friendId);
+        query.executeUpdate();
     }
 
 

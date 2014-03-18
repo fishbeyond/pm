@@ -1,9 +1,6 @@
-package com.hs.pm.device;
+package com.hs.pm.push.dao;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,17 +13,18 @@ import javax.persistence.Table;
 @Table(name="device_token")
 public class DeviceToken {
     private int tokenId;
-    private int userId;
+    private String userId;
     private String token;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getTokenId() {
         return tokenId;
     }
-    @Column
-    public int getUserId() {
+    @Column(nullable = false)
+    public String getUserId() {
         return userId;
     }
-    @Column
+    @Column(nullable = false)
     public String getToken() {
         return token;
     }
@@ -35,7 +33,7 @@ public class DeviceToken {
         this.tokenId = tokenId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

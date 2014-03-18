@@ -13,17 +13,13 @@ public class User {
     private String userName;
     private String phoneNo;
     private String mailAddress;
-    private String password;
-    private int authCode;
     private boolean isActive;
 
     public User() {
     }
 
-    public User(String phoneNo,int authCode,boolean isActive) {
+    public User(String phoneNo) {
         this.phoneNo = phoneNo;
-        this.authCode = authCode;
-        this.isActive = isActive;
     }
 
     public String getUserId() {
@@ -42,13 +38,6 @@ public class User {
         return mailAddress;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public int getAuthCode() {
-        return authCode;
-    }
 
     public void setUserId(String userId) {
         this.userId = userId;
@@ -64,14 +53,6 @@ public class User {
 
     public void setMailAddress(String mailAddress) {
         this.mailAddress = mailAddress;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setAuthCode(int authCode) {
-        this.authCode = authCode;
     }
 
     public boolean isActive() {

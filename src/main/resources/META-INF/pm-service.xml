@@ -15,7 +15,7 @@
                   http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd http://www.springframework.org/schema/integration/xml http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd">
 
 
-    <int-http:inbound-gateway supported-methods="GET,POST" path="/pm/{service}/{method}"
+    <int-http:inbound-gateway supported-methods="GET,POST" path="/{service}/{method}"
                               request-channel="pmServiceChannel" error-channel="jsonErrorResultChannel"
                               reply-timeout="5000"
                               mapped-request-headers="Content-Type,user-agent,host,outbound,userId"
@@ -28,6 +28,9 @@
         <int:header-enricher>
             <int:header name="nowDate" expression="new java.util.Date()"/>
         </int:header-enricher>
+        <int:enricher>
+            <int:property name="operatorName" expression="@userService.findOperatorById(payload[userId])"/>
+        </int:enricher>
         <int:gateway request-channel="pmServiceRouter"/>
     </int:chain>
 

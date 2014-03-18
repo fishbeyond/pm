@@ -57,6 +57,14 @@ public class ProjectRepository implements ProjectDao {
     }
 
     @Override
+    public void deleteProjectUserMapper(String projectId) {
+        final String hql = "delete from ProjectUserMapperEntity e where e.projectId = :projectId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("projectId", projectId);
+        query.executeUpdate();
+    }
+
+    @Override
     public void createProjectUserMapper(ProjectUserMapper projectUserMapper) {
         sessionFactory.getCurrentSession().save(new ProjectUserMapperEntity(projectUserMapper));
     }
@@ -72,6 +80,15 @@ public class ProjectRepository implements ProjectDao {
             mappers.add(entity.getProjectUserMapper());
         }
         return mappers;
+    }
+
+    @Override
+    public void bindProjectAndUser(String phoneNo, String userId) {
+        final String hql = "update ProjectUserMapperEntity e set e.userId = :userId  where e.phoneNo = :phoneNo";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("phoneNo", phoneNo);
+        query.setString("userId", userId);
+        query.executeUpdate();
     }
 
 }

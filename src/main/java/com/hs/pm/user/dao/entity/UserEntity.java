@@ -41,10 +41,6 @@ public class UserEntity {
         user.setUserName(userName);
     }
 
-    public void setAuthCode(int authCode) {
-        user.setAuthCode(authCode);
-    }
-
     @Column
     public String getMailAddress() {
         return user.getMailAddress();
@@ -59,11 +55,6 @@ public class UserEntity {
         user.setPhoneNo(phoneNo);
     }
 
-    @Column
-    public int getAuthCode() {
-        return user.getAuthCode();
-    }
-
     public void setMailAddress(String mailAddress) {
         user.setMailAddress(mailAddress);
     }
@@ -75,15 +66,6 @@ public class UserEntity {
 
     public void setUserId(String userId) {
         user.setUserId(userId);
-    }
-
-    public void setPassword(String password) {
-        user.setPassword(password);
-    }
-
-    @Column
-    public String getPassword() {
-        return user.getPassword();
     }
 
     public void setIsActive(boolean isActive) {

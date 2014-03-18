@@ -20,8 +20,11 @@ public interface ProjectDao {
 
     public void deleteProject(String projectId);
 
+    public void deleteProjectUserMapper(String projectId);
+
     public void createProjectUserMapper(ProjectUserMapper projectUserMapper);
 
     public List<ProjectUserMapper> findProjectUserMapperByPhoneNo(String phoneNo);
 
+    public void bindProjectAndUser(String phoneNo, String userId);
 }

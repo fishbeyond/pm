@@ -34,7 +34,7 @@ public class WorkRepository implements WorkDao {
 
     @Override
     public void deleteWork(String workId) {
-        final String hql = "delete from WorkEntity where workId = :workId";
+        final String hql = "delete from WorkEntity e where e.workId = :workId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("workId", workId);
         query.executeUpdate();
@@ -42,7 +42,7 @@ public class WorkRepository implements WorkDao {
 
     @Override
     public List<Work> findWorkById(String projectId) {
-        final String hql = "from WorkEntity where projectId = :projectId order by createTime desc";
+        final String hql = "from WorkEntity e where e.projectId = :projectId order by e.createTime desc";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("projectId", projectId);
         List<WorkEntity> entities = (List<WorkEntity>) query.list();

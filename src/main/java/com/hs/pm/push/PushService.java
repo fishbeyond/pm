@@ -1,6 +1,6 @@
 package com.hs.pm.push;
 
-import com.hs.pm.device.DeviceDao;
+import com.hs.pm.push.dao.DeviceDao;
 import javapns.devices.Device;
 import javapns.devices.implementations.basic.BasicDevice;
 import javapns.notification.AppleNotificationServerBasicImpl;
@@ -8,7 +8,6 @@ import javapns.notification.PushNotificationManager;
 import javapns.notification.PushNotificationPayload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -37,7 +36,7 @@ public class PushService {
         ArrayList<String> deviceTokens = new ArrayList<String>();
         deviceTokens.add(deviceToken);
         String content = "此次升级更新的东西";
-//        new PushService().pushToDevice(content, deviceTokens);
+        new PushService().pushToDevice(content, deviceTokens);
     }
 
     public void pushToAll(String content) {
@@ -45,8 +44,8 @@ public class PushService {
         pushToDevice(content, allDeviceToken);
     }
 
-    public void pushToOne(String content, int userIds) {
-        List<String> deviceTokens = deviceDao.findDeviceTokenByUser(userIds);
+    public void pushToOne(String content, String userId) {
+        List<String> deviceTokens = deviceDao.findDeviceTokenByUser(userId);
         pushToDevice(content, deviceTokens);
     }
 
@@ -54,7 +53,7 @@ public class PushService {
         try {
             PushNotificationPayload payLoad = new PushNotificationPayload();
             payLoad.addAlert(content);
-            payLoad.addBadge(1);//应用图标上小红圈上的数值
+            payLoad.addBadge(1);
             payLoad.addSound("default");
             List<Device> devices = new ArrayList<Device>();
             for (String deviceToken : deviceTokens) {

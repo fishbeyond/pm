@@ -24,6 +24,10 @@ public class UserMapperEntity {
     public UserMapperEntity(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
+    @Transient
+    public UserMapper getUserMapper(){
+        return this.userMapper;
+    }
 
     @Id
     @GenericGenerator(name = "idGenerator", strategy = "uuid")
@@ -61,14 +65,5 @@ public class UserMapperEntity {
 
     public void setIsConfirm(boolean confirm) {
         userMapper.setConfirm(confirm);
-    }
-
-    @Column
-    public String getPhoneNo() {
-        return userMapper.getPhoneNo();
-    }
-
-    public void setPhoneNo(String phoneNo) {
-        userMapper.setPhoneNo(phoneNo);
     }
 }

@@ -23,5 +23,6 @@
     <import resource="service/pm-work-service.xml"/>
     <import resource="service/pm-chat-service.xml"/>
     <import resource="service/pm-device-service.xml"/>
+    <import resource="service/pm-access-service.xml"/>
     <import resource="service/pm-recv-package-service.xml"/>
 </beans>

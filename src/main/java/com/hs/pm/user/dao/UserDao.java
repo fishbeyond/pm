@@ -6,6 +6,10 @@ import java.util.List;
  * Created by root on 14-3-16.
  */
 public interface UserDao {
+    public String findUserIdByPhoneNo(String phoneNo);
+
+    public String findUserNameOrPhoneNoById(String userId);
+
     public User findUserById(String userId);
 
     public User findUserByPhoneNo(String phoneNo);
@@ -14,9 +18,13 @@ public interface UserDao {
 
     public void modifyUser(User user);
 
-    public void createUserMapper(String userId, String friendId);
+    public void createUserMapper(UserMapper userMapper);
 
-    public User findUserIdByAuthCode(String phoneNo, int authCode);
+    public void modifyUserMapper(UserMapper userMapper);
+
+    public UserMapper findUserMapper(String userId,String friendId);
+
+    public void deleteUserMapper(String userId,String friendId);
 
     public List<User> findFriendByUserId(String userId);
 

@@ -1,4 +1,4 @@
-package com.hs.pm.privateChat;
+package com.hs.pm.publicChat.dao;
 
 import java.util.Date;
 
@@ -6,14 +6,15 @@ import java.util.Date;
  * Created with IntelliJ IDEA.
  * User: fish
  * Date: 14-3-17
- * Time: 下午5:16
+ * Time: 下午5:10
  * To change this template use File | Settings | File Templates.
  */
-public class privateChat {
+public class PublicChat {
     private String chatId;
     private String message;
     private String fromUserId;
-    private String toUserId;
+    private String fromUserName;
+    private String projectId;
     private Date createTime;
 
     public String getChatId() {
@@ -40,12 +41,20 @@ public class privateChat {
         this.fromUserId = fromUserId;
     }
 
-    public String getToUserId() {
-        return toUserId;
+    public String getFromUserName() {
+        return fromUserName;
     }
 
-    public void setToUserId(String toUserId) {
-        this.toUserId = toUserId;
+    public void setFromUserName(String fromUserName) {
+        this.fromUserName = fromUserName;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
     }
 
     public Date getCreateTime() {
