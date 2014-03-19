@@ -14,7 +14,7 @@ public class Work {
     private String workName;
     private String info;
     private Date createTime;
-    private Date deadline;
+    private long deadline;
     private String projectId;
     private String createUserId;
     private boolean isDone;
@@ -51,11 +51,11 @@ public class Work {
         this.createTime = createTime;
     }
 
-    public Date getDeadline() {
+    public long getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Date deadline) {
+    public void setDeadline(long deadline) {
         this.deadline = deadline;
     }
 

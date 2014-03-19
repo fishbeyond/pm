@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,6 +16,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Action")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Action {
+
+    public static void  main(String[] args){
+        long t = 1395195335000l;
+        Date date = new Date(t);
+        System.out.println(date);
+    }
     @XmlElement(name = "ActionName")
     private String actionName;
     @XmlElement(name = "UserId")

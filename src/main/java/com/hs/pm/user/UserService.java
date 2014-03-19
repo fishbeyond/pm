@@ -4,6 +4,7 @@ import com.hs.pm.push.PushService;
 import com.hs.pm.security.dao.AccessInfo;
 import com.hs.pm.security.dao.AccessInfoDao;
 import com.hs.pm.sms.SmsService;
+import com.hs.pm.transform.FriendlyMessageException;
 import com.hs.pm.transform.ResultService;
 import com.hs.pm.user.dao.User;
 import com.hs.pm.user.dao.UserDao;
@@ -30,9 +31,19 @@ public class UserService {
     private AccessInfoDao accessInfoDao;
     @Resource
     private PushService pushService;
+    @Resource
+    private UUIDGenerator uuidGenerator;
 
     public List<String> findOperatorById(String userId) {
         String operator = userDao.findUserNameOrPhoneNoById(userId);
+        if(null == operator){
+            throw new FriendlyMessageException(){
+                @Override
+                public String getFriendlyMessage() {
+                    return "用户不存在";
+                }
+            };
+        }
         List<String> list = new ArrayList<String>();
         list.add(operator);
         return list;
@@ -56,9 +67,9 @@ public class UserService {
     }
 
     public boolean addFriendNoRegister(String userId, String phoneNo) {
-        userDao.createUser(new User(phoneNo));
-        accessInfoDao.createAccessInfo(new AccessInfo(phoneNo));
-        String friendId = userDao.findUserIdByPhoneNo(phoneNo);
+        String friendId = uuidGenerator.shortUuid();
+        userDao.createUser(new User(friendId,phoneNo));
+        accessInfoDao.createAccessInfo(new AccessInfo(friendId,phoneNo));
         userDao.createUserMapper(new UserMapper(userId, friendId, false));
         userDao.createUserMapper(new UserMapper(friendId, userId, false));
         return true;

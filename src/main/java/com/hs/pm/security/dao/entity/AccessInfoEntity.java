@@ -30,8 +30,6 @@ public class AccessInfoEntity {
     }
 
     @Id
-    @GenericGenerator(name="idGenerator", strategy="uuid")
-    @GeneratedValue(generator="idGenerator")
     public String getAccessId() {
         return accessInfo.getAccessId();
     }

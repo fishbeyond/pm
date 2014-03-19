@@ -18,16 +18,13 @@
     <int-http:inbound-gateway supported-methods="GET,POST" path="/{service}/{method}"
                               request-channel="pmServiceChannel" error-channel="jsonErrorResultChannel"
                               reply-timeout="5000"
-                              mapped-request-headers="Content-Type,user-agent,host,outbound,userId"
+                              mapped-request-headers="Content-Type,user-agent,host,outbound"
                               mapped-response-headers="Content-Type">
         <int-http:header name="serviceChannel" expression="#pathVariables.service + '.' + #pathVariables.method"/>
     </int-http:inbound-gateway>
 
     <int:channel id="pmServiceChannel"/>
     <int:chain input-channel="pmServiceChannel" output-channel="pmJsonOutputChannel">
-        <int:header-enricher>
-            <int:header name="nowDate" expression="new java.util.Date()"/>
-        </int:header-enricher>
         <int:enricher>
             <int:property name="operatorName" expression="@userService.findOperatorById(payload[userId])"/>
         </int:enricher>

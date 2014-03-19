@@ -17,7 +17,8 @@
     <context:component-scan base-package="com.hs.pm"/>
     <import resource="pm-ds.xml"/>
     <import resource="pm-repository.xml"/>
-    <import resource="pm-service.xml"/>
+    <import resource="pm-register-service.xml"/>
+    <import resource="pm-noregister-gateway.xml"/>
     <import resource="service/pm-user-service.xml"/>
     <import resource="service/pm-project-service.xml"/>
     <import resource="service/pm-work-service.xml"/>

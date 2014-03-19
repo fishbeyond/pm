@@ -14,14 +14,18 @@ public class AccessInfo {
     private long aliveTime;
     private String accessToken;
 
-    private static long ALIVE_TIME = 1000*60*30;
+    private static long ALIVE_TIME = 1000 * 60 * 30;
+
     public AccessInfo() {
     }
 
-    public AccessInfo(String phoneNo){
+    public AccessInfo(String accessId, String phoneNo) {
+        this.accessId = accessId;
         this.phoneNo = phoneNo;
     }
-    public AccessInfo(String phoneNo, int authCode) {
+
+    public AccessInfo(String accessId, String phoneNo, int authCode) {
+        this.accessId = accessId;
         this.phoneNo = phoneNo;
         this.authCode = authCode;
     }

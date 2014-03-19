@@ -15,6 +15,14 @@ public class ProjectUserMapper {
     private String phoneNo;
     private String projectId;
 
+    public ProjectUserMapper() {
+    }
+
+    public ProjectUserMapper(String userId,String projectId) {
+        this.userId = userId;
+        this.projectId = projectId;
+    }
+
     public String getMapperId() {
         return mapperId;
     }

@@ -31,8 +31,6 @@ public class ProjectEntity {
     }
 
     @Id
-    @GenericGenerator(name="idGenerator", strategy="uuid")
-    @GeneratedValue(generator="idGenerator")
     public String getProjectId() {
         return project.getProjectId();
     }
@@ -42,11 +40,11 @@ public class ProjectEntity {
     }
 
     public void setDeadline(Date deadline) {
-        project.setDeadline(deadline);
+        project.setDeadline(deadline.getTime());
     }
     @Column
     public Date getDeadline() {
-        return project.getDeadline();
+        return new Date(project.getDeadline());
     }
 
     public void setCreateTime(Date createTime) {

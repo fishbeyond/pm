@@ -57,7 +57,7 @@ public class WorkEntity {
     }
     @Column
     public Date getDeadline() {
-        return work.getDeadline();
+        return new Date(work.getDeadline());
     }
 
     public boolean isDone() {
@@ -69,7 +69,7 @@ public class WorkEntity {
     }
 
     public void setDeadline(Date deadline) {
-        work.setDeadline(deadline);
+        work.setDeadline(deadline.getTime());
     }
 
     public void setDone(boolean done) {

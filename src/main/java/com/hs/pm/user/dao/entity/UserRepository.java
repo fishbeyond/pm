@@ -126,4 +126,12 @@ public class UserRepository implements UserDao {
         return users;
     }
 
+    @Override
+    public void modifyUserActive(String userId) {
+        final String hql = "update UserEntity e set e.isActive=true where e.userId = :userId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("userId",userId);
+        query.executeUpdate();
+    }
+
 }

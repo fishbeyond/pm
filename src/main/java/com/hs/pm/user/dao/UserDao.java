@@ -29,4 +29,6 @@ public interface UserDao {
     public List<User> findFriendByUserId(String userId);
 
     public List<User> findUserByProjectId(String projectId);
+
+    public void modifyUserActive(String userId);
 }

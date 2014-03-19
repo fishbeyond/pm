@@ -31,8 +31,6 @@ public class UserEntity {
     }
 
     @Id
-    @GenericGenerator(name="idGenerator", strategy="uuid")
-    @GeneratedValue(generator="idGenerator")
     public String getUserId() {
         return user.getUserId();
     }

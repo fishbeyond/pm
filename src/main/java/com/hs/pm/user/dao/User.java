@@ -18,7 +18,8 @@ public class User {
     public User() {
     }
 
-    public User(String phoneNo) {
+    public User(String userId,String phoneNo) {
+        this.userId = userId;
         this.phoneNo = phoneNo;
     }
 
