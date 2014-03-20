@@ -1,6 +1,6 @@
-package com.hs.pm.server.user.dao.entity;
+package com.hs.pm.server.account.user.dao.entity;
 
-import com.hs.pm.server.user.dao.UserInfo;
+import com.hs.pm.server.account.user.dao.UserInfo;
 
 import javax.persistence.*;
 

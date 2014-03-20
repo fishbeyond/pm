@@ -1,6 +1,6 @@
-package com.hs.pm.server.user.dao.entity;
+package com.hs.pm.server.account.user.dao.entity;
 
-import com.hs.pm.server.user.dao.UserMapper;
+import com.hs.pm.server.account.user.dao.UserMapper;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;

@@ -1,4 +1,4 @@
-package com.hs.pm.server.security.dao;
+package com.hs.pm.server.account.security.dao;
 
 /**
  * Created with IntelliJ IDEA.

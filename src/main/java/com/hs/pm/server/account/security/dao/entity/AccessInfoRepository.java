@@ -1,7 +1,7 @@
-package com.hs.pm.server.security.dao.entity;
+package com.hs.pm.server.account.security.dao.entity;
 
-import com.hs.pm.server.security.dao.AccessInfo;
-import com.hs.pm.server.security.dao.AccessInfoDao;
+import com.hs.pm.server.account.security.dao.AccessInfo;
+import com.hs.pm.server.account.security.dao.AccessInfoDao;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;

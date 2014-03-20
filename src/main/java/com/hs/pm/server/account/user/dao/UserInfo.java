@@ -1,4 +1,4 @@
-package com.hs.pm.server.user.dao;
+package com.hs.pm.server.account.user.dao;
 
 /**
  * Created by root on 14-3-16.

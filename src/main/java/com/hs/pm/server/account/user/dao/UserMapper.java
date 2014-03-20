@@ -1,4 +1,4 @@
-package com.hs.pm.server.user.dao;
+package com.hs.pm.server.account.user.dao;
 
 /**
  * Created with IntelliJ IDEA.
