@@ -14,25 +14,25 @@
                   http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd">
 
     <int:chain input-channel="userService.modifyUser">
-        <int:map-to-object-transformer type="com.hs.pm.user.dao.User"/>
-        <int:service-activator expression="@userService.modifyUser(payload)"/>
+        <int:map-to-object-transformer type="com.hs.pm.server.user.dao.UserInfo"/>
+        <int:service-activator expression="@userAction.modifyUser(payload)"/>
     </int:chain>
 
     <int:chain input-channel="userService.addFriendAlreadyRegister">
-        <int:service-activator expression="@userService.addFriendAlreadyRegister(payload[userId],payload[friendId])"/>
+        <int:service-activator expression="@userAction.addFriendAlreadyRegister(payload[userId],payload[friendId])"/>
     </int:chain>
     <int:chain input-channel="userService.addFriendNoRegister">
-        <int:service-activator expression="@userService.addFriendNoRegister(payload[userId],payload[phoneNo])"/>
+        <int:service-activator expression="@userAction.addFriendNoRegister(payload[userId],payload[phoneNo])"/>
     </int:chain>
     <int:chain input-channel="userService.confirmFriend">
-        <int:service-activator expression="@userService.confirmFriend(payload[userId],payload[friendId])"/>
+        <int:service-activator expression="@userAction.confirmFriend(payload[userId],payload[friendId])"/>
     </int:chain>
 
     <int:chain input-channel="userService.findFriend">
-        <int:service-activator expression="@userService.findFriend(payload[userId])"/>
+        <int:service-activator expression="@userAction.findFriend(payload[userId])"/>
     </int:chain>
 
     <int:chain input-channel="userService.findUserByProjectId">
-        <int:service-activator expression="@userService.findUserByProjectId(payload[projectId])"/>
+        <int:service-activator expression="@userAction.findUserByProjectId(payload[projectId])"/>
     </int:chain>
 </beans>

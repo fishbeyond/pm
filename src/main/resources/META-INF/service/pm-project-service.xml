@@ -18,11 +18,11 @@
         <int:service-activator expression="@projectService.findProjectByUserId(payload[userId])"/>
     </int:chain>
     <int:chain input-channel="projectService.createProject">
-        <int:map-to-object-transformer type="com.hs.pm.project.dao.Project"/>
+        <int:map-to-object-transformer type="com.hs.pm.server.project.dao.Project"/>
         <int:service-activator expression="@projectService.createProject(payload)"/>
     </int:chain>
     <int:chain input-channel="projectService.modifyProject">
-        <int:map-to-object-transformer type="com.hs.pm.project.dao.Project"/>
+        <int:map-to-object-transformer type="com.hs.pm.server.project.dao.Project"/>
         <int:service-activator expression="@projectService.modifyProject(payload)"/>
     </int:chain>
     <int:chain input-channel="projectService.deleteProject">

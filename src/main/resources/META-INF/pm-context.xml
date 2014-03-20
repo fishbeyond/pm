@@ -25,5 +25,14 @@
     <import resource="service/pm-chat-service.xml"/>
     <import resource="service/pm-device-service.xml"/>
     <import resource="service/pm-access-service.xml"/>
-    <import resource="service/pm-recv-package-service.xml"/>
+    <!--<import resource="service/pm-recv-package-service.xml"/>-->
+
+    <bean id="nullResultHandler" class="com.hs.pm.server.aop.NullPayloadHandler"/>
+    <aop:config>
+        <aop:aspect id="myAop" ref="nullResultHandler">
+            <aop:pointcut id="target"
+                          expression="execution(* com.hs.pm.api.*.*(..))"/>
+            <aop:around method="handle" pointcut-ref="target"/>
+        </aop:aspect>
+    </aop:config>
 </beans>

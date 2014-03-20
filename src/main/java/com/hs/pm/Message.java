@@ -1,7 +1,7 @@
 package com.hs.pm;
 
-import com.hs.pm.project.xml.CreateProject;
-import com.hs.pm.project.xml.UpdateProject;
+import com.hs.pm.server.project.xml.CreateProject;
+import com.hs.pm.server.project.xml.UpdateProject;
 
 import javax.xml.bind.annotation.*;
 import java.util.List;
