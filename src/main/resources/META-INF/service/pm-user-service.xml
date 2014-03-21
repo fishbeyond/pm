@@ -13,34 +13,32 @@
                   http://www.springframework.org/schema/integration/jdbc
                   http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd">
 
-    <int:chain input-channel="userService.modifyUser">
-        <int:map-to-object-transformer type="com.hs.pm.server.account.user.dao.UserInfo"/>
-        <int:service-activator expression="@userRelationAction.modifyUser(payload)"/>
+    <int:chain input-channel="accountAction.modifyUser">
+        <int:map-to-object-transformer type="com.hs.pm.dto.UserForm"/>
+        <int:service-activator expression="@accountAction.modifyUser(payload)"/>
     </int:chain>
 
-    <int:chain input-channel="userService.addFriendAlreadyRegister">
+    <int:chain input-channel="userRelationAction.addFriendAlreadyRegister">
         <int:service-activator
                 expression="@userRelationAction.addFriendAlreadyRegister(payload[userId],payload[friendId])"/>
     </int:chain>
-    <int:chain input-channel="userService.addFriendNoRegister">
-        <int:service-activator expression="@userRelationAction.addFriendNoRegister(payload[userId],payload[phoneNo])"/>
-    </int:chain>
-    <int:chain input-channel="userService.confirmFriend">
+
+    <int:chain input-channel="userRelationAction.confirmFriend">
         <int:service-activator expression="@userRelationAction.confirmFriend(payload[userId],payload[friendId])"/>
     </int:chain>
 
-    <int:chain input-channel="userService.findFriend">
+    <int:chain input-channel="userRelationAction.findFriendByUserId">
         <int:service-activator expression="@userRelationAction.findFriendByUserId(payload[userId])"/>
     </int:chain>
 
-    <int:chain input-channel="userService.findFriendByPhoneNo">
+    <int:chain input-channel="userRelationAction.findFriendByPhoneNo">
         <!--<int:service-activator expression="@userRelationAction.findFriendByPhoneNo(payload[userId],payload[phoneList])"/>-->
         <int-jdbc:outbound-gateway data-source="dataSource" max-rows-per-poll="0"
-        query="select * from user_info e left join user_mapper m on m.friendId =e.userId where m.userId = :payload[userId] and e.phoneNo in (:payload[phoneList])">
+        query="select * from user_info e inner join user_mapper m on m.friendId =e.userId and m.userId = :payload[userId] and e.phoneNo in (:payload[phoneList])">
         </int-jdbc:outbound-gateway>
     </int:chain>
 
-    <int:chain input-channel="userService.findUserByProjectId">
+    <int:chain input-channel="userRelationAction.findUserByProjectId">
         <int:service-activator expression="@userRelationAction.findUserByProjectId(payload[projectId])"/>
     </int:chain>
 </beans>

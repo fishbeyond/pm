@@ -64,4 +64,20 @@ public class UserInfoEntity {
     public void setUserId(String userId) {
         userInfo.setUserId(userId);
     }
+
+    public void setRemark(String remark) {
+        userInfo.setRemark(remark);
+    }
+    @Column
+    public String getRemark() {
+        return userInfo.getRemark();
+    }
+    @Column
+    public String getGender() {
+        return userInfo.getGender();
+    }
+
+    public void setGender(String gender) {
+        userInfo.setGender(gender);
+    }
 }

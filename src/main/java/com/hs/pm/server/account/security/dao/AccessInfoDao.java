@@ -12,6 +12,8 @@ public interface AccessInfoDao {
 
     public String findAccessIdByToken(String token);
 
+    public AccessInfo findAccessInfoByToken(String token);
+
     public void createAccessInfo(AccessInfo newAccessInfo);
 
     public AccessInfo findAccessIdByAuthCode(String phoneNo, int authCode);
@@ -19,4 +21,6 @@ public interface AccessInfoDao {
     public AccessInfo findAccessInfoByUserId(String userId);
 
     public void modifyAccessInfo(AccessInfo accessInfo);
+
+    public void modifyAccessToken(String phoneNo,String token);
 }

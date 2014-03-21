@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+<body>
+LS0IIw3cRiWuO-8o6npB4g
+！注册后每次传token
+url:http://www.weijinrong100.com/wei100/pm/
+<table border="1">
+    <tr>
+        <td>url</td>
+        <td>para</td>
+        <td>return</td>
+    </tr>
+    <tr>
+        <td>getAuthCode</td>
+        <td>phoneNo</td>
+        <td>"true"</td>
+    </tr>
+    <tr>
+        <td>loginByAuthCode</td>
+        <td>phoneNo;authCode</td>
+        <td>userId</td>
+    </tr>
+
+    <tr>
+        <td>projectService/findProjectByUserId</td>
+        <td>userId</td>
+        <td>List&lt;Project&gt;(String projectId;
+            String projectName;
+            String content;
+            long deadline;
+            boolean isDone;
+            String createUserId;
+            Date createTime)</td>
+    </tr>
+    <tr>
+        <td>projectService/createProject</td>
+        <td>String projectId;
+            String projectName;
+            String content;
+            Date deadline;
+            boolean isDone;
+            String createUserId;
+            Date createTime</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>projectService/modifyProject</td>
+        <td>同上</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>projectService.deleteProject</td>
+        <td>projectId</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>projectService.addMemberFromFriend</td>
+        <td>projectId;userIdList（数组）</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>projectService.addMemberFromLinkMan</td>
+        <td>projectId;phoneNoList（数组）</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>workService.findWorkByProjectId</td>
+        <td>projectId</td>
+        <td>List&lt;Work&gt;(private String workId;
+            private String workName;
+            private String info;
+            private Date createTime;
+            private Date deadline;
+            private String projectId;
+            private String createUserId;
+            private boolean isDone)</td>
+    </tr>
+    <tr>
+        <td>workService/createWork</td>
+        <td>Work(private String workId;
+            private String workName;
+            private String info;
+            private Date createTime;
+            private Date deadline;
+            private String projectId;
+            private String createUserId;
+            private boolean isDone;)</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>workService/modifyWork</td>
+        <td>同上</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>workService/deleteWork</td>
+        <td>workId</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>userService/modifyUser</td>
+        <td>private String userId;
+            private String userName;
+            private String phoneNo;
+            private String mailAddress;
+            private boolean isActive;</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>userService/addFriendAlreadyRegister</td>
+        <td>userId;friendId</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>userService/addFriendNoRegister</td>
+        <td>userId;phoneNo</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>userService/confirmFriend</td>
+        <td>userId;friendId</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>userService/findFriend</td>
+        <td>userId</td>
+        <td>private String userId;
+            private String userName;
+            private String phoneNo;
+            private String mailAddress;
+            private boolean isActive;</td>
+    </tr>
+    <tr>
+        <td>userService/findUserByProjectId</td>
+        <td>projectId</td>
+        <td>private String userId;
+            private String userName;
+            private String phoneNo;
+            private String mailAddress;
+            private boolean isActive;</td>
+    </tr>
+
+</table>
+</body>
+</html>

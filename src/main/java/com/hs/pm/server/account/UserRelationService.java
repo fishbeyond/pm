@@ -25,14 +25,6 @@ import java.util.List;
 public class UserRelationService {
     @Resource
     private UserInfoDao userInfoDao;
-    @Resource
-    private AccessInfoDao accessInfoDao;
-    @Resource
-    private PushService pushService;
-    @Resource
-    private UUIDGenerator uuidGenerator;
-    @Resource
-    private DeviceDao deviceDao;
 
     public List<UserInfo> findFriendUserId(String userId) {
         return userInfoDao.findFriendByUserId(userId);

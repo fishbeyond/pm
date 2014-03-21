@@ -14,18 +14,18 @@
                   http://www.springframework.org/schema/integration/jdbc
                   http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 
-    <int:chain input-channel="workService.findWorkByProjectId">
-        <int:service-activator expression="@workService.findWorkByProjectId(payload[projectId])"/>
+    <int:chain input-channel="workAction.findWorkByProjectId">
+        <int:service-activator expression="@workAction.findWorkByProjectId(payload[projectId])"/>
     </int:chain>
-    <int:chain input-channel="workService.createWork">
+    <int:chain input-channel="workAction.createWork">
         <int:map-to-object-transformer type="com.hs.pm.server.work.dao.Work"/>
-        <int:service-activator expression="@workService.createWork(payload)"/>
+        <int:service-activator expression="@workAction.createWork(payload)"/>
     </int:chain>
-    <int:chain input-channel="workService.modifyWork">
+    <int:chain input-channel="workAction.modifyWork">
         <int:map-to-object-transformer type="com.hs.pm.server.work.dao.Work"/>
-        <int:service-activator expression="@workService.modifyWork(payload)"/>
+        <int:service-activator expression="@workAction.modifyWork(payload)"/>
     </int:chain>
-    <int:chain input-channel="workService.deleteWork">
-        <int:service-activator expression="@workService.deleteWork(payload[projectId])"/>
+    <int:chain input-channel="workAction.deleteWork">
+        <int:service-activator expression="@workAction.deleteWork(payload[projectId])"/>
     </int:chain>
 </beans>

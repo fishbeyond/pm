@@ -28,7 +28,7 @@ public interface UserInfoDao {
 
     public List<UserInfo> findUserByProjectId(String projectId);
 
-    public void modifyUserActive(String userId);
-
     public List<UserInfo> findFriendByPhoneNo(String userId,List<String> phoneNoList);
+
+    public String findPhoneNoByUserId(String userId);
 }

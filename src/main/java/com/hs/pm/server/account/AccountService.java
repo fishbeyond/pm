@@ -1,6 +1,8 @@
 package com.hs.pm.server.account;
 
-import com.hs.pm.dto.UserToken;
+import com.hs.pm.api.exception.PhoneNoDisableException;
+import com.hs.pm.api.exception.TokenDisableException;
+import com.hs.pm.dto.UserForm;
 import com.hs.pm.server.account.security.dao.AccessInfo;
 import com.hs.pm.server.account.security.dao.AccessInfoDao;
 import com.hs.pm.server.account.security.dao.PhoneAuthCode;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,8 +34,27 @@ public class AccountService {
     private UserInfoDao userInfoDao;
     @Resource
     private AccessInfoDao accessInfoDao;
+
     @Resource
     private UUIDGenerator uuidGenerator;
+
+    public List<String> findUserIdByToken(String token) {
+        UserInfo operator = findOperatorInfoByToken(token);
+        if (null == operator) {
+            throw new TokenDisableException();
+        }
+        List<String> list = new ArrayList<String>();
+        list.add(operator.getUserId());
+        return list;
+    }
+
+    public List<String> findOperatorByToken(String token) {
+        UserInfo operator = findOperatorInfoByToken(token);
+        List<String> list = new ArrayList<String>();
+        String operatorName = operator.getUserName() != null ? operator.getUserName() : operator.getPhoneNo();
+        list.add(operatorName);
+        return list;
+    }
 
     public int getAuthCode(String phoneNo) {
         int authCode = RandomGenerator.getRandom(111111, 999999);
@@ -49,33 +72,54 @@ public class AccountService {
         return phoneAuthCode != null ? true : false;
     }
 
+    public UserForm updateToken(String phoneNo, String token) {
+        AccessInfo accessInfo = accessInfoDao.findAccessInfoByToken(token);
+        if (null == accessInfo) {
+            throw new TokenDisableException();
+        }
+        UserInfo userInfo = userInfoDao.findUserById(accessInfo.getAccessId());
+        if(!phoneNo.equals(userInfo.getPhoneNo())){
+            throw new PhoneNoDisableException();
+        }
+        String newToken = uuidGenerator.shortUuid();
+        accessInfo.setAccessToken(newToken);
+        return getUserForm(userInfo, newToken);
+    }
 
-    public UserToken createAccessUser(String phoneNo) {
+    public UserForm createAccessUser(String phoneNo) {
         UserInfo userInfo = userInfoDao.findUserByPhoneNo(phoneNo);
-        String token = null;
+        String token = uuidGenerator.shortUuid();
         if (null == userInfo) {
             String userId = uuidGenerator.shortUuid();
-            token = uuidGenerator.shortUuid();
             userInfo = new UserInfo(userId, phoneNo);
             AccessInfo accessInfo = new AccessInfo(userId, token);
             userInfoDao.createUser(userInfo);
             accessInfoDao.createAccessInfo(accessInfo);
+        } else {
+            accessInfoDao.modifyAccessToken(userInfo.getUserId(), token);
         }
-        UserToken userToken = new UserToken();
-        userToken.setUserToken(token);
-        userToken.setUserName(userInfo.getUserName());
-        userToken.setPhoneNo(userInfo.getPhoneNo());
-        userToken.setMailAddress(userInfo.getMailAddress());
-        return userToken;
+        UserForm userForm = getUserForm(userInfo, token);
+        return userForm;
     }
 
-    public UserInfo findOperatorInfoByToken(String token) {
-        String userId = accessInfoDao.findAccessIdByToken(token);
-        UserInfo userInfo = userInfoDao.findUserById(userId);
-        return userInfo;
+    private UserForm getUserForm(UserInfo userInfo, String token) {
+        UserForm userForm = new UserForm();
+        userForm.setUserToken(token);
+        userForm.setUserName(userInfo.getUserName());
+        userForm.setPhoneNo(userInfo.getPhoneNo());
+        userForm.setMailAddress(userInfo.getMailAddress());
+        return userForm;
     }
 
     public void modifyUser(UserInfo userInfo) {
         userInfoDao.modifyUser(userInfo);
     }
+
+    private UserInfo findOperatorInfoByToken(String token) {
+        String userId = accessInfoDao.findAccessIdByToken(token);
+        UserInfo userInfo = userInfoDao.findUserById(userId);
+        return userInfo;
+    }
+
+
 }

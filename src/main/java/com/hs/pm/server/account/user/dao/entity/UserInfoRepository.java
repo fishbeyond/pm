@@ -116,14 +116,6 @@ public class UserInfoRepository implements UserInfoDao {
     }
 
     @Override
-    public void modifyUserActive(String userId) {
-        final String hql = "update UserInfoEntity e set e.isActive=true where e.userId = :userId";
-        Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setString("userId", userId);
-        query.executeUpdate();
-    }
-
-    @Override
     public List<UserInfo> findFriendByPhoneNo(String userId, List<String> phoneNoList) {
         final String hql = "from UserInfoEntity e left join UserMapperEntity m on m.friendId =e.userId where m.userId = :userId and e.phoneNo in (:phoneNoList)";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
@@ -135,6 +127,14 @@ public class UserInfoRepository implements UserInfoDao {
             result.add(entity.getUserInfo());
         }
         return result;
+    }
+
+    @Override
+    public String findPhoneNoByUserId(String userId) {
+        final String hql = "select e.phoneNo from  UserInfoEntity e where e.userId = :userId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("userId", userId);
+        return (String)query.uniqueResult();
     }
 
 }

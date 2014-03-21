@@ -23,7 +23,7 @@ public class AccessInfoRepository implements AccessInfoDao {
 
     @Override
     public AccessInfo findAccessInfoByPhoneNo(String phoneNo) {
-        final String hql = "from AccessInfoEntity where phoneNo = :phoneNo";
+        final String hql = "from AccessInfoEntity e where e.phoneNo = :phoneNo";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("phoneNo", phoneNo);
         AccessInfoEntity accessInfoEntity = (AccessInfoEntity) query.uniqueResult();
@@ -39,13 +39,22 @@ public class AccessInfoRepository implements AccessInfoDao {
     }
 
     @Override
+    public AccessInfo findAccessInfoByToken(String accessToken) {
+        final String hql = "from AccessInfoEntity e where e.accessToken = :accessToken";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("accessToken", accessToken);
+        AccessInfoEntity entity = (AccessInfoEntity) query.uniqueResult();
+        return entity!=null?entity.getAccessInfo():null;
+    }
+
+    @Override
     public void createAccessInfo(AccessInfo accessInfo) {
         sessionFactory.getCurrentSession().save(new AccessInfoEntity(accessInfo));
     }
 
     @Override
     public AccessInfo findAccessIdByAuthCode(String phoneNo, int authCode) {
-        final String hql = "from AccessInfoEntity where phoneNo = :phoneNo and authCode = :authCode";
+        final String hql = "from AccessInfoEntity e where e.phoneNo = :phoneNo and e.authCode = :authCode";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("phoneNo", phoneNo);
         query.setInteger("authCode", authCode);
@@ -70,5 +79,14 @@ public class AccessInfoRepository implements AccessInfoDao {
     @Override
     public void modifyAccessInfo(AccessInfo accessInfo) {
         sessionFactory.getCurrentSession().update(new AccessInfoEntity(accessInfo));
+    }
+
+    @Override
+    public void modifyAccessToken(String accessId, String accessToken) {
+        final String hql = "update AccessInfoEntity e set e.accessToken = :accessToken where e.accessId = :accessId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("accessToken",accessToken);
+        query.setString("accessId",accessId);
+        query.executeUpdate();
     }
 }

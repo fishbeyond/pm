@@ -5,13 +5,9 @@ import com.hs.pm.server.transform.FriendlyMessageException;
 /**
  * Created with IntelliJ IDEA.
  * User: fish
- * Date: 14-3-20
- * Time: 下午3:45
+ * Date: 14-3-21
+ * Time: 下午4:35
  * To change this template use File | Settings | File Templates.
  */
-public class TokenDisableException extends FriendlyMessageException {
-    @Override
-    public String getFriendlyMessage() {
-        return "请重新登陆";
-    }
+public class PhoneNoDisableException extends FriendlyMessageException {
 }

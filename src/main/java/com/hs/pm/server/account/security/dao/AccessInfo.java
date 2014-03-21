@@ -20,6 +20,7 @@ public class AccessInfo {
     public AccessInfo(String accessId, String accessToken) {
         this.accessId = accessId;
         this.accessToken = accessToken;
+        this.accessTime = new Date();
     }
 
     public String getAccessId() {

@@ -8,6 +8,8 @@ public class UserInfo {
     private String userName;
     private String phoneNo;
     private String mailAddress;
+    private String gender;
+    private String remark;
 
     public UserInfo() {
     }
@@ -50,4 +52,19 @@ public class UserInfo {
         this.mailAddress = mailAddress;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 }
