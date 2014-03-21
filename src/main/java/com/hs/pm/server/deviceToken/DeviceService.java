@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,5 +23,8 @@ public class DeviceService {
     public boolean createDeviceToken(DeviceToken deviceToken){
         deviceDao.createDeviceToken(deviceToken);
         return true;
+    }
+    public List<String> findDeviceTokenByUser(String userId){
+        return deviceDao.findDeviceTokenByUser(userId);
     }
 }
