@@ -8,7 +8,6 @@ public class UserInfo {
     private String userName;
     private String phoneNo;
     private String mailAddress;
-    private boolean isActive;
 
     public UserInfo() {
     }
@@ -51,11 +50,4 @@ public class UserInfo {
         this.mailAddress = mailAddress;
     }
 
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean isActive) {
-        this.isActive = isActive;
-    }
 }

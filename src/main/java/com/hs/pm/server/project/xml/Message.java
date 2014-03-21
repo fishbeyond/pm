@@ -1,4 +1,4 @@
-package com.hs.pm;
+package com.hs.pm.server.project.xml;
 
 import com.hs.pm.server.project.xml.CreateProject;
 import com.hs.pm.server.project.xml.UpdateProject;

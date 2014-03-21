@@ -49,20 +49,12 @@ public class AccessInfoEntity {
         return accessInfo.getAliveTime();
     }
 
-    public void setPhoneNo(String phoneNo) {
-        accessInfo.setPhoneNo(phoneNo);
-    }
-
     public void setAccessId(String accessId) {
         accessInfo.setAccessId(accessId);
     }
     @Column
     public Date getAccessTime() {
         return accessInfo.getAccessTime();
-    }
-    @Column(length = 15,nullable = false,unique = true)
-    public String getPhoneNo() {
-        return accessInfo.getPhoneNo();
     }
 
     public void setAccessTime(Date accessTime) {

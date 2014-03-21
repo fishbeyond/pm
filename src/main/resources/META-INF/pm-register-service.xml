@@ -26,7 +26,8 @@
     <int:channel id="pmServiceChannel"/>
     <int:chain input-channel="pmServiceChannel" output-channel="pmJsonOutputChannel">
         <int:enricher>
-            <int:property name="operatorName" expression="@accessAction.findOperatorById(payload[userId])"/>
+            <int:property name="userId" expression="@accountAction.findUserIdByToken(payload[token])"/>
+            <int:property name="operatorName" expression="@accountAction.findOperatorByToken(payload[token])"/>
         </int:enricher>
         <int:gateway request-channel="pmServiceRouter"/>
     </int:chain>

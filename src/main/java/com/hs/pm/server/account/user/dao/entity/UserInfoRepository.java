@@ -31,14 +31,6 @@ public class UserInfoRepository implements UserInfoDao {
         return (String) query.uniqueResult();
     }
 
-    @Override
-    public UserInfo findUserByToken(String token) {
-        final String hql = "from UserInfoEntity e where e.token = :token";
-        Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setString("token", token);
-        UserInfoEntity entity = (UserInfoEntity) query.uniqueResult();
-        return entity!=null?entity.getUserInfo():null;
-    }
 
     @Override
     public UserInfo findUserById(String userId) {
@@ -129,6 +121,20 @@ public class UserInfoRepository implements UserInfoDao {
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("userId", userId);
         query.executeUpdate();
+    }
+
+    @Override
+    public List<UserInfo> findFriendByPhoneNo(String userId, List<String> phoneNoList) {
+        final String hql = "from UserInfoEntity e left join UserMapperEntity m on m.friendId =e.userId where m.userId = :userId and e.phoneNo in (:phoneNoList)";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("userId",userId);
+        query.setParameterList("phoneNoList",phoneNoList);
+        List<UserInfoEntity> entities = (List<UserInfoEntity>) query.list();
+        List result = new ArrayList<UserInfo>();
+        for(UserInfoEntity entity:entities){
+            result.add(entity.getUserInfo());
+        }
+        return result;
     }
 
 }

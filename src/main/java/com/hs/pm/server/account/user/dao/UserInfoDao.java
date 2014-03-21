@@ -10,8 +10,6 @@ public interface UserInfoDao {
 
     public UserInfo findUserById(String userId);
 
-    public UserInfo findUserByToken(String token);
-
     public UserInfo findUserByPhoneNo(String phoneNo);
 
     public void createUser(UserInfo userInfo);
@@ -31,4 +29,6 @@ public interface UserInfoDao {
     public List<UserInfo> findUserByProjectId(String projectId);
 
     public void modifyUserActive(String userId);
+
+    public List<UserInfo> findFriendByPhoneNo(String userId,List<String> phoneNoList);
 }

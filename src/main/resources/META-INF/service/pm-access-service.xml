@@ -14,11 +14,10 @@
                   http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd">
 
     <int:chain input-channel="getAuthCode">
-        <int:service-activator expression="@accessAction.sendAuthCode(payload[phoneNo])"/>
-        <int:service-activator expression="@messageService.receive(payload)"/>
+        <int:service-activator expression="@accountAction.sendAuthCode(payload[phoneNo])"/>
     </int:chain>
     <int:chain input-channel="loginByAuthCode">
-        <int:service-activator expression="@accessAction.loginByAuthCode(payload[phoneNo],payload[authCode])"/>
+        <int:service-activator expression="@accountAction.loginByAuthCode(payload[phoneNo],payload[authCode])"/>
     </int:chain>
 
 </beans>

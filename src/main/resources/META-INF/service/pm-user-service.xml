@@ -15,24 +15,32 @@
 
     <int:chain input-channel="userService.modifyUser">
         <int:map-to-object-transformer type="com.hs.pm.server.account.user.dao.UserInfo"/>
-        <int:service-activator expression="@userAction.modifyUser(payload)"/>
+        <int:service-activator expression="@userRelationAction.modifyUser(payload)"/>
     </int:chain>
 
     <int:chain input-channel="userService.addFriendAlreadyRegister">
-        <int:service-activator expression="@userAction.addFriendAlreadyRegister(payload[userId],payload[friendId])"/>
+        <int:service-activator
+                expression="@userRelationAction.addFriendAlreadyRegister(payload[userId],payload[friendId])"/>
     </int:chain>
     <int:chain input-channel="userService.addFriendNoRegister">
-        <int:service-activator expression="@userAction.addFriendNoRegister(payload[userId],payload[phoneNo])"/>
+        <int:service-activator expression="@userRelationAction.addFriendNoRegister(payload[userId],payload[phoneNo])"/>
     </int:chain>
     <int:chain input-channel="userService.confirmFriend">
-        <int:service-activator expression="@userAction.confirmFriend(payload[userId],payload[friendId])"/>
+        <int:service-activator expression="@userRelationAction.confirmFriend(payload[userId],payload[friendId])"/>
     </int:chain>
 
     <int:chain input-channel="userService.findFriend">
-        <int:service-activator expression="@userAction.findFriend(payload[userId])"/>
+        <int:service-activator expression="@userRelationAction.findFriendByUserId(payload[userId])"/>
+    </int:chain>
+
+    <int:chain input-channel="userService.findFriendByPhoneNo">
+        <!--<int:service-activator expression="@userRelationAction.findFriendByPhoneNo(payload[userId],payload[phoneList])"/>-->
+        <int-jdbc:outbound-gateway data-source="dataSource" max-rows-per-poll="0"
+        query="select * from user_info e left join user_mapper m on m.friendId =e.userId where m.userId = :payload[userId] and e.phoneNo in (:payload[phoneList])">
+        </int-jdbc:outbound-gateway>
     </int:chain>
 
     <int:chain input-channel="userService.findUserByProjectId">
-        <int:service-activator expression="@userAction.findUserByProjectId(payload[projectId])"/>
+        <int:service-activator expression="@userRelationAction.findUserByProjectId(payload[projectId])"/>
     </int:chain>
 </beans>

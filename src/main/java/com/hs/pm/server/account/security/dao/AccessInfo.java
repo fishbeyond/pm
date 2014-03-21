@@ -7,7 +7,6 @@ import java.util.Date;
  */
 public class AccessInfo {
     private String accessId;
-    private String phoneNo;
     private String password;
     private Date accessTime;
     private long aliveTime;
@@ -18,9 +17,8 @@ public class AccessInfo {
     public AccessInfo() {
     }
 
-    public AccessInfo(String accessId, String phoneNo,String accessToken) {
+    public AccessInfo(String accessId, String accessToken) {
         this.accessId = accessId;
-        this.phoneNo = phoneNo;
         this.accessToken = accessToken;
     }
 
@@ -30,14 +28,6 @@ public class AccessInfo {
 
     public void setAccessId(String accessId) {
         this.accessId = accessId;
-    }
-
-    public String getPhoneNo() {
-        return phoneNo;
-    }
-
-    public void setPhoneNo(String phoneNo) {
-        this.phoneNo = phoneNo;
     }
 
     public String getPassword() {

@@ -1,5 +1,6 @@
 package com.hs.pm.server.aop;
 
+import com.hs.pm.api.exception.PayloadNullException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,10 @@ import java.util.List;
 public class NullPayloadHandler {
     public Object handle(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         Object result = proceedingJoinPoint.proceed();
-        return (result == null) ? "null" : result;
+        if(null==result){
+            throw new PayloadNullException();
+        }
+        return result;
     }
 
 }

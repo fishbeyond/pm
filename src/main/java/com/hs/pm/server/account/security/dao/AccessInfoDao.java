@@ -10,6 +10,8 @@ package com.hs.pm.server.account.security.dao;
 public interface AccessInfoDao {
     public AccessInfo findAccessInfoByPhoneNo(String phoneNo);
 
+    public String findAccessIdByToken(String token);
+
     public void createAccessInfo(AccessInfo newAccessInfo);
 
     public AccessInfo findAccessIdByAuthCode(String phoneNo, int authCode);

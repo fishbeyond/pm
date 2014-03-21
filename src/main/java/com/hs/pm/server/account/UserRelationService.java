@@ -1,4 +1,4 @@
-package com.hs.pm.server.account.user;
+package com.hs.pm.server.account;
 
 import com.hs.pm.server.devicetoken.dao.DeviceDao;
 import com.hs.pm.server.push.PushService;
@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class FriendService {
+public class UserRelationService {
     @Resource
     private UserInfoDao userInfoDao;
     @Resource
@@ -34,15 +34,15 @@ public class FriendService {
     @Resource
     private DeviceDao deviceDao;
 
-    public List<UserInfo> findFriend(String userId) {
+    public List<UserInfo> findFriendUserId(String userId) {
         return userInfoDao.findFriendByUserId(userId);
     }
 
     public boolean addFriendAlreadyRegister(String userId, String friendId) {
+
         userInfoDao.createUserMapper(new UserMapper(userId, friendId, false));
         userInfoDao.createUserMapper(new UserMapper(friendId, userId, false));
-        List<String> deviceTokens = deviceDao.findDeviceTokenByUser(friendId);
-        pushService.push(deviceTokens, "添加好友邀请");
+
         return true;
     }
 
@@ -62,5 +62,9 @@ public class FriendService {
 
     public List<UserInfo> findUserByProjectId(String projectId) {
         return userInfoDao.findUserByProjectId(projectId);
+    }
+
+    public List<UserInfo> findFriendByPhoneNo(String userId,List<String> phoneNoList) {
+        return userInfoDao.findFriendByPhoneNo(userId,phoneNoList);
     }
 }

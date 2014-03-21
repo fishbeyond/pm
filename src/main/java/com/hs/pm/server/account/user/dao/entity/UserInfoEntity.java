@@ -64,12 +64,4 @@ public class UserInfoEntity {
     public void setUserId(String userId) {
         userInfo.setUserId(userId);
     }
-
-    public void setIsActive(boolean isActive) {
-        userInfo.setActive(isActive);
-    }
-    @Column
-    public boolean getIsActive() {
-        return userInfo.isActive();
-    }
 }

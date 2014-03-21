@@ -31,6 +31,14 @@ public class AccessInfoRepository implements AccessInfoDao {
     }
 
     @Override
+    public String findAccessIdByToken(String accessToken) {
+        final String hql = "select e.accessId from AccessInfoEntity e where e.accessToken = :accessToken";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("accessToken", accessToken);
+        return (String) query.uniqueResult();
+    }
+
+    @Override
     public void createAccessInfo(AccessInfo accessInfo) {
         sessionFactory.getCurrentSession().save(new AccessInfoEntity(accessInfo));
     }
