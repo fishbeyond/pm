@@ -304,7 +304,38 @@
             <version>3.2.5.RELEASE</version>
         </dependency>
     </dependencies>
-
+    <profiles>
+        <profile>
+            <id>deployPm2Tomcat</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>tomcat-maven-plugin</artifactId>
+                        <version>1.1</version>
+                        <configuration>
+                            <charset>UTF-8</charset>
+                            <server>tomcat7</server>
+                            <update>true</update>
+                            <url>http://117.121.25.232:8080/manager/text</url>
+                            <warFile>${project.build.directory}/${project.build.finalName}.${project.packaging}
+                            </warFile>
+                            <path>/${project.build.finalName}</path>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>DeployToRemoteContainer</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>redeploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
     <build>
         <finalName>pm</finalName>
     </build>
