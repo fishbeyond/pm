@@ -36,7 +36,7 @@ public class PhoneAuthCodeRepository implements PhoneAuthCodeDao {
 
     @Override
     public PhoneAuthCode findPhoneAuthCode(String phoneNo, int authCode) {
-        final String hql = "from PhoneAuthCodeEntity e where e.phoneNo = :phoneNo and e.authCode = :authCode";
+        final String hql = "from PhoneAuthCodeEntity e where e.phoneNo = :phoneNo and e.authCode = :authCode and e.authCode != 0";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("phoneNo",phoneNo);
         query.setInteger("authCode", authCode);

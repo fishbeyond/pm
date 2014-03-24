@@ -61,7 +61,7 @@ public class UserInfoRepository implements UserInfoDao {
 
     @Override
     public List<UserInfo> findFriendByUserId(String userId) {
-        final String hql = "from UserInfoEntity e where e.userId in (select m.friendId from UserMapperEntity m where m.userId = :userId)";
+        final String hql = "from UserInfoEntity e inner join UserMapperEntity m on m.userId = :userId)";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("userId", userId);
         List<UserInfoEntity> entities = (List<UserInfoEntity>) query.list();
@@ -72,34 +72,7 @@ public class UserInfoRepository implements UserInfoDao {
         return userInfos;
     }
 
-    @Override
-    public void createUserMapper(UserMapper userMapper) {
-        sessionFactory.getCurrentSession().save(new UserMapperEntity(userMapper));
-    }
 
-    @Override
-    public void modifyUserMapper(UserMapper userMapper) {
-        sessionFactory.getCurrentSession().update(userMapper);
-    }
-
-    @Override
-    public UserMapper findUserMapper(String userId, String friendId) {
-        final String hql = "from UserMapperEntity e where e.userId = :userId and e.friendId = :friendId";
-        Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setString("userId", userId);
-        query.setString("friendId", friendId);
-        UserMapperEntity entity = (UserMapperEntity) query.uniqueResult();
-        return entity != null ? entity.getUserMapper() : null;
-    }
-
-    @Override
-    public void deleteUserMapper(String userId, String friendId) {
-        final String hql = "delete from UserMapperEntity e where e.userId = :userId and e.friendId = :friendId";
-        Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setString("userId", userId);
-        query.setString("friendId", friendId);
-        query.executeUpdate();
-    }
 
 
     @Override

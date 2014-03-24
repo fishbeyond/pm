@@ -1,5 +1,6 @@
 package com.hs.pm.api;
 
+import com.hs.pm.server.operaterecord.OperateRecordService;
 import com.hs.pm.server.project.ProjectService;
 import com.hs.pm.server.project.dao.Project;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,8 @@ import java.util.List;
 public class ProjectAction {
     @Resource
     private ProjectService projectService;
+    @Resource
+    private OperateRecordService operateRecordService;
 
     public List<Project> findProjectByUserId(String userId) {
         return projectService.findProjectByUserId(userId);
@@ -25,6 +28,7 @@ public class ProjectAction {
 
     public void createProject(Project project) {
         projectService.createProject(project);
+        operateRecordService.createOperateRecord(project.getOperatorName()+":创建工程",project.getProjectId());
     }
 
     public void modifyProject(Project project) {

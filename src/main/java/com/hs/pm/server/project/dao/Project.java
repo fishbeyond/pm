@@ -24,7 +24,7 @@ public class Project {
     @XmlElement(name = "IsDone")
     private boolean isDone;
     @XmlElement(name = "Operator")
-    private String createUserId;
+    private String userId;
     private Date createTime;
     private String operatorName;
     private long operateTime;
@@ -69,12 +69,12 @@ public class Project {
         isDone = done;
     }
 
-    public String getCreateUserId() {
-        return createUserId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setCreateUserId(String createUserId) {
-        this.createUserId = createUserId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public Date getCreateTime() {

@@ -4,6 +4,7 @@
        xmlns:int="http://www.springframework.org/schema/integration"
        xmlns:int-http="http://www.springframework.org/schema/integration/http"
        xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:cache="http://www.springframework.org/schema/cache"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                   http://www.springframework.org/schema/beans/spring-beans.xsd
                   http://www.springframework.org/schema/integration
@@ -11,14 +12,11 @@
                   http://www.springframework.org/schema/integration/http
                   http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
                   http://www.springframework.org/schema/integration/jdbc
-                  http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd">
-
-    <int:chain input-channel="accountAction.modifyUser">
-        <int:map-to-object-transformer type="com.hs.pm.dto.UserForm"/>
-        <int:service-activator expression="@accountAction.modifyUser(payload)"/>
+                  http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+    <int:chain input-channel="publicChatAction.createPublicChat">
+        <int:service-activator expression="@privateChatAction.createPrivateChat(payload)"/>
     </int:chain>
-
-    <int:chain input-channel="userRelationAction.findUserByProjectId">
-        <int:service-activator expression="@userRelationAction.findUserByProjectId(payload[projectId])"/>
+    <int:chain input-channel="privateChatAction.findPrivateChat">
+        <int:service-activator expression="@privateChatAction.findPrivateChat()"/>
     </int:chain>
 </beans>

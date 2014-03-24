@@ -11,15 +11,14 @@ public class UserMapper {
     private String mapperId;
     private String userId;
     private String friendId;
-    private boolean isConfirm;
+    private String alias;
 
     public UserMapper() {
     }
 
-    public UserMapper(String userId, String friendId, boolean confirm) {
+    public UserMapper(String userId, String friendId) {
         this.userId = userId;
         this.friendId = friendId;
-        isConfirm = confirm;
     }
 
     public String getMapperId() {
@@ -46,11 +45,11 @@ public class UserMapper {
         this.friendId = friendId;
     }
 
-    public boolean isConfirm() {
-        return isConfirm;
+    public String getAlias() {
+        return alias;
     }
 
-    public void setConfirm(boolean confirm) {
-        isConfirm = confirm;
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 }

@@ -58,12 +58,11 @@ public class UserMapperEntity {
         userMapper.setFriendId(friendId);
     }
 
-    @Column
-    public boolean getIsConfirm() {
-        return userMapper.isConfirm();
+    public void setAlias(String alias) {
+        userMapper.setAlias(alias);
     }
 
-    public void setIsConfirm(boolean confirm) {
-        userMapper.setConfirm(confirm);
+    public String getAlias() {
+        return userMapper.getAlias();
     }
 }

@@ -1,11 +1,8 @@
 package com.hs.pm.server.project;
 
-import com.hs.pm.server.operaterecord.OperateRecordService;
 import com.hs.pm.server.project.dao.Project;
 import com.hs.pm.server.project.dao.ProjectDao;
 import com.hs.pm.server.project.dao.ProjectUserMapper;
-import com.hs.pm.server.account.security.dao.AccessInfoDao;
-import com.hs.pm.server.account.user.dao.UserInfoDao;
 import com.hs.pm.server.utils.UUIDGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,12 +23,7 @@ import java.util.List;
 public class ProjectService {
     @Resource
     private ProjectDao projectDao;
-    @Resource
-    private UserInfoDao userInfoDao;
-    @Resource
-    private AccessInfoDao accessInfoDao;
-    @Resource
-    private OperateRecordService operateRecordService;
+
     @Resource
     private UUIDGenerator uuidGenerator;
 
@@ -45,9 +37,8 @@ public class ProjectService {
         String projectId = uuidGenerator.shortUuid();
         project.setProjectId(projectId);
         projectDao.createProject(project);
-        ProjectUserMapper projectUserMapper = new ProjectUserMapper(project.getCreateUserId(), projectId);
+        ProjectUserMapper projectUserMapper = new ProjectUserMapper(project.getUserId(), projectId);
         projectDao.createProjectUserMapper(projectUserMapper);
-        operateRecordService.createOperateRecord(project.getOperatorName()+":创建工程",project.getProjectId());
     }
 
     public void modifyProject(Project project) {

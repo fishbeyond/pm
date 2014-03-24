@@ -22,5 +22,5 @@ public interface AccessInfoDao {
 
     public void modifyAccessInfo(AccessInfo accessInfo);
 
-    public void modifyAccessToken(String phoneNo,String token);
+    public void modifyAccessToken(String accessId,String token);
 }

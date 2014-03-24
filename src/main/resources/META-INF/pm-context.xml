@@ -22,9 +22,11 @@
     <import resource="service/pm-user-service.xml"/>
     <import resource="service/pm-project-service.xml"/>
     <import resource="service/pm-work-service.xml"/>
-    <import resource="service/pm-chat-service.xml"/>
+    <import resource="service/pm-publicchat-service.xml"/>
+    <import resource="service/pm-privatechat-service.xml"/>
     <import resource="service/pm-device-service.xml"/>
     <import resource="service/pm-access-service.xml"/>
+    <import resource="service/pm-user-relation-service.xml"/>
     <!--<import resource="service/pm-recv-package-service.xml"/>-->
 
     <bean id="nullResultHandler" class="com.hs.pm.server.aop.NullPayloadHandler"/>

@@ -34,8 +34,8 @@ public class ProjectEntity {
         return project.getProjectId();
     }
 
-    public void setCreateUserId(String createUserId) {
-        project.setCreateUserId(createUserId);
+    public void setUserId(String userId) {
+        project.setUserId(userId);
     }
 
     public void setDeadline(Date deadline) {
@@ -70,8 +70,8 @@ public class ProjectEntity {
         project.setContent(content);
     }
     @Column
-    public String getCreateUserId() {
-        return project.getCreateUserId();
+    public String getUserId() {
+        return project.getUserId();
     }
     @Column
     public Date getCreateTime() {

@@ -76,7 +76,7 @@ public class AccountService {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                int authCode = getAuthCode();
+                int authCode = 0;
                 phoneAuthCode.setAuthCode(authCode);
                 phoneAuthCodeDao.modifyPhoneAuthCodeByPhoneNo(phoneAuthCode);
             }
@@ -103,7 +103,7 @@ public class AccountService {
         }
         String newToken = uuidGenerator.shortUuid();
         accessInfo.setAccessToken(newToken);
-        return getUserForm(userInfo, newToken);
+        return transform2UserForm(userInfo, newToken);
     }
 
     public UserForm createAccessUser(String phoneNo) {
@@ -111,18 +111,17 @@ public class AccountService {
         String token = uuidGenerator.shortUuid();
         if (null == userInfo) {
             String userId = uuidGenerator.shortUuid();
-            userInfo = new UserInfo(userId, phoneNo);
+            userInfo = new UserInfo(userId, phoneNo, phoneNo);
             AccessInfo accessInfo = new AccessInfo(userId, token);
             userInfoDao.createUser(userInfo);
             accessInfoDao.createAccessInfo(accessInfo);
         } else {
             accessInfoDao.modifyAccessToken(userInfo.getUserId(), token);
         }
-        UserForm userForm = getUserForm(userInfo, token);
-        return userForm;
+        return transform2UserForm(userInfo, token);
     }
 
-    private UserForm getUserForm(UserInfo userInfo, String token) {
+    private UserForm transform2UserForm(UserInfo userInfo, String token) {
         UserForm userForm = new UserForm();
         userForm.setUserToken(token);
         userForm.setUserName(userInfo.getUserName());

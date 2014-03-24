@@ -20,7 +20,7 @@ CREATE TABLE pm.project (
   createTime   DATETIME,
   deadline     DATETIME,
   isDone       BOOLEAN,
-  createUserId VARCHAR(50),
+  userId VARCHAR(50),
   PRIMARY KEY (projectId));
 CREATE TABLE pm.contact (
   contactId   VARCHAR(50),
@@ -36,7 +36,7 @@ CREATE TABLE pm.work (
   backup       VARCHAR(255),
   createTime   DATETIME,
   projectId    INT NOT NULL,
-  createUserId VARCHAR(50),
+  userId VARCHAR(50),
   contactId    VARCHAR(50),
   deadline     DATETIME,
   isDone       BOOLEAN,
@@ -83,7 +83,7 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE `create_project`(project_name   VAR
                                                               create_user_id VARCHAR(50))
   BEGIN
     DECLARE project_id INT;
-    INSERT INTO project (projectName, content, createTime, deadline, createUserId)
+    INSERT INTO project (projectName, content, createTime, deadline, userId)
       VALUES (project_name, content, create_time, dead_line, create_user_id);
     SET project_id = LAST_INSERT_ID();
     SELECT
@@ -173,7 +173,7 @@ CREATE DEFINER =`root`@`localhost` PROCEDURE `create_work`(operator_id VARCHAR(5
                                                            contact_id  VARCHAR(50),
                                                            deadline    DATETIME)
   BEGIN
-    INSERT INTO work (workName, backup, createTime, projectId, createUserId, contactId, deadline, isDone)
+    INSERT INTO work (workName, backup, createTime, projectId, userId, contactId, deadline, isDone)
       VALUES (work_name, backup, create_time, project_id, create_user_id, contact_id, deadline, FALSE);
     SELECT
       save_project_detail(operator_id, concat('创建工作:', work_name), operate_time, project_id);

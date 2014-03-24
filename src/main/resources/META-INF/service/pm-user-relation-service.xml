@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-http="http://www.springframework.org/schema/integration/http"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                  http://www.springframework.org/schema/beans/spring-beans.xsd
+                  http://www.springframework.org/schema/integration
+                  http://www.springframework.org/schema/integration/spring-integration.xsd
+                  http://www.springframework.org/schema/integration/http
+                  http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+                  http://www.springframework.org/schema/integration/jdbc
+                  http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd">
+
+    <int:chain input-channel="userRelationAction.addFriendAlreadyRegister">
+        <int:service-activator
+                expression="@userRelationAction.addFriendAlreadyRegister(payload[userId],payload[friendId])"/>
+    </int:chain>
+
+    <int:chain input-channel="userRelationAction.confirmFriend">
+        <int:map-to-object-transformer type="com.hs.pm.server.account.user.dao.UserMapper"/>
+        <int:service-activator expression="@userRelationAction.confirmFriend(payload)"/>
+    </int:chain>
+
+    <int:chain input-channel="userRelationAction.findFriendByUserId">
+        <!--<int:service-activator expression="@userRelationAction.findFriendByUserId(payload[userId])"/>-->
+        <int-jdbc:outbound-gateway data-source="dataSource" max-rows-per-poll="0"
+        query="select * from user_info e inner join user_mapper m on m.userId = :payload[userId] and m.friendId =e.userId and ">
+        </int-jdbc:outbound-gateway>
+    </int:chain>
+
+    <int:chain input-channel="userRelationAction.findFriendByPhoneNo">
+        <int-jdbc:outbound-gateway data-source="dataSource" max-rows-per-poll="0"
+        query="select * from user_info e inner join user_mapper m on m.friendId =e.userId and m.userId = :payload[userId] and e.phoneNo in (:payload[phoneList])">
+        </int-jdbc:outbound-gateway>
+    </int:chain>
+
+</beans>

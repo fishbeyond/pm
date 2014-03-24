@@ -13,17 +13,11 @@
                   http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
                   http://www.springframework.org/schema/integration/jdbc
                   http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
-    <int:chain input-channel="chatService.createChat">
-        <int:header-enricher>
-            <int:header name="detail" expression="payload[fromUserName]+':'+payload[message]"/>
-        </int:header-enricher>
-        <int-jdbc:outbound-gateway data-source="dataSource"
-                                   update="insert into chat (message,fromUserName,projectId,createTime)
-                                   values(:Payload[message],:Payload[fromUserName],:Payload[projectId],:headers[nowDate])">
-        </int-jdbc:outbound-gateway>
+    <int:chain input-channel="publicChatAction.createPublicChat">
+        <int:map-to-object-transformer type="com.hs.pm.dto.PublicChatForm"/>
+        <int:service-activator expression="@publicChatAction.createPublicChat(payload)"/>
     </int:chain>
-    <int:chain input-channel="chatService.findChatByProjectId">
-        <int-jdbc:outbound-gateway data-source="dataSource" max-rows-per-poll="0"
-                                   query="select fromUserName,content from chat where projectId=:Payload[projectId] order by createTime desc"/>
+    <int:chain input-channel="publicChatAction.findChatByProjectId">
+        <int:service-activator expression="@publicChatAction.findPublicChatByProjectId(payload[projectId])"/>
     </int:chain>
 </beans>
