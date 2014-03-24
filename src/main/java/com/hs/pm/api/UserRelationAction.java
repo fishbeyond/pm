@@ -30,6 +30,10 @@ public class UserRelationAction {
 //        pushService.push(deviceTokens, "添加好友邀请");
     }
 
+    public void addFriendNoRegister(String userId,String phoneNo){
+        userRelationService.addFriendNoRegister(userId,phoneNo);
+    }
+
     public void confirmFriend(UserMapper userMapper) {
         userRelationService.confirmFriend(userMapper);
     }

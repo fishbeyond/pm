@@ -18,6 +18,11 @@
                 expression="@userRelationAction.addFriendAlreadyRegister(payload[userId],payload[friendId])"/>
     </int:chain>
 
+    <int:chain input-channel="userRelationAction.addFriendNoRegister">
+        <int:service-activator
+                expression="@userRelationAction.addFriendNoRegister(payload[userId],payload[phoneNo])"/>
+    </int:chain>
+
     <int:chain input-channel="userRelationAction.confirmFriend">
         <int:map-to-object-transformer type="com.hs.pm.server.account.user.dao.UserMapper"/>
         <int:service-activator expression="@userRelationAction.confirmFriend(payload)"/>
@@ -31,13 +36,13 @@
     <int:chain input-channel="userRelationAction.findFriendByUserId">
         <!--<int:service-activator expression="@userRelationAction.findFriendByUserId(payload[userId])"/>-->
         <int-jdbc:outbound-gateway data-source="dataSource" max-rows-per-poll="0"
-        query="select * from user_info e inner join user_mapper m on m.userId = :payload[userId] and m.friendId =e.userId and ">
+                                   query="select * from user_info e inner join user_mapper m on m.userId = :payload[userId] and m.friendId =e.userId">
         </int-jdbc:outbound-gateway>
     </int:chain>
 
     <int:chain input-channel="userRelationAction.findFriendByPhoneNo">
         <int-jdbc:outbound-gateway data-source="dataSource" max-rows-per-poll="0"
-        query="select * from user_info e inner join user_mapper m on m.friendId =e.userId and m.userId = :payload[userId] and e.phoneNo in (:payload[phoneList])">
+                                   query="select * from user_info e inner join user_mapper m on m.friendId =e.userId and m.userId = :payload[userId] and e.phoneNo in (:payload[phoneList])">
         </int-jdbc:outbound-gateway>
     </int:chain>
 

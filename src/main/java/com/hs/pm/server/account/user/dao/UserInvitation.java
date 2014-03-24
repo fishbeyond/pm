@@ -11,11 +11,9 @@ public class UserInvitation {
     private String invitationId;
     private String userId;
     private String friendId;
+    private String invitePhoneNo;
 
-    public UserInvitation(){}
-    public UserInvitation(String userId,String friendId){
-        this.userId = userId;
-        this.friendId = friendId;
+    public UserInvitation() {
     }
 
     public String getInvitationId() {
@@ -40,5 +38,13 @@ public class UserInvitation {
 
     public void setFriendId(String friendId) {
         this.friendId = friendId;
+    }
+
+    public String getInvitePhoneNo() {
+        return invitePhoneNo;
+    }
+
+    public void setInvitePhoneNo(String invitePhoneNo) {
+        this.invitePhoneNo = invitePhoneNo;
     }
 }

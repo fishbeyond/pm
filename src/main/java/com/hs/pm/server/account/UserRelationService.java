@@ -29,7 +29,16 @@ public class UserRelationService {
 
 
     public void addFriendAlreadyRegister(String userId, String friendId) {
-        UserInvitation userInvitation = new UserInvitation(userId, friendId);
+        UserInvitation userInvitation = new UserInvitation();
+        userInvitation.setUserId(userId);
+        userInvitation.setFriendId(friendId);
+        userInvitationDao.createUserInvitation(userInvitation);
+    }
+
+    public void addFriendNoRegister(String userId, String phoneNo) {
+        UserInvitation userInvitation = new UserInvitation();
+        userInvitation.setUserId(userId);
+        userInvitation.setInvitePhoneNo(phoneNo);
         userInvitationDao.createUserInvitation(userInvitation);
     }
 
@@ -65,6 +74,5 @@ public class UserRelationService {
     public List<UserInfo> findFriendByPhoneNo(String userId, List<String> phoneNoList) {
         return userInfoDao.findFriendByPhoneNo(userId, phoneNoList);
     }
-
 
 }
