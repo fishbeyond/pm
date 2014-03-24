@@ -26,8 +26,13 @@ public class UserMapperRepository implements UserMapperDao {
     }
 
     @Override
-    public void modifyUserMapper(UserMapper userMapper) {
-        sessionFactory.getCurrentSession().update(userMapper);
+    public void modifyUserMapperAlias(UserMapper userMapper) {
+        final String hql = "update UserMapperEntity e set e.alias = :alias where e.userId = :userId and e.friendId = :friendId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("alias",userMapper.getAlias());
+        query.setString("userId", userMapper.getUserId());
+        query.setString("friendId", userMapper.getFriendId());
+        query.executeUpdate();
     }
 
     @Override

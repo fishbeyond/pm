@@ -22,6 +22,7 @@ public class UserRelationAction {
     private DeviceService deviceService;
     @Resource
     private PushService pushService;
+    private String modifyFriendAlias;
 
     public void addFriendAlreadyRegister(String userId, String friendId) {
         userRelationService.addFriendAlreadyRegister(userId, friendId);
@@ -31,6 +32,10 @@ public class UserRelationAction {
 
     public void confirmFriend(UserMapper userMapper) {
         userRelationService.confirmFriend(userMapper);
+    }
+
+    public void modifyFriendAlias(UserMapper userMapper) {
+        userRelationService.modifyUserMapperAlias(userMapper);
     }
 
     public List<FriendInfo> findFriendByUserId(String userId) {

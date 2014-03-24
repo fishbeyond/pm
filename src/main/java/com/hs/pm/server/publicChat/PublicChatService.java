@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,8 +25,7 @@ public class PublicChatService {
         return true;
     }
 
-    public boolean findPublicChatByProjectId(String projectId){
-        publicChatDao.findPublicChatByProjectId(projectId);
-        return true;
+    public List<PublicChat> findPublicChatByProjectId(String projectId){
+        return publicChatDao.findPublicChatByProjectId(projectId);
     }
 }
