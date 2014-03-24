@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created with IntelliJ IDEA.
@@ -34,9 +36,9 @@ public class AccountService {
     private UserInfoDao userInfoDao;
     @Resource
     private AccessInfoDao accessInfoDao;
-
     @Resource
     private UUIDGenerator uuidGenerator;
+
 
     public List<String> findUserIdByToken(String token) {
         UserInfo operator = findOperatorInfoByToken(token);
@@ -57,14 +59,32 @@ public class AccountService {
     }
 
     public int getAuthCode(String phoneNo) {
-        int authCode = RandomGenerator.getRandom(111111, 999999);
+        int authCode = getAuthCode();
         PhoneAuthCode phoneAuthCode = phoneAuthCodeDao.findPhoneAuthCode(phoneNo);
         if (null != phoneAuthCode) {
             phoneAuthCode.setAuthCode(authCode);
         } else {
-            phoneAuthCodeDao.createPhoneAuthCode(new PhoneAuthCode(phoneNo, authCode));
+            phoneAuthCode = new PhoneAuthCode(phoneNo, authCode);
+            phoneAuthCodeDao.createPhoneAuthCode(phoneAuthCode);
         }
+        modifyAuthCodeAfterSecond(phoneAuthCode, 300);
         return authCode;
+    }
+
+    private void modifyAuthCodeAfterSecond(final PhoneAuthCode phoneAuthCode, long second) {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                int authCode = getAuthCode();
+                phoneAuthCode.setAuthCode(authCode);
+                phoneAuthCodeDao.modifyPhoneAuthCodeByPhoneNo(phoneAuthCode);
+            }
+        }, second * 1000);
+    }
+
+    private int getAuthCode() {
+        return RandomGenerator.getRandom(111111, 999999);
     }
 
     public boolean authCodeIsCorrect(String phoneNo, int authCode) {
@@ -78,7 +98,7 @@ public class AccountService {
             throw new TokenDisableException();
         }
         UserInfo userInfo = userInfoDao.findUserById(accessInfo.getAccessId());
-        if(!phoneNo.equals(userInfo.getPhoneNo())){
+        if (!phoneNo.equals(userInfo.getPhoneNo())) {
             throw new PhoneNoDisableException();
         }
         String newToken = uuidGenerator.shortUuid();

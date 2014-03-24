@@ -43,4 +43,13 @@ public class PhoneAuthCodeRepository implements PhoneAuthCodeDao {
         PhoneAuthCodeEntity entity = (PhoneAuthCodeEntity) query.uniqueResult();
         return entity!=null?entity.getPhoneAuthCode():null;
     }
+
+    @Override
+    public void modifyPhoneAuthCodeByPhoneNo(PhoneAuthCode phoneAuthCode) {
+        final String hql = "update PhoneAuthCodeEntity e set e.authCode = :authCode where e.phoneNo = :phoneNo";
+        Query query = sessionFactory.openSession().createQuery(hql);
+        query.setString("phoneNo", phoneAuthCode.getPhoneNo());
+        query.setInteger("authCode",phoneAuthCode.getAuthCode());
+        query.executeUpdate();
+    }
 }

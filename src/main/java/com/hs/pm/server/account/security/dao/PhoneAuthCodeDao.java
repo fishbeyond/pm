@@ -14,4 +14,6 @@ public interface PhoneAuthCodeDao {
     public void createPhoneAuthCode(PhoneAuthCode phoneAuthCode);
 
     public PhoneAuthCode findPhoneAuthCode(String phoneNo, int authCode);
+
+    public void modifyPhoneAuthCodeByPhoneNo(PhoneAuthCode phoneAuthCode);
 }
