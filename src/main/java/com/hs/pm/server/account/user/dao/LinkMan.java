@@ -10,7 +10,6 @@ package com.hs.pm.server.account.user.dao;
 public class Linkman {
     private String linkmanId;
     private String userId;
-    private String linkmanName;
     private String phoneNo;
 
     public String getLinkmanId() {
@@ -27,14 +26,6 @@ public class Linkman {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public String getLinkmanName() {
-        return linkmanName;
-    }
-
-    public void setLinkmanName(String linkmanName) {
-        this.linkmanName = linkmanName;
     }
 
     public String getPhoneNo() {
