@@ -1,6 +1,7 @@
 package com.hs.pm.server.account.user.dao.entity;
 
 import com.hs.pm.server.account.user.dao.UserInvitation;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -29,7 +30,8 @@ public class UserInvitationEntity {
         return userInvitation;
     }
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "idGenerator", strategy = "uuid")
+    @GeneratedValue(generator = "idGenerator")
     public String getInvitationId() {
         return userInvitation.getInvitationId();
     }

@@ -1,13 +1,12 @@
 package com.hs.pm.server.account;
 
-import com.hs.pm.server.account.friend.FriendInfo;
+import com.hs.pm.dto.FriendInfo;
 import com.hs.pm.server.account.user.dao.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +25,12 @@ public class UserRelationService {
     private UserInvitationDao userInvitationDao;
     @Resource
     private UserMapperDao userMapperDao;
+    @Resource
+    private LinkmanDao linkmanDao;
 
+    public void createLinkman(List<Linkman> linkmanList) {
+        linkmanDao.createLinkman(linkmanList);
+    }
 
     public void addFriendAlreadyRegister(String userId, String friendId) {
         UserInvitation userInvitation = new UserInvitation();
@@ -42,22 +46,30 @@ public class UserRelationService {
         userInvitationDao.createUserInvitation(userInvitation);
     }
 
-    public void confirmFriend(UserMapper userMapper) {
-        userInvitationDao.deleteUserInvitation(userMapper.getUserId(), userMapper.getFriendId());
-        userMapperDao.createUserMapper(userMapper);
+    public void confirmFriend(String userId, String friendId) {
+        userInvitationDao.deleteUserInvitation(friendId, userId);
+        userMapperDao.createUserMapper(new UserMapper(userId, friendId));
+        userMapperDao.createUserMapper(new UserMapper(friendId, userId));
     }
 
     public void modifyUserMapperAlias(UserMapper userMapper) {
         userMapperDao.modifyUserMapperAlias(userMapper);
     }
 
-    public List<UserInfo> findFriendUserId(String userId) {
-        List<UserInfo> friends = userInfoDao.findFriendByUserId(userId);
-        List<FriendInfo> friendInfoList = new ArrayList<FriendInfo>();
-        for (UserInfo userInfo : friends) {
+    public List<FriendInfo> findFriendUserId(String userId) {
+        return userInfoDao.findFriendByUserId(userId);
+    }
 
-        }
-        return null;
+    public List<FriendInfo> findFriendInvite(String userId){
+        return userInfoDao.findFriendInvite(userId);
+    }
+
+    public List<FriendInfo> findFriendInvited(String userId) {
+        return userInfoDao.findFriendInvited(userId);
+    }
+
+    public List<FriendInfo> findFriendNotAdd(String userId) {
+        return userInfoDao.findFriendNotAdd(userId);
     }
 
     private FriendInfo transform2FriendInfo(UserInfo userInfo) {
@@ -66,13 +78,12 @@ public class UserRelationService {
         return friendInfo;
     }
 
-
     public List<UserInfo> findUserByProjectId(String projectId) {
         return userInfoDao.findUserByProjectId(projectId);
     }
 
-    public List<UserInfo> findFriendByPhoneNo(String userId, List<String> phoneNoList) {
-        return userInfoDao.findFriendByPhoneNo(userId, phoneNoList);
+    public void deleteFriend(String userId, String friendId) {
+        userMapperDao.deleteUserMapper(userId,friendId);
+        userMapperDao.deleteUserMapper(friendId,userId);
     }
-
 }

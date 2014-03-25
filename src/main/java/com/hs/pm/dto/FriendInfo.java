@@ -1,4 +1,9 @@
-package com.hs.pm.server.account.friend;
+package com.hs.pm.dto;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 
 /**
  * Created with IntelliJ IDEA.
@@ -7,6 +12,7 @@ package com.hs.pm.server.account.friend;
  * Time: 下午5:06
  * To change this template use File | Settings | File Templates.
  */
+@Entity
 public class FriendInfo {
     private String userId;
     private String userName;
@@ -15,8 +21,9 @@ public class FriendInfo {
     private String gender;
     private String remark;
     private String alias;
-    private Enum<FriendStatus> statusEnum;
+    private String status;
 
+    @Id
     public String getUserId() {
         return userId;
     }
@@ -65,11 +72,19 @@ public class FriendInfo {
         this.remark = remark;
     }
 
-    public Enum<FriendStatus> getStatusEnum() {
-        return statusEnum;
+    public String getAlias() {
+        return alias;
     }
 
-    public void setStatusEnum(Enum<FriendStatus> statusEnum) {
-        this.statusEnum = statusEnum;
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

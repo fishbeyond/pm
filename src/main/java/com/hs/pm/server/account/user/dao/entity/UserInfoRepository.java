@@ -1,9 +1,10 @@
 package com.hs.pm.server.account.user.dao.entity;
 
+import com.hs.pm.dto.FriendInfo;
 import com.hs.pm.server.account.user.dao.UserInfo;
 import com.hs.pm.server.account.user.dao.UserInfoDao;
-import com.hs.pm.server.account.user.dao.UserMapper;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
 
@@ -59,18 +60,7 @@ public class UserInfoRepository implements UserInfoDao {
         sessionFactory.getCurrentSession().update(new UserInfoEntity(userInfo));
     }
 
-    @Override
-    public List<UserInfo> findFriendByUserId(String userId) {
-        final String hql = "from UserInfoEntity e inner join UserMapperEntity m on m.userId = :userId)";
-        Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setString("userId", userId);
-        List<UserInfoEntity> entities = (List<UserInfoEntity>) query.list();
-        List<UserInfo> userInfos = new ArrayList<UserInfo>();
-        for (UserInfoEntity userInfoEntity : entities) {
-            userInfos.add(userInfoEntity.getUserInfo());
-        }
-        return userInfos;
-    }
+
 
 
 
@@ -89,25 +79,44 @@ public class UserInfoRepository implements UserInfoDao {
     }
 
     @Override
-    public List<UserInfo> findFriendByPhoneNo(String userId, List<String> phoneNoList) {
-        final String hql = "from UserInfoEntity e left join UserMapperEntity m on m.friendId =e.userId where m.userId = :userId and e.phoneNo in (:phoneNoList)";
-        Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setString("userId",userId);
-        query.setParameterList("phoneNoList",phoneNoList);
-        List<UserInfoEntity> entities = (List<UserInfoEntity>) query.list();
-        List result = new ArrayList<UserInfo>();
-        for(UserInfoEntity entity:entities){
-            result.add(entity.getUserInfo());
-        }
-        return result;
-    }
-
-    @Override
     public String findPhoneNoByUserId(String userId) {
         final String hql = "select e.phoneNo from  UserInfoEntity e where e.userId = :userId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("userId", userId);
         return (String)query.uniqueResult();
     }
+
+    @Override
+    public List<FriendInfo> findFriendByUserId(String userId) {
+        final String sql = "select 'CONFIRM' as status, alias,userId,gender,mailAddress,phoneNo,remark,userName from (select m.alias,m.friendId from user_mapper m where m.userId = :userId) temp left join user_info i on temp.friendId = i.userId;";
+        SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(FriendInfo.class);
+        sqlQuery.setString("userId", userId);
+        return (List<FriendInfo>)sqlQuery.list();
+    }
+
+    @Override
+    public List<FriendInfo> findFriendInvite(String userId) {
+        final String sql = "select 'INVITE' as status, null as alias,userId,gender,mailAddress,phoneNo,remark,userName from user_info u where u.userId in (select friendId from user_invitation m where m.userId = :userId)";
+        SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(FriendInfo.class);
+        sqlQuery.setString("userId",userId);
+        return  (List<FriendInfo>)sqlQuery.list();
+    }
+
+    @Override
+    public List<FriendInfo> findFriendInvited(String userId) {
+        final String sql = "select 'INVITED' as status,null as alias,userId,gender,mailAddress,phoneNo,remark,userName from user_info u where u.userId in (select friendId from user_invitation m where m.friendId = :userId)";
+        SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(FriendInfo.class);
+        sqlQuery.setString("userId",userId);
+        return  (List<FriendInfo>)sqlQuery.list();
+    }
+
+    @Override
+    public List<FriendInfo> findFriendNotAdd(String userId) {
+        final String sql = "select 'NOT_ADD' as status, null as alias,userId,gender,mailAddress,phoneNo,remark,userName from (select phoneNo findPhone from linkman l where l.userId = :userId) temp inner join user_info u on temp.findPhone = u.phoneNo";
+        SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(FriendInfo.class);
+        sqlQuery.setString("userId",userId);
+        return  (List<FriendInfo>)sqlQuery.list();
+    }
+
 
 }

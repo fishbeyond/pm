@@ -1,5 +1,7 @@
 package com.hs.pm.server.account.user.dao;
 
+import com.hs.pm.dto.FriendInfo;
+
 import java.util.List;
 
 /**
@@ -16,11 +18,15 @@ public interface UserInfoDao {
 
     public void modifyUser(UserInfo userInfo);
 
-    public List<UserInfo> findFriendByUserId(String userId);
-
     public List<UserInfo> findUserByProjectId(String projectId);
 
-    public List<UserInfo> findFriendByPhoneNo(String userId,List<String> phoneNoList);
-
     public String findPhoneNoByUserId(String userId);
+
+    public List<FriendInfo> findFriendByUserId(String userId);
+
+    public List<FriendInfo> findFriendInvite(String userId);
+
+    public List<FriendInfo> findFriendInvited(String userId);
+
+    public List<FriendInfo> findFriendNotAdd(String userId);
 }

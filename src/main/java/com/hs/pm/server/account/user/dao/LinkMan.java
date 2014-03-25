@@ -7,18 +7,18 @@ package com.hs.pm.server.account.user.dao;
  * Time: 下午6:22
  * To change this template use File | Settings | File Templates.
  */
-public class LinkMan {
-    private String linkManeId;
+public class Linkman {
+    private String linkmanId;
     private String userId;
-    private String linkManName;
+    private String linkmanName;
     private String phoneNo;
 
-    public String getLinkManeId() {
-        return linkManeId;
+    public String getLinkmanId() {
+        return linkmanId;
     }
 
-    public void setLinkManeId(String linkManeId) {
-        this.linkManeId = linkManeId;
+    public void setLinkmanId(String linkmanId) {
+        this.linkmanId = linkmanId;
     }
 
     public String getUserId() {
@@ -29,12 +29,12 @@ public class LinkMan {
         this.userId = userId;
     }
 
-    public String getLinkManName() {
-        return linkManName;
+    public String getLinkmanName() {
+        return linkmanName;
     }
 
-    public void setLinkManName(String linkManName) {
-        this.linkManName = linkManName;
+    public void setLinkmanName(String linkmanName) {
+        this.linkmanName = linkmanName;
     }
 
     public String getPhoneNo() {
