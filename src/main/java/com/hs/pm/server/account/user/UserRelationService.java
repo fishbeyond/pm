@@ -1,4 +1,4 @@
-package com.hs.pm.server.account;
+package com.hs.pm.server.account.user;
 
 import com.hs.pm.dto.FriendInfo;
 import com.hs.pm.server.account.user.dao.*;
@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,7 +30,7 @@ public class UserRelationService {
     @Resource
     private LinkmanDao linkmanDao;
 
-    public void createLinkman(List<Linkman> linkmanList) {
+    public void createLinkman(String userId,List<Linkman> linkmanList) {
         linkmanDao.createLinkman(linkmanList);
     }
 

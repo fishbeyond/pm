@@ -35,9 +35,6 @@ public class LinkmanEntity {
         return linkman.getLinkmanId();
     }
 
-    public void setLinkmanName(String linkmanName) {
-        linkman.setLinkmanName(linkmanName);
-    }
     @Column
     public String getUserId() {
         return linkman.getUserId();
@@ -49,10 +46,6 @@ public class LinkmanEntity {
     @Column
     public String getPhoneNo() {
         return linkman.getPhoneNo();
-    }
-    @Column
-    public String getLinkmanName() {
-        return linkman.getLinkmanName();
     }
 
     public void setLinkmanId(String linkmanId) {

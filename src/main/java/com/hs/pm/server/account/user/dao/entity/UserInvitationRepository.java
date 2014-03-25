@@ -34,4 +34,13 @@ public class UserInvitationRepository implements UserInvitationDao{
         query.setString("friend",friendId);
         query.executeUpdate();
     }
+
+    @Override
+    public void relateUserInvitation(String invitePhoneNo, String friendId) {
+        final String hql = "update UserInvitationEntity e set e.friendId = :friendId where e.invitePhoneNo = :invitePhoneNo";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("invitePhoneNo",invitePhoneNo);
+        query.setString("friendId",friendId);
+        query.executeUpdate();
+    }
 }

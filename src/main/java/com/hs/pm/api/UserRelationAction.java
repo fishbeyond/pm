@@ -1,13 +1,12 @@
 package com.hs.pm.api;
 
-import com.hs.pm.server.account.UserRelationService;
+import com.hs.pm.server.account.user.UserRelationService;
 import com.hs.pm.dto.FriendInfo;
 import com.hs.pm.server.account.user.dao.Linkman;
 import com.hs.pm.server.account.user.dao.UserInfo;
 import com.hs.pm.server.account.user.dao.UserMapper;
-import com.hs.pm.server.devicetoken.DeviceService;
+import com.hs.pm.server.push.devicetoken.DeviceService;
 import com.hs.pm.server.push.PushService;
-import com.hs.pm.server.utils.UUIDGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 
@@ -26,24 +25,16 @@ public class UserRelationAction {
     private DeviceService deviceService;
     @Resource
     private PushService pushService;
-    @Resource
-    private UUIDGenerator uuidGenerator;
 
-    public void uploadLinkMan(Object obj) {
-        LinkedMultiValueMap map = (LinkedMultiValueMap)obj;
-        String userId = map.get("userId").get(0).toString();
-        int count = Integer.valueOf(map.get("count").get(0).toString());
+    public void uploadLinkMan(String userId,List<String> phoneNoList) {
         List<Linkman> linkmanList = new ArrayList<Linkman>();
-        for (int i = 0; i < count; i++) {
+        for (String phoneNo: phoneNoList) {
             Linkman linkman = new Linkman();
-            String linkmanName = map.get("linkmanList[" + i + "][linkmanName]").get(0).toString();
-            String phoneNo = map.get("linkmanList[" + i + "][phoneNo]").get(0).toString();
             linkman.setUserId(userId);
-            linkman.setLinkmanName(linkmanName);
             linkman.setPhoneNo(phoneNo);
             linkmanList.add(linkman);
         }
-        userRelationService.createLinkman(linkmanList);
+        userRelationService.createLinkman(userId,linkmanList);
     }
 
     public void addFriendAlreadyRegister(String userId, String friendId) {
@@ -57,7 +48,7 @@ public class UserRelationAction {
     }
 
     public void confirmFriend(String userId,String friendId) {
-        userRelationService.confirmFriend(userId,friendId);
+        userRelationService.confirmFriend(userId, friendId);
     }
 
     public void modifyFriendAlias(UserMapper userMapper) {

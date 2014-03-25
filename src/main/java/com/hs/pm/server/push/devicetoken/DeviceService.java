@@ -1,7 +1,7 @@
-package com.hs.pm.server.devicetoken;
+package com.hs.pm.server.push.devicetoken;
 
-import com.hs.pm.server.devicetoken.dao.DeviceDao;
-import com.hs.pm.server.devicetoken.dao.DeviceToken;
+import com.hs.pm.server.push.devicetoken.dao.DeviceDao;
+import com.hs.pm.server.push.devicetoken.dao.DeviceToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

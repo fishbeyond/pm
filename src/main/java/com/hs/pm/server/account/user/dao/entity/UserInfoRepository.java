@@ -1,6 +1,7 @@
 package com.hs.pm.server.account.user.dao.entity;
 
 import com.hs.pm.dto.FriendInfo;
+import com.hs.pm.dto.LinkmanStatus;
 import com.hs.pm.server.account.user.dao.UserInfo;
 import com.hs.pm.server.account.user.dao.UserInfoDao;
 import org.hibernate.Query;
@@ -88,35 +89,42 @@ public class UserInfoRepository implements UserInfoDao {
 
     @Override
     public List<FriendInfo> findFriendByUserId(String userId) {
-        final String sql = "select 'CONFIRM' as status, alias,userId,gender,mailAddress,phoneNo,remark,userName from (select m.alias,m.friendId from user_mapper m where m.userId = :userId) temp left join user_info i on temp.friendId = i.userId;";
+        final String sql = "select :status as status, alias,userId,gender,mailAddress,phoneNo,remark,userName " +
+                "from (select m.alias,m.friendId from user_mapper m where m.userId = :userId) temp left join user_info i on temp.friendId = i.userId;";
         SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(FriendInfo.class);
         sqlQuery.setString("userId", userId);
+        sqlQuery.setString("status", LinkmanStatus.FRIEND);
         return (List<FriendInfo>)sqlQuery.list();
     }
 
     @Override
     public List<FriendInfo> findFriendInvite(String userId) {
-        final String sql = "select 'INVITE' as status, null as alias,userId,gender,mailAddress,phoneNo,remark,userName from user_info u where u.userId in (select friendId from user_invitation m where m.userId = :userId)";
+        final String sql = "select :status as status, null as alias,userId,gender,mailAddress,phoneNo,remark,userName " +
+                "from user_info u where u.userId in (select friendId from user_invitation m where m.userId = :userId)";
         SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(FriendInfo.class);
         sqlQuery.setString("userId",userId);
+        sqlQuery.setString("status", LinkmanStatus.MY_INVITE);
         return  (List<FriendInfo>)sqlQuery.list();
     }
 
     @Override
     public List<FriendInfo> findFriendInvited(String userId) {
-        final String sql = "select 'INVITED' as status,null as alias,userId,gender,mailAddress,phoneNo,remark,userName from user_info u where u.userId in (select friendId from user_invitation m where m.friendId = :userId)";
+        final String sql = "select :status as status,null as alias,userId,gender,mailAddress,phoneNo,remark,userName " +
+                "from user_info u where u.userId in (select userId from user_invitation m where m.friendId = :userId)";
         SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(FriendInfo.class);
         sqlQuery.setString("userId",userId);
+        sqlQuery.setString("status", LinkmanStatus.INVITE_ME);
         return  (List<FriendInfo>)sqlQuery.list();
     }
 
     @Override
     public List<FriendInfo> findFriendNotAdd(String userId) {
-        final String sql = "select 'NOT_ADD' as status, null as alias,userId,gender,mailAddress,phoneNo,remark,userName from (select phoneNo findPhone from linkman l where l.userId = :userId) temp inner join user_info u on temp.findPhone = u.phoneNo";
+        final String sql = "select :status as status, null as alias,userId,gender,mailAddress,phoneNo,remark,userName " +
+                "from (select phoneNo findPhone from linkman l where l.userId = :userId) temp inner join user_info u on temp.findPhone = u.phoneNo";
         SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(FriendInfo.class);
         sqlQuery.setString("userId",userId);
+        sqlQuery.setString("status", LinkmanStatus.NOT_FRIEND);
         return  (List<FriendInfo>)sqlQuery.list();
     }
-
 
 }

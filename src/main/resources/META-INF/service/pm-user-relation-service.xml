@@ -15,7 +15,7 @@
 
     <int:chain input-channel="userRelationAction.uploadLinkMan">
         <int:service-activator
-                expression="@userRelationAction.uploadLinkMan(payload)"/>
+                expression="@userRelationAction.uploadLinkMan(payload[userId],payload[phoneNoList])"/>
     </int:chain>
 
     <int:chain input-channel="userRelationAction.addFriendAlreadyRegister">

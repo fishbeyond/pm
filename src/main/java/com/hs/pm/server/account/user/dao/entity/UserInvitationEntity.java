@@ -56,4 +56,12 @@ public class UserInvitationEntity {
     public void setInvitationId(String invitationId) {
         userInvitation.setInvitationId(invitationId);
     }
+
+    public void setInvitePhoneNo(String invitePhoneNo) {
+        userInvitation.setInvitePhoneNo(invitePhoneNo);
+    }
+    @Column
+    public String getInvitePhoneNo() {
+        return userInvitation.getInvitePhoneNo();
+    }
 }

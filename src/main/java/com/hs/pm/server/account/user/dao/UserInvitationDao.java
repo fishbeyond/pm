@@ -16,4 +16,6 @@ public interface UserInvitationDao {
     public void createUserInvitation(UserInvitation userInvitation);
 
     public void deleteUserInvitation(String userId,String friendId);
+
+    public void relateUserInvitation(String phoneNo,String friendId);
 }

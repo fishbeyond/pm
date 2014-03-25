@@ -1,4 +1,4 @@
-package com.hs.pm.server.devicetoken.dao;
+package com.hs.pm.server.push.devicetoken.dao;
 
 import javax.persistence.*;
 

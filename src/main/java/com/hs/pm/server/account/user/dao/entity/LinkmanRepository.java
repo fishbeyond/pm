@@ -2,6 +2,7 @@ package com.hs.pm.server.account.user.dao.entity;
 
 import com.hs.pm.server.account.user.dao.Linkman;
 import com.hs.pm.server.account.user.dao.LinkmanDao;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -26,9 +27,23 @@ public class LinkmanRepository implements LinkmanDao {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         for(Linkman linkman : linkmanList){
-            session.save(new LinkmanEntity(linkman));
+            String sql = "select linkmanId from LinkmanEntity e where e.userId = :userId and e.phoneNo = :phoneNo";
+            Query query = session.createQuery(sql);
+            query.setString("userId",linkman.getUserId());
+            query.setString("phoneNo",linkman.getPhoneNo());
+            if(0==query.list().size()){
+                session.save(new LinkmanEntity(linkman));
+            }
         }
         transaction.commit();
         session.close();
+    }
+
+    @Override
+    public List<Linkman> findLinkmanByUserId(String userId) {
+        final String hql = "from LinkmanEntity e where e.userId = :userId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("userId",userId);
+        return (List<Linkman>)query.list();
     }
 }

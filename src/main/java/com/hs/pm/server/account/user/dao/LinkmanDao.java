@@ -17,4 +17,6 @@ import java.util.List;
 public interface LinkmanDao {
 
     public void createLinkman(List<Linkman> linkmanList);
+
+    public List<Linkman> findLinkmanByUserId(String userId);
 }

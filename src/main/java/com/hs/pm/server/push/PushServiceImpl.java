@@ -1,6 +1,6 @@
 package com.hs.pm.server.push;
 
-import com.hs.pm.server.devicetoken.dao.DeviceDao;
+import com.hs.pm.server.push.devicetoken.dao.DeviceDao;
 import javapns.devices.Device;
 import javapns.devices.implementations.basic.BasicDevice;
 import javapns.notification.AppleNotificationServerBasicImpl;

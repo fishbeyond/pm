@@ -9,6 +9,7 @@ import com.hs.pm.server.account.security.dao.PhoneAuthCode;
 import com.hs.pm.server.account.security.dao.PhoneAuthCodeDao;
 import com.hs.pm.server.account.user.dao.UserInfo;
 import com.hs.pm.server.account.user.dao.UserInfoDao;
+import com.hs.pm.server.account.user.dao.UserInvitationDao;
 import com.hs.pm.server.utils.RandomGenerator;
 import com.hs.pm.server.utils.UUIDGenerator;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,8 @@ public class AccountService {
     private AccessInfoDao accessInfoDao;
     @Resource
     private UUIDGenerator uuidGenerator;
+    @Resource
+    private UserInvitationDao userInvitationDao;
 
 
     public List<String> findUserIdByToken(String token) {
@@ -115,6 +118,7 @@ public class AccountService {
             AccessInfo accessInfo = new AccessInfo(userId, token);
             userInfoDao.createUser(userInfo);
             accessInfoDao.createAccessInfo(accessInfo);
+            userInvitationDao.relateUserInvitation(phoneNo,userId);
         } else {
             accessInfoDao.modifyAccessToken(userInfo.getUserId(), token);
         }
