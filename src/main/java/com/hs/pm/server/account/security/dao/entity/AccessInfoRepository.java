@@ -36,7 +36,12 @@ public class AccessInfoRepository implements AccessInfoDao {
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("accessToken", accessToken);
         AccessInfoEntity entity = (AccessInfoEntity) query.uniqueResult();
-        return (String) query.uniqueResult();
+        if(null == entity || !isTokenAlive(entity))
+            return null;
+        return entity.getAccessId();
+    }
+    private boolean isTokenAlive(AccessInfoEntity entity){
+        return System.currentTimeMillis()-entity.getAccessTime().getTime()<=entity.getAliveTime()?true:false;
     }
 
     @Override

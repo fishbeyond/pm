@@ -118,7 +118,7 @@ public class AccountService {
             AccessInfo accessInfo = new AccessInfo(userId, token);
             userInfoDao.createUser(userInfo);
             accessInfoDao.createAccessInfo(accessInfo);
-            userInvitationDao.relateUserInvitation(phoneNo,userId);
+            userInvitationDao.relateUserInvitationByPhoneNo(phoneNo, userId);
         } else {
             accessInfoDao.modifyAccessToken(userInfo.getUserId(), token);
         }

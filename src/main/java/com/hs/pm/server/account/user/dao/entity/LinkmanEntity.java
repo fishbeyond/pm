@@ -24,10 +24,18 @@ public class LinkmanEntity {
     public LinkmanEntity(Linkman linkman) {
         this.linkman = linkman;
     }
+
+    public LinkmanEntity(String userId,String phoneNo) {
+        this.linkman = new Linkman();
+        linkman.setUserId(userId);
+        linkman.setPhoneNo(phoneNo);
+    }
+
     @Transient
-    public Linkman getLinkman(){
+    public Linkman getLinkman() {
         return linkman;
     }
+
     @Id
     @GenericGenerator(name = "idGenerator", strategy = "uuid")
     @GeneratedValue(generator = "idGenerator")
@@ -43,6 +51,7 @@ public class LinkmanEntity {
     public void setPhoneNo(String phoneNo) {
         linkman.setPhoneNo(phoneNo);
     }
+
     @Column
     public String getPhoneNo() {
         return linkman.getPhoneNo();

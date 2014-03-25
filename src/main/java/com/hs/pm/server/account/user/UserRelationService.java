@@ -30,11 +30,14 @@ public class UserRelationService {
     @Resource
     private LinkmanDao linkmanDao;
 
-    public void createLinkman(String userId,List<Linkman> linkmanList) {
-        linkmanDao.createLinkman(linkmanList);
+    public void createLinkman(String userId,List<String> phones) {
+        linkmanDao.createLinkman(userId,phones);
     }
 
     public void addFriendAlreadyRegister(String userId, String friendId) {
+        if(0!=userInvitationDao.findUserInvitation(friendId,userId).size()){
+            confirmFriend(userId,friendId);
+        }
         UserInvitation userInvitation = new UserInvitation();
         userInvitation.setUserId(userId);
         userInvitation.setFriendId(friendId);
@@ -48,7 +51,7 @@ public class UserRelationService {
         userInvitationDao.createUserInvitation(userInvitation);
     }
 
-    public void confirmFriend(String userId, String friendId) {
+    private void confirmFriend(String userId, String friendId) {
         userInvitationDao.deleteUserInvitation(friendId, userId);
         userMapperDao.createUserMapper(new UserMapper(userId, friendId));
         userMapperDao.createUserMapper(new UserMapper(friendId, userId));

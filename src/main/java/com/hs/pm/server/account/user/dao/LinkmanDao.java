@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 public interface LinkmanDao {
 
-    public void createLinkman(List<Linkman> linkmanList);
+    public void createLinkman(String userId,List<String> phones);
 
     public List<Linkman> findLinkmanByUserId(String userId);
 }

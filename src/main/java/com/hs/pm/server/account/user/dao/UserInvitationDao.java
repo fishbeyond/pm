@@ -4,6 +4,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,7 +16,9 @@ import javax.annotation.Resource;
 public interface UserInvitationDao {
     public void createUserInvitation(UserInvitation userInvitation);
 
-    public void deleteUserInvitation(String userId,String friendId);
+    public List<UserInvitation> findUserInvitation(String userId, String friendId);
 
-    public void relateUserInvitation(String phoneNo,String friendId);
+    public void deleteUserInvitation(String userId, String friendId);
+
+    public void relateUserInvitationByPhoneNo(String phoneNo, String friendId);
 }

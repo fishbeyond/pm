@@ -23,16 +23,16 @@ public class LinkmanRepository implements LinkmanDao {
     @Resource
     private SessionFactory sessionFactory;
     @Override
-    public void createLinkman(List<Linkman> linkmanList) {
+    public void createLinkman(String userId,List<String> phones) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        for(Linkman linkman : linkmanList){
+        for(String phoneNo : phones){
             String sql = "select linkmanId from LinkmanEntity e where e.userId = :userId and e.phoneNo = :phoneNo";
             Query query = session.createQuery(sql);
-            query.setString("userId",linkman.getUserId());
-            query.setString("phoneNo",linkman.getPhoneNo());
+            query.setString("userId",userId);
+            query.setString("phoneNo",phoneNo);
             if(0==query.list().size()){
-                session.save(new LinkmanEntity(linkman));
+                session.save(new LinkmanEntity(userId,phoneNo));
             }
         }
         transaction.commit();

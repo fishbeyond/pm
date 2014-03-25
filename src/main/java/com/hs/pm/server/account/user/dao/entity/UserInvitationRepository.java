@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,6 +28,15 @@ public class UserInvitationRepository implements UserInvitationDao{
     }
 
     @Override
+    public List<UserInvitation> findUserInvitation(String userId, String friendId) {
+        final String hql = "from UserInvitationEntity e where e.userId = :userId and e.friendId = :friendId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("userId",userId);
+        query.setString("friendId",friendId);
+        return (List<UserInvitation>)query.list();
+    }
+
+    @Override
     public void deleteUserInvitation(String userId, String friendId) {
         final String hql = "delete from UserInvitationEntity e where e.userId = :userId and e.friendId = :friend";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
@@ -36,7 +46,7 @@ public class UserInvitationRepository implements UserInvitationDao{
     }
 
     @Override
-    public void relateUserInvitation(String invitePhoneNo, String friendId) {
+    public void relateUserInvitationByPhoneNo(String invitePhoneNo, String friendId) {
         final String hql = "update UserInvitationEntity e set e.friendId = :friendId where e.invitePhoneNo = :invitePhoneNo";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("invitePhoneNo",invitePhoneNo);

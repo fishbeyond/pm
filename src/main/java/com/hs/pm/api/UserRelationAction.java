@@ -26,15 +26,8 @@ public class UserRelationAction {
     @Resource
     private PushService pushService;
 
-    public void uploadLinkMan(String userId,List<String> phoneNoList) {
-        List<Linkman> linkmanList = new ArrayList<Linkman>();
-        for (String phoneNo: phoneNoList) {
-            Linkman linkman = new Linkman();
-            linkman.setUserId(userId);
-            linkman.setPhoneNo(phoneNo);
-            linkmanList.add(linkman);
-        }
-        userRelationService.createLinkman(userId,linkmanList);
+    public void uploadLinkMan(String userId,List<String> phones) {
+        userRelationService.createLinkman(userId,phones);
     }
 
     public void addFriendAlreadyRegister(String userId, String friendId) {
@@ -45,10 +38,6 @@ public class UserRelationAction {
 
     public void addFriendNoRegister(String userId, String phoneNo) {
         userRelationService.addFriendNoRegister(userId, phoneNo);
-    }
-
-    public void confirmFriend(String userId,String friendId) {
-        userRelationService.confirmFriend(userId, friendId);
     }
 
     public void modifyFriendAlias(UserMapper userMapper) {
