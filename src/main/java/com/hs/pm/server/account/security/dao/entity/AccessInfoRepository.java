@@ -41,7 +41,7 @@ public class AccessInfoRepository implements AccessInfoDao {
         return entity.getAccessId();
     }
     private boolean isTokenAlive(AccessInfoEntity entity){
-        return System.currentTimeMillis()-entity.getAccessTime().getTime()<=entity.getAliveTime()?true:false;
+        return (System.currentTimeMillis()-entity.getAccessTime().getTime())<=entity.getAliveTime()?true:false;
     }
 
     @Override

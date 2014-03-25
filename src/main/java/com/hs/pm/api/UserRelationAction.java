@@ -26,8 +26,9 @@ public class UserRelationAction {
     @Resource
     private PushService pushService;
 
-    public void uploadLinkMan(String userId,List<String> phones) {
-        userRelationService.createLinkman(userId,phones);
+    public void uploadLinkMan(String userId, String phones) {
+        String[] phoneArray = phones.split(",");
+        userRelationService.createLinkman(userId, phoneArray);
     }
 
     public void addFriendAlreadyRegister(String userId, String friendId) {
@@ -44,8 +45,8 @@ public class UserRelationAction {
         userRelationService.modifyUserMapperAlias(userMapper);
     }
 
-    public void deleteFriend(String userId,String friendId){
-        userRelationService.deleteFriend(userId,friendId);
+    public void deleteFriend(String userId, String friendId) {
+        userRelationService.deleteFriend(userId, friendId);
     }
 
     public List<FriendInfo> findAllRelationByUserId(String userId) {

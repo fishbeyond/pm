@@ -23,7 +23,7 @@ public class LinkmanRepository implements LinkmanDao {
     @Resource
     private SessionFactory sessionFactory;
     @Override
-    public void createLinkman(String userId,List<String> phones) {
+    public void createLinkman(String userId,String[] phones) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         for(String phoneNo : phones){

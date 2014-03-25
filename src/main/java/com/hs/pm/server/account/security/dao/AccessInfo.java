@@ -48,7 +48,7 @@ public class AccessInfo {
     }
 
     public long getAliveTime() {
-        return ALIVE_TIME;
+        return aliveTime;
     }
 
     public void setAliveTime(long aliveTime) {

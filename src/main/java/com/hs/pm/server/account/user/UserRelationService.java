@@ -30,7 +30,7 @@ public class UserRelationService {
     @Resource
     private LinkmanDao linkmanDao;
 
-    public void createLinkman(String userId,List<String> phones) {
+    public void createLinkman(String userId,String[] phones) {
         linkmanDao.createLinkman(userId,phones);
     }
 
