@@ -14,7 +14,7 @@
                   http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd">
 
     <int:chain input-channel="accountAction.modifyUser">
-        <int:map-to-object-transformer type="com.hs.whocan.dto.UserForm"/>
+        <int:map-to-object-transformer type="com.hs.whocan.service.UserForm"/>
         <int:service-activator expression="@accountAction.modifyUser(payload)"/>
     </int:chain>
 
