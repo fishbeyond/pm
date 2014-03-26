@@ -1,4 +1,6 @@
-package com.hs.whocan.framework.exception;
+package com.hs.whocan.domain.user.exception;
+
+import com.hs.whocan.framework.exception.FriendlyMessageException;
 
 /**
  * Created with IntelliJ IDEA.

@@ -8,16 +8,13 @@ import com.hs.whocan.domain.user.dao.UserInfoDao;
 import com.hs.whocan.domain.user.dao.UserInvitationDao;
 import com.hs.whocan.domain.utils.RandomGenerator;
 import com.hs.whocan.domain.utils.UUIDGenerator;
-import com.hs.whocan.framework.exception.PhoneNoDisableException;
-import com.hs.whocan.framework.exception.TokenDisableException;
-import com.hs.whocan.service.UserForm;
+import com.hs.whocan.domain.user.exception.PhoneNoDisableException;
+import com.hs.whocan.domain.security.exception.TokenDisableException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created with IntelliJ IDEA.

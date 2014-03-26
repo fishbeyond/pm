@@ -6,10 +6,9 @@ import com.hs.whocan.domain.security.dao.PhoneAuthCode;
 import com.hs.whocan.domain.security.dao.PhoneAuthCodeDao;
 import com.hs.whocan.domain.utils.RandomGenerator;
 import com.hs.whocan.domain.utils.UUIDGenerator;
-import com.hs.whocan.framework.exception.AuthCodeErrorException;
-import com.hs.whocan.framework.exception.TokenDisableException;
+import com.hs.whocan.domain.security.exception.AuthCodeErrorException;
+import com.hs.whocan.domain.security.exception.TokenDisableException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
