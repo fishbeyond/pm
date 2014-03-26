@@ -29,7 +29,7 @@
     </int:chain>
 
     <int:chain input-channel="userRelationAction.modifyFriendAlias">
-        <int:map-to-object-transformer type="com.hs.pm.server.account.user.dao.UserMapper"/>
+        <int:map-to-object-transformer type="com.hs.whocan.server.account.user.dao.UserMapper"/>
         <int:service-activator expression="@userRelationAction.modifyFriendAlias(payload)"/>
     </int:chain>
 

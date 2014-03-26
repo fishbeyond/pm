@@ -22,7 +22,7 @@
     </int:chain>
 
     <bean id="messageMarshaller" parent="mainMarshaller">
-        <property name="classesToBeBound" value="com.hs.pm.server.project.xml.Message"/>
+        <property name="classesToBeBound" value="com.hs.whocan.server.project.xml.Message"/>
     </bean>
 
     <bean id="mainMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller" abstract="true">

@@ -18,11 +18,11 @@
         <int:service-activator expression="@workAction.findWorkByProjectId(payload[projectId])"/>
     </int:chain>
     <int:chain input-channel="workAction.createWork">
-        <int:map-to-object-transformer type="com.hs.pm.server.work.dao.Work"/>
+        <int:map-to-object-transformer type="com.hs.whocan.server.work.dao.Work"/>
         <int:service-activator expression="@workAction.createWork(payload)"/>
     </int:chain>
     <int:chain input-channel="workAction.modifyWork">
-        <int:map-to-object-transformer type="com.hs.pm.server.work.dao.Work"/>
+        <int:map-to-object-transformer type="com.hs.whocan.server.work.dao.Work"/>
         <int:service-activator expression="@workAction.modifyWork(payload)"/>
     </int:chain>
     <int:chain input-channel="workAction.deleteWork">
