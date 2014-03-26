@@ -1,5 +1,7 @@
 package com.hs.whocan.service;
 
+import com.hs.whocan.domain.publicchat.dao.PublicChat;
+
 import java.util.Date;
 
 /**
@@ -10,49 +12,56 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 public class PublicChatForm {
-    private String message;
-    private String userId;
-    private String operatorName;
-    private String projectId;
-    private Date createTime;
+    private PublicChat publicChat;
 
-    public String getMessage() {
-        return message;
+    public PublicChatForm() {
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public PublicChatForm(PublicChat publicChat) {
+        this.publicChat = publicChat;
     }
 
-    public String getUserId() {
-        return userId;
+    public PublicChat getPublicChat() {
+        return publicChat;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getOperatorName() {
-        return operatorName;
-    }
-
-    public void setOperatorName(String operatorName) {
-        this.operatorName = operatorName;
-    }
-
-    public String getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
+    public String getChatId() {
+        return publicChat.getChatId();
     }
 
     public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+        publicChat.setCreateTime(createTime);
+    }
+
+    public void setMessage(String message) {
+        publicChat.setMessage(message);
+    }
+
+    public void setChatId(String chatId) {
+        publicChat.setChatId(chatId);
+    }
+
+    public String getGroupId() {
+        return publicChat.getGroupId();
+    }
+
+    public String getUserId() {
+        return publicChat.getFromUserId();
+    }
+
+    public void setUserId(String fromUserId) {
+        publicChat.setFromUserId(fromUserId);
+    }
+
+    public String getMessage() {
+        return publicChat.getMessage();
+    }
+
+    public void setGroupId(String groupId) {
+        publicChat.setGroupId(groupId);
+    }
+
+    public Date getCreateTime() {
+        return publicChat.getCreateTime();
     }
 }

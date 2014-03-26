@@ -13,8 +13,7 @@ public class PublicChat {
     private String chatId;
     private String message;
     private String fromUserId;
-    private String fromUserName;
-    private String projectId;
+    private String groupId;
     private Date createTime;
 
     public String getChatId() {
@@ -41,20 +40,12 @@ public class PublicChat {
         this.fromUserId = fromUserId;
     }
 
-    public String getFromUserName() {
-        return fromUserName;
+    public String getGroupId() {
+        return groupId;
     }
 
-    public void setFromUserName(String fromUserName) {
-        this.fromUserName = fromUserName;
-    }
-
-    public String getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
     public Date getCreateTime() {

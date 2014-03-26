@@ -23,7 +23,7 @@ public class PrivateChatRepository implements PrivateChatDao {
     private SessionFactory sessionFactory;
     @Override
     public void createPrivateChat(PrivateChat privateChat) {
-        sessionFactory.getCurrentSession().save(privateChat);
+        sessionFactory.getCurrentSession().save(new PrivateChatEntity(privateChat));
     }
 
     @Override

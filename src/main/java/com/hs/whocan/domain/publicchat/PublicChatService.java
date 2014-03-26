@@ -20,9 +20,8 @@ import java.util.List;
 public class PublicChatService {
     @Resource
     private PublicChatDao publicChatDao;
-    public boolean createPublicChat(PublicChat publicChat){
+    public void createPublicChat(PublicChat publicChat){
         publicChatDao.createPublicChat(publicChat);
-        return true;
     }
 
     public List<PublicChat> findPublicChatByProjectId(String projectId){

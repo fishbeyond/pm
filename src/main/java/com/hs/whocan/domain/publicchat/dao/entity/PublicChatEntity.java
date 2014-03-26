@@ -22,13 +22,15 @@ public class PublicChatEntity {
     public PublicChatEntity(PublicChat publicChat) {
         this.publicChat = publicChat;
     }
+
     @Transient
-    public PublicChat getPublicChat(){
+    public PublicChat getPublicChat() {
         return this.publicChat;
     }
+
     @Id
-    @GenericGenerator(name="idGenerator", strategy="uuid")
-    @GeneratedValue(generator="idGenerator")
+    @GenericGenerator(name = "idGenerator", strategy = "uuid")
+    @GeneratedValue(generator = "idGenerator")
     public String getChatId() {
         return publicChat.getChatId();
     }
@@ -42,9 +44,6 @@ public class PublicChatEntity {
         return publicChat.getMessage();
     }
 
-    public void setProjectId(String projectId) {
-        publicChat.setProjectId(projectId);
-    }
     @Column
     public String getFromUserId() {
         return publicChat.getFromUserId();
@@ -53,22 +52,20 @@ public class PublicChatEntity {
     public void setMessage(String message) {
         publicChat.setMessage(message);
     }
-    @Column
-    public String getFromUserName() {
-        return publicChat.getFromUserName();
-    }
 
     public void setFromUserId(String fromUserId) {
         publicChat.setFromUserId(fromUserId);
     }
+
     @Column
-    public String getProjectId() {
-        return publicChat.getProjectId();
+    public String getGroupId() {
+        return publicChat.getGroupId();
     }
 
-    public void setFromUserName(String fromUserName) {
-        publicChat.setFromUserName(fromUserName);
+    public void setGroupId(String groupId) {
+        publicChat.setGroupId(groupId);
     }
+
     @Column
     public Date getCreateTime() {
         return publicChat.getCreateTime();

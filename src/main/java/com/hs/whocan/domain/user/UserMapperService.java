@@ -35,11 +35,12 @@ public class UserMapperService {
     public void addFriendAlreadyRegister(String userId, String friendId) {
         if(0!=userInvitationDao.findUserInvitation(friendId,userId).size()){
             confirmFriend(userId,friendId);
+        } else {
+            UserInvitation userInvitation = new UserInvitation();
+            userInvitation.setUserId(userId);
+            userInvitation.setFriendId(friendId);
+            userInvitationDao.createUserInvitation(userInvitation);
         }
-        UserInvitation userInvitation = new UserInvitation();
-        userInvitation.setUserId(userId);
-        userInvitation.setFriendId(friendId);
-        userInvitationDao.createUserInvitation(userInvitation);
     }
 
     public void addFriendNoRegister(String userId, String phoneNo) {
