@@ -29,12 +29,12 @@
     <import resource="service/pm-social-service.xml"/>
     <!--<import resource="service/pm-recv-package-service.xml"/>-->
 
-    <bean id="nullResultHandler" class="com.hs.whocan.framework.transform.NullPayloadHandler"/>
-    <aop:config>
-        <aop:aspect id="myAop" ref="nullResultHandler">
-            <aop:pointcut id="target"
-                          expression="execution(* com.hs.whocan.service.*.*(..))"/>
-            <aop:around method="handle" pointcut-ref="target"/>
-        </aop:aspect>
-    </aop:config>
+    <!--<bean id="nullResultHandler" class="com.hs.whocan.framework.transform.NullPayloadHandler"/>-->
+    <!--<aop:config>-->
+        <!--<aop:aspect id="myAop" ref="nullResultHandler">-->
+            <!--<aop:pointcut id="target"-->
+                          <!--expression="execution(* com.hs.whocan.service.*.*(..))"/>-->
+            <!--<aop:around method="handle" pointcut-ref="target"/>-->
+        <!--</aop:aspect>-->
+    <!--</aop:config>-->
 </beans>

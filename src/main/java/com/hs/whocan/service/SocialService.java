@@ -23,27 +23,32 @@ public class SocialService {
     @Resource
     private PushService pushService;
 
-    public void uploadLinkMan(String userId, String phones) {
+    public boolean uploadLinkMan(String userId, String phones) {
         String[] phoneArray = phones.split(",");
         userMapperService.createLinkman(userId, phoneArray);
+        return true;
     }
 
-    public void addFriendAlreadyRegister(String userId, String friendId) {
+    public boolean addFriendAlreadyRegister(String userId, String friendId) {
         userMapperService.addFriendAlreadyRegister(userId, friendId);
 //        List<String> deviceTokens = deviceService.findDeviceTokenByUser(friendId);
 //        pushService.push(deviceTokens, "添加好友邀请");
+        return true;
     }
 
-    public void addFriendNoRegister(String userId, String phoneNo) {
+    public boolean addFriendNoRegister(String userId, String phoneNo) {
         userMapperService.addFriendNoRegister(userId, phoneNo);
+        return true;
     }
 
-    public void modifyFriendAlias(UserMapper userMapper) {
+    public boolean modifyFriendAlias(UserMapper userMapper) {
         userMapperService.modifyUserMapperAlias(userMapper);
+        return true;
     }
 
-    public void deleteFriend(String userId, String friendId) {
+    public boolean deleteFriend(String userId, String friendId) {
         userMapperService.deleteFriend(userId, friendId);
+        return true;
     }
 
     public List<FriendInfo> findAllRelationByUserId(String userId) {
