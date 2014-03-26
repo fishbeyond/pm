@@ -27,13 +27,16 @@
     <int:chain input-channel="pmServiceChannel" output-channel="pmJsonOutputChannel">
         <int:enricher>
             <int:property name="userId" expression="@accountService.findUserIdByToken(payload[token])"/>
+        </int:enricher>
+        <int:enricher>
             <int:property name="operatorName" expression="@accountService.findOperatorByToken(payload[userId])"/>
         </int:enricher>
         <int:gateway request-channel="pmServiceRouter"/>
     </int:chain>
 
     <int:channel id="pmServiceRouter"/>
-    <int:header-value-router header-name="serviceChannel" input-channel="pmServiceRouter" default-output-channel="noServerChannel">
+    <int:header-value-router header-name="serviceChannel" input-channel="pmServiceRouter"
+                             default-output-channel="noServerChannel">
     </int:header-value-router>
 
     <int:channel id="pmJsonOutputChannel"/>
