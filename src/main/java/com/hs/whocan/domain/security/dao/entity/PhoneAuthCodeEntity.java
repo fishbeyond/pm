@@ -3,6 +3,7 @@ package com.hs.whocan.domain.security.dao.entity;
 import com.hs.whocan.domain.security.dao.PhoneAuthCode;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -54,5 +55,13 @@ public class PhoneAuthCodeEntity {
     @Column
     public String getPhoneNo() {
         return phoneAuthCode.getPhoneNo();
+    }
+    @Column
+    public Date getCreateTime() {
+        return phoneAuthCode.getCreateTime();
+    }
+
+    public void setCreateTime(Date createTime) {
+        phoneAuthCode.setCreateTime(createTime);
     }
 }

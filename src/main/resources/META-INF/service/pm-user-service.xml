@@ -15,10 +15,10 @@
 
     <int:chain input-channel="accountAction.modifyUser">
         <int:map-to-object-transformer type="com.hs.whocan.service.UserForm"/>
-        <int:service-activator expression="@accountAction.modifyUser(payload)"/>
+        <int:service-activator expression="@accountService.modifyUser(payload)"/>
     </int:chain>
 
     <int:chain input-channel="userRelationAction.findUserByProjectId">
-        <int:service-activator expression="@userRelationAction.findUserByProjectId(payload[projectId])"/>
+        <int:service-activator expression="@userRelationService.findUserByProjectId(payload[projectId])"/>
     </int:chain>
 </beans>

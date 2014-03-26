@@ -13,7 +13,7 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="packagesToScan">
             <list>
-                <value>com.hs.pm</value>
+                <value>com.hs.whocan</value>
             </list>
         </property>
         <property name="hibernateProperties">

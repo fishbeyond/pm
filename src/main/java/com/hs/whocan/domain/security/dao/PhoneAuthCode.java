@@ -1,5 +1,7 @@
 package com.hs.whocan.domain.security.dao;
 
+import java.util.Date;
+
 /**
  * Created with IntelliJ IDEA.
  * User: fish
@@ -11,12 +13,17 @@ public class PhoneAuthCode {
     private int phoneId;
     private String phoneNo;
     private int authCode;
+    private Date createTime;
 
-    public PhoneAuthCode(){}
-    public PhoneAuthCode(String phoneNo,int authCode){
+    public PhoneAuthCode() {
+    }
+
+    public PhoneAuthCode(String phoneNo, int authCode) {
         this.phoneNo = phoneNo;
         this.authCode = authCode;
+        this.createTime = new Date();
     }
+
     public int getPhoneId() {
         return phoneId;
     }
@@ -39,5 +46,13 @@ public class PhoneAuthCode {
 
     public void setAuthCode(int authCode) {
         this.authCode = authCode;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

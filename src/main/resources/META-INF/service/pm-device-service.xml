@@ -21,9 +21,6 @@
     <int:chain input-channel="deviceService.findToken">
         <int-jdbc:outbound-gateway data-source="dataSource" max-rows-per-poll="0"
                                    query="select token from device_token where userId in (:payload[userId])">
-            <int-jdbc:request-handler-advice-chain>
-                <bean class="com.hs.whocan.framework.transform.NullReplyAdvice"/>
-            </int-jdbc:request-handler-advice-chain>
         </int-jdbc:outbound-gateway>
     </int:chain>
 </beans>

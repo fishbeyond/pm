@@ -1,6 +1,6 @@
 package com.hs.whocan.service;
 
-import com.hs.whocan.domain.user.UserRelationService;
+import com.hs.whocan.domain.user.UserMapperService;
 import com.hs.whocan.domain.user.dao.UserInfo;
 import com.hs.whocan.domain.user.dao.UserMapper;
 import com.hs.whocan.domain.push.PushService;
@@ -15,9 +15,9 @@ import java.util.List;
  * Created by root on 14-3-16.
  */
 @Service
-public class UserRelationAction {
+public class UserRelationService {
     @Resource
-    private UserRelationService userRelationService;
+    private UserMapperService userMapperService;
     @Resource
     private DeviceService deviceService;
     @Resource
@@ -25,32 +25,32 @@ public class UserRelationAction {
 
     public void uploadLinkMan(String userId, String phones) {
         String[] phoneArray = phones.split(",");
-        userRelationService.createLinkman(userId, phoneArray);
+        userMapperService.createLinkman(userId, phoneArray);
     }
 
     public void addFriendAlreadyRegister(String userId, String friendId) {
-        userRelationService.addFriendAlreadyRegister(userId, friendId);
+        userMapperService.addFriendAlreadyRegister(userId, friendId);
 //        List<String> deviceTokens = deviceService.findDeviceTokenByUser(friendId);
 //        pushService.push(deviceTokens, "添加好友邀请");
     }
 
     public void addFriendNoRegister(String userId, String phoneNo) {
-        userRelationService.addFriendNoRegister(userId, phoneNo);
+        userMapperService.addFriendNoRegister(userId, phoneNo);
     }
 
     public void modifyFriendAlias(UserMapper userMapper) {
-        userRelationService.modifyUserMapperAlias(userMapper);
+        userMapperService.modifyUserMapperAlias(userMapper);
     }
 
     public void deleteFriend(String userId, String friendId) {
-        userRelationService.deleteFriend(userId, friendId);
+        userMapperService.deleteFriend(userId, friendId);
     }
 
     public List<FriendInfo> findAllRelationByUserId(String userId) {
-        List<FriendInfo> alreadyFriends = userRelationService.findFriendUserId(userId);
-        List<FriendInfo> inviteFriends = userRelationService.findFriendInvite(userId);
-        List<FriendInfo> invitedFriends = userRelationService.findFriendInvited(userId);
-        List<FriendInfo> notAddFriends = userRelationService.findFriendNotAdd(userId);
+        List<FriendInfo> alreadyFriends = userMapperService.findFriendUserId(userId);
+        List<FriendInfo> inviteFriends = userMapperService.findFriendInvite(userId);
+        List<FriendInfo> invitedFriends = userMapperService.findFriendInvited(userId);
+        List<FriendInfo> notAddFriends = userMapperService.findFriendNotAdd(userId);
         ArrayList<FriendInfo> list = new ArrayList<FriendInfo>();
         list.addAll(alreadyFriends);
         list.addAll(inviteFriends);
@@ -60,6 +60,6 @@ public class UserRelationAction {
     }
 
     public List<UserInfo> findUserByProjectId(String projectId) {
-        return userRelationService.findUserByProjectId(projectId);
+        return userMapperService.findUserByProjectId(projectId);
     }
 }

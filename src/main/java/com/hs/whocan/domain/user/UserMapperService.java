@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class UserRelationService {
+public class UserMapperService {
     @Resource
     private UserInfoDao userInfoDao;
     @Resource

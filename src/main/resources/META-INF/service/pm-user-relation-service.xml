@@ -15,30 +15,30 @@
 
     <int:chain input-channel="userRelationAction.uploadLinkMan">
         <int:service-activator
-                expression="@userRelationAction.uploadLinkMan(payload[userId],payload[phones])"/>
+                expression="@userRelationService.uploadLinkMan(payload[userId],payload[phones])"/>
     </int:chain>
 
     <int:chain input-channel="userRelationAction.addFriendAlreadyRegister">
         <int:service-activator
-                expression="@userRelationAction.addFriendAlreadyRegister(payload[userId],payload[friendId])"/>
+                expression="@userRelationService.addFriendAlreadyRegister(payload[userId],payload[friendId])"/>
     </int:chain>
 
     <int:chain input-channel="userRelationAction.addFriendNoRegister">
         <int:service-activator
-                expression="@userRelationAction.addFriendNoRegister(payload[userId],payload[phoneNo])"/>
+                expression="@userRelationService.addFriendNoRegister(payload[userId],payload[phoneNo])"/>
     </int:chain>
 
     <int:chain input-channel="userRelationAction.modifyFriendAlias">
         <int:map-to-object-transformer type="com.hs.whocan.domain.user.dao.UserMapper"/>
-        <int:service-activator expression="@userRelationAction.modifyFriendAlias(payload)"/>
+        <int:service-activator expression="@userRelationService.modifyFriendAlias(payload)"/>
     </int:chain>
 
     <int:chain input-channel="userRelationAction.deleteFriend">
-        <int:service-activator expression="@userRelationAction.deleteFriend(payload[userId],payload[friendId])"/>
+        <int:service-activator expression="@userRelationService.deleteFriend(payload[userId],payload[friendId])"/>
     </int:chain>
 
     <int:chain input-channel="userRelationAction.findAllRelationByUserId">
-        <int:service-activator expression="@userRelationAction.findAllRelationByUserId(payload[userId])"/>
+        <int:service-activator expression="@userRelationService.findAllRelationByUserId(payload[userId])"/>
     </int:chain>
 
 </beans>

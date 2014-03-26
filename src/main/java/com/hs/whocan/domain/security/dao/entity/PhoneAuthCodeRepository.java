@@ -22,7 +22,7 @@ public class PhoneAuthCodeRepository implements PhoneAuthCodeDao {
 
     @Override
     public PhoneAuthCode findPhoneAuthCode(String phoneNo) {
-        final String hql = "from PhoneAuthCodeEntity where phoneNo = :phoneNo";
+        final String hql = "from PhoneAuthCodeEntity e where e.phoneNo = :phoneNo";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("phoneNo",phoneNo);
         PhoneAuthCodeEntity entity = (PhoneAuthCodeEntity) query.uniqueResult();

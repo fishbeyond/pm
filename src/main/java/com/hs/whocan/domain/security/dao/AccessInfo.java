@@ -12,7 +12,7 @@ public class AccessInfo {
     private long aliveTime;
     private String accessToken;
 
-    private static long ALIVE_TIME = 1000 * 60 * 30;
+    private static long ALIVE_TIME = 1000 * 60 * 60;
 
     public AccessInfo() {
     }
