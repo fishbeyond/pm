@@ -1,4 +1,4 @@
-package com.hs.whocan.domain.privatechat.dao;
+package com.hs.whocan.domain.chat.dao;
 
 import java.util.Date;
 
@@ -6,14 +6,14 @@ import java.util.Date;
  * Created with IntelliJ IDEA.
  * User: fish
  * Date: 14-3-17
- * Time: 下午5:16
+ * Time: 下午5:10
  * To change this template use File | Settings | File Templates.
  */
-public class PrivateChat {
+public class Chat {
     private String chatId;
     private String message;
-    private String fromUserId;
-    private String toUserId;
+    private String userId;
+    private String roomId;
     private Date createTime;
 
     public String getChatId() {
@@ -32,20 +32,20 @@ public class PrivateChat {
         this.message = message;
     }
 
-    public String getFromUserId() {
-        return fromUserId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setFromUserId(String fromUserId) {
-        this.fromUserId = fromUserId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getToUserId() {
-        return toUserId;
+    public String getRoomId() {
+        return roomId;
     }
 
-    public void setToUserId(String toUserId) {
-        this.toUserId = toUserId;
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
     }
 
     public Date getCreateTime() {

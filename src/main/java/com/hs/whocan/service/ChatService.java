@@ -1,9 +1,7 @@
 package com.hs.whocan.service;
 
-import com.hs.whocan.domain.privatechat.PrivateChatService;
-import com.hs.whocan.domain.privatechat.dao.PrivateChat;
-import com.hs.whocan.domain.publicchat.PublicChatService;
-import com.hs.whocan.domain.publicchat.dao.PublicChat;
+import com.hs.whocan.domain.chat.ChatRoomService;
+import com.hs.whocan.domain.chat.dao.Chat;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,30 +19,25 @@ import java.util.List;
 public class ChatService {
 
     @Resource
-    private PublicChatService publicChatService;
-    @Resource
-    private PrivateChatService privateChatService;
+    private ChatRoomService chatRoomService;
 
-    public boolean createPublicChat(PublicChatForm publicChatForm) {
-        publicChatService.createPublicChat(publicChatForm.getPublicChat());
+
+
+    public boolean createChat(ChatForm chatForm) {
+        chatRoomService.createPublicChat(chatForm.getChat());
         return true;
     }
 
-    public List<PublicChatForm> findPublicChatByGroupId(String projectId) {
-        List<PublicChat> publicChats = publicChatService.findPublicChatByProjectId(projectId);
-        List<PublicChatForm> publicChatForms = new ArrayList<PublicChatForm>();
-        for (PublicChat publicChat : publicChats) {
-            publicChatForms.add(new PublicChatForm(publicChat));
+    public List<ChatForm> findChatByRoomId(String projectId) {
+        List<Chat> chats = chatRoomService.findPublicChatByProjectId(projectId);
+        List<ChatForm> chatForms = new ArrayList<ChatForm>();
+        for (Chat chat : chats) {
+            chatForms.add(new ChatForm(chat));
         }
-        return publicChatForms;
+        return chatForms;
     }
 
-    public boolean createPrivateChat(PrivateChat privateChat) {
-        privateChatService.createPrivateChat(privateChat);
-        return true;
-    }
+    public void findChatRoomByUserId(){}
 
-    public List<PrivateChat> findPrivateChat(String fromUserId, String toUserId) {
-        return privateChatService.findPrivateChat(fromUserId, toUserId);
-    }
+    public void addPeopleToChatRoom(){}
 }

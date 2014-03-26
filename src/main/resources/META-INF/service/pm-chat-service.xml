@@ -13,18 +13,23 @@
                   http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
                   http://www.springframework.org/schema/integration/jdbc
                   http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
-    <int:chain input-channel="chatService.createPublicChat">
-        <int:map-to-object-transformer type="com.hs.whocan.service.PublicChatForm"/>
-        <int:service-activator expression="@chatService.createPublicChat(payload)"/>
+
+
+    <int:chain input-channel="chatService.createChat">
+        <int:map-to-object-transformer type="com.hs.whocan.service.ChatForm"/>
+        <int:service-activator expression="@chatService.createChat(payload)"/>
     </int:chain>
+
     <int:chain input-channel="chatService.findPublicChatByGroupId">
-        <int:service-activator expression="@chatService.findPublicChatByGroupId(payload[groupId])"/>
+        <int:service-activator expression="@chatService.findChatByRoomId(payload[groupId])"/>
     </int:chain>
-    <int:chain input-channel="chatService.createPrivateChat">
-        <int:map-to-object-transformer type="com.hs.whocan.domain.privatechat.dao.PrivateChat"/>
-        <int:service-activator expression="@chatService.createPrivateChat(payload)"/>
+
+    <int:chain input-channel="chatService.findChatRoomByUserId">
+        <int:service-activator expression="@chatService.findChatRoomByUserId(payload)"/>
     </int:chain>
-    <int:chain input-channel="chatService.findPrivateChat">
-        <int:service-activator expression="@chatService.findPrivateChat(payload[userId],payload[friendId])"/>
+
+    <int:chain input-channel="chatService.addPeopleToChatRoom">
+        <int:service-activator expression="@chatService.addPeopleToChatRoom(payload)"/>
     </int:chain>
+
 </beans>
