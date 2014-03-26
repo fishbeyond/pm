@@ -43,6 +43,16 @@ public class UserInfoRepository implements UserInfoDao {
         return entity == null ? null : entity.getUserInfo();
     }
 
+    @Override
+    public UserInfo findUserByIdAndPhoneNo(String userId, String phoneNo) {
+        final String hql = "from UserInfoEntity e where e.userId = :userId and e.phoneNo = :phoneNo";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("userId", userId);
+        query.setString("phoneNo",phoneNo);
+        UserInfoEntity entity = (UserInfoEntity) query.uniqueResult();
+        return entity == null ? null : entity.getUserInfo();
+    }
+
     public UserInfo findUserByPhoneNo(String phoneNo) {
         final String hql = "from UserInfoEntity e where e.phoneNo = :phoneNo";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);

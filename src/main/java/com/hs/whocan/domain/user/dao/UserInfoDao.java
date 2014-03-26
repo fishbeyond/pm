@@ -12,6 +12,8 @@ public interface UserInfoDao {
 
     public UserInfo findUserById(String userId);
 
+    public UserInfo findUserByIdAndPhoneNo(String userId,String phoneNo);
+
     public UserInfo findUserByPhoneNo(String phoneNo);
 
     public void createUser(UserInfo userInfo);

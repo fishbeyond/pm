@@ -27,7 +27,6 @@ public class SecurityService {
     @Resource
     private UUIDGenerator uuidGenerator;
 
-    @Transactional
     public int getAuthCode(String phoneNo) {
         int authCode = getAuthCode();
         PhoneAuthCode phoneAuthCode = phoneAuthCodeDao.findPhoneAuthCode(phoneNo);
@@ -44,7 +43,7 @@ public class SecurityService {
     private int getAuthCode() {
         return RandomGenerator.getRandom(111111, 999999);
     }
-    public void authCodeIsCorrect(String phoneNo, int authCode) {
+    public void verifyAuthCode(String phoneNo, int authCode) {
         PhoneAuthCode phoneAuthCode = phoneAuthCodeDao.findPhoneAuthCode(phoneNo, authCode);
         long applyTime = System.currentTimeMillis()-phoneAuthCode.getCreateTime().getTime();
         if(null == phoneAuthCode || applyTime>VALID_TIME){
@@ -65,15 +64,23 @@ public class SecurityService {
         return token;
     }
 
-    public AccessInfo uploadToken(String token) {
-        AccessInfo accessInfo = accessInfoDao.findAccessInfoByToken(token);
-        if (null == accessInfo) {
-            throw new TokenDisableException();
-        }
+    public AccessInfo verifyAndUpdateToken(String token) {
+        AccessInfo accessInfo = tokenIsValid(token);
         String newToken = uuidGenerator.shortUuid();
         accessInfo.setAccessToken(newToken);
-        accessInfoDao.modifyAccessToken(accessInfo.getAccessId(),accessInfo.getAccessToken());
+        accessInfoDao.modifyAccessToken(accessInfo.getAccessId(), accessInfo.getAccessToken());
         return accessInfo;
     }
 
+    public AccessInfo findAccessInfoByToken(String token) {
+        return tokenIsValid(token);
+    }
+
+    private AccessInfo tokenIsValid(String token){
+        AccessInfo accessInfo = accessInfoDao.findAccessInfoByToken(token);
+        if (null == accessInfo || (System.currentTimeMillis()-accessInfo.getAccessTime().getTime() > accessInfo.getAliveTime())) {
+            throw new TokenDisableException();
+        }
+        return accessInfo;
+    }
 }

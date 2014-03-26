@@ -15,7 +15,7 @@ import java.util.List;
  * Created by root on 14-3-16.
  */
 @Service
-public class UserRelationService {
+public class SocialService {
     @Resource
     private UserMapperService userMapperService;
     @Resource

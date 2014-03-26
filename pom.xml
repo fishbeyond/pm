@@ -315,9 +315,11 @@
                         <version>1.1</version>
                         <configuration>
                             <charset>UTF-8</charset>
-                            <server>tomcat7</server>
+                            <!--<server>tomcat7</server>-->
                             <update>true</update>
                             <url>http://117.121.25.232:8080/manager/text</url>
+                            <username>weijinrong</username>
+                            <password>Hsrh0203</password>
                             <warFile>${project.build.directory}/${project.build.finalName}.${project.packaging}
                             </warFile>
                             <path>/${project.build.finalName}</path>

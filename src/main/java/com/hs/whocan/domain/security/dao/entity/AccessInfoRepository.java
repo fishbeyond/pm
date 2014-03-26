@@ -36,12 +36,13 @@ public class AccessInfoRepository implements AccessInfoDao {
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("accessToken", accessToken);
         AccessInfoEntity entity = (AccessInfoEntity) query.uniqueResult();
-        if(null == entity || !isTokenAlive(entity))
+        if (null == entity || !isTokenAlive(entity))
             return null;
         return entity.getAccessId();
     }
-    private boolean isTokenAlive(AccessInfoEntity entity){
-        return (System.currentTimeMillis()-entity.getAccessTime().getTime())<=entity.getAliveTime()?true:false;
+
+    private boolean isTokenAlive(AccessInfoEntity entity) {
+        return (System.currentTimeMillis() - entity.getAccessTime().getTime()) <= entity.getAliveTime() ? true : false;
     }
 
     @Override
@@ -50,7 +51,7 @@ public class AccessInfoRepository implements AccessInfoDao {
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("accessToken", accessToken);
         AccessInfoEntity entity = (AccessInfoEntity) query.uniqueResult();
-        return entity!=null?entity.getAccessInfo():null;
+        return entity != null ? entity.getAccessInfo() : null;
     }
 
     @Override
@@ -65,7 +66,7 @@ public class AccessInfoRepository implements AccessInfoDao {
         query.setString("phoneNo", phoneNo);
         query.setInteger("authCode", authCode);
         AccessInfoEntity entity = (AccessInfoEntity) query.uniqueResult();
-        if(null!=entity){
+        if (null != entity) {
             entity.setAccessTime(new Date());
             sessionFactory.getCurrentSession().save(entity);
             return entity.getAccessInfo();
@@ -77,9 +78,9 @@ public class AccessInfoRepository implements AccessInfoDao {
     public AccessInfo findAccessInfoByUserId(String userId) {
         final String hql = "from AccessInfoEntity e where e.userId = :userId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setString("userId",userId);
+        query.setString("userId", userId);
         AccessInfoEntity entity = (AccessInfoEntity) query.uniqueResult();
-        return entity!=null?entity.getAccessInfo():null;
+        return entity != null ? entity.getAccessInfo() : null;
     }
 
     @Override
@@ -89,10 +90,11 @@ public class AccessInfoRepository implements AccessInfoDao {
 
     @Override
     public void modifyAccessToken(String accessId, String accessToken) {
-        final String hql = "update AccessInfoEntity e set e.accessToken = :accessToken where e.accessId = :accessId";
+        final String hql = "update AccessInfoEntity e set e.accessToken = :accessToken,e.accessTime = :accessTime where e.accessId = :accessId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setString("accessToken",accessToken);
-        query.setString("accessId",accessId);
+        query.setString("accessToken", accessToken);
+        query.setTimestamp("accessTime", new Date());
+        query.setString("accessId", accessId);
         query.executeUpdate();
     }
 }

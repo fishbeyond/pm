@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,6 +21,7 @@ import javax.annotation.Resource;
  * To change this template use File | Settings | File Templates.
  */
 @Service
+@Transactional
 public class AccountService {
     @Resource
     private UserService userService;
@@ -32,31 +35,45 @@ public class AccountService {
         smsService.sendAuthCode(phoneNo, authCode);
         return true;
     }
-    @Transactional
+
     public UserForm loginByAuthCode(String phoneNo, int authCode) {
-        securityService.authCodeIsCorrect(phoneNo, authCode);
+        securityService.verifyAuthCode(phoneNo, authCode);
         UserInfo userInfo = userService.findUserByPhoneNo(phoneNo);
         String token = null;
-        if(null==userInfo){
+        if (null == userInfo) {
             userInfo = userService.createUserInfo(phoneNo);
             token = securityService.createAccessInfo(userInfo.getUserId());
-            userService.relateUserInvitationByPhoneNo(phoneNo,userInfo.getUserId());
+            userService.relateUserInvitationByPhoneNo(phoneNo, userInfo.getUserId());
         } else {
             token = securityService.modifyAccessToken(userInfo.getUserId());
         }
         return transform2UserForm(userInfo, token);
     }
-    @Transactional
+
     public UserForm loginByToken(String phoneNo, String token) {
-        AccessInfo accessInfo = securityService.uploadToken(token);
-        UserInfo userInfo = userService.findUserInfoById(accessInfo.getAccessId());
-        return transform2UserForm(userInfo,accessInfo.getAccessToken());
+        AccessInfo accessInfo = securityService.verifyAndUpdateToken(token);
+        UserInfo userInfo = userService.verifyPhoneNo(accessInfo.getAccessId(), phoneNo);
+        return transform2UserForm(userInfo, accessInfo.getAccessToken());
     }
 
     public boolean modifyUser(UserForm userForm) {
         UserInfo userInfo = transform2UserInfo(userForm);
         userService.modifyUser(userInfo);
         return true;
+    }
+
+    public List<String> findUserIdByToken(String token) {
+        AccessInfo accessInfo = securityService.findAccessInfoByToken(token);
+        List<String> list = new ArrayList<String>();
+        list.add(accessInfo.getAccessId());
+        return list;
+    }
+
+    public List<String> findOperatorByToken(String userId) {
+        UserInfo userInfo = userService.findUserNameInfoById(userId);
+        List<String> list = new ArrayList<String>();
+        list.add(userInfo.getUserName());
+        return list;
     }
 
     private UserForm transform2UserForm(UserInfo userInfo, String token) {

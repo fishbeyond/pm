@@ -8,6 +8,7 @@ import com.hs.whocan.domain.user.dao.UserInfoDao;
 import com.hs.whocan.domain.user.dao.UserInvitationDao;
 import com.hs.whocan.domain.utils.RandomGenerator;
 import com.hs.whocan.domain.utils.UUIDGenerator;
+import com.hs.whocan.framework.exception.PhoneNoDisableException;
 import com.hs.whocan.framework.exception.TokenDisableException;
 import com.hs.whocan.service.UserForm;
 import org.springframework.stereotype.Service;
@@ -73,33 +74,19 @@ public class UserService {
             phoneAuthCode = new PhoneAuthCode(phoneNo, authCode);
             phoneAuthCodeDao.createPhoneAuthCode(phoneAuthCode);
         }
-        modifyAuthCodeAfterSecond(phoneAuthCode, 300);
         return authCode;
-    }
-
-    private void modifyAuthCodeAfterSecond(final PhoneAuthCode phoneAuthCode, long second) {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                int authCode = 0;
-                phoneAuthCode.setAuthCode(authCode);
-                phoneAuthCodeDao.modifyPhoneAuthCodeByPhoneNo(phoneAuthCode);
-            }
-        }, second * 1000);
     }
 
     private int getAuthCode() {
         return RandomGenerator.getRandom(111111, 999999);
     }
 
-    public boolean authCodeIsCorrect(String phoneNo, int authCode) {
-        PhoneAuthCode phoneAuthCode = phoneAuthCodeDao.findPhoneAuthCode(phoneNo, authCode);
-        return phoneAuthCode != null ? true : false;
-    }
-
-    public UserInfo findUserInfoById(String userId){
-       return userInfoDao.findUserById(userId);
+    public UserInfo verifyPhoneNo(String userId,String phoneNo){
+        UserInfo userInfo = userInfoDao.findUserByIdAndPhoneNo(userId, phoneNo);
+        if(null==userInfo){
+            throw new PhoneNoDisableException();
+        }
+        return userInfo;
     }
 
     public UserInfo createUserInfo(String phoneNo) {
@@ -107,15 +94,6 @@ public class UserService {
         UserInfo userInfo = new UserInfo(userId, phoneNo, phoneNo);
         userInfoDao.createUser(userInfo);
         return userInfo;
-    }
-
-    private UserForm transform2UserForm(UserInfo userInfo, String token) {
-        UserForm userForm = new UserForm();
-        userForm.setUserToken(token);
-        userForm.setUserName(userInfo.getUserName());
-        userForm.setPhoneNo(userInfo.getPhoneNo());
-        userForm.setMailAddress(userInfo.getMailAddress());
-        return userForm;
     }
 
     public void modifyUser(UserInfo userInfo) {
@@ -128,4 +106,7 @@ public class UserService {
         return userInfo;
     }
 
+    public UserInfo findUserNameInfoById(String userId) {
+        return userInfoDao.findUserById(userId);
+    }
 }

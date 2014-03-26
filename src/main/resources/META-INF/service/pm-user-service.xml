@@ -19,6 +19,6 @@
     </int:chain>
 
     <int:chain input-channel="userRelationAction.findUserByProjectId">
-        <int:service-activator expression="@userRelationService.findUserByProjectId(payload[projectId])"/>
+        <int:service-activator expression="@socialService.findUserByProjectId(payload[projectId])"/>
     </int:chain>
 </beans>
