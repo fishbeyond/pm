@@ -1,7 +1,6 @@
 package com.hs.whocan.service;
 
-import com.hs.whocan.domain.account.AccountService;
-import com.hs.whocan.domain.account.user.dao.UserInfo;
+import com.hs.whocan.domain.user.dao.UserInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package com.hs.whocan.service;
 
 import com.hs.whocan.framework.exception.AuthCodeErrorException;
-import com.hs.whocan.domain.account.AccountService;
+import com.hs.whocan.service.AccountService;
 import com.hs.whocan.domain.sms.SmsService;
 import org.springframework.stereotype.Service;
 

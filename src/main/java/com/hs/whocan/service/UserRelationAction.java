@@ -1,8 +1,8 @@
 package com.hs.whocan.service;
 
-import com.hs.whocan.domain.account.user.UserRelationService;
-import com.hs.whocan.domain.account.user.dao.UserInfo;
-import com.hs.whocan.domain.account.user.dao.UserMapper;
+import com.hs.whocan.domain.user.UserRelationService;
+import com.hs.whocan.domain.user.dao.UserInfo;
+import com.hs.whocan.domain.user.dao.UserMapper;
 import com.hs.whocan.domain.push.PushService;
 import com.hs.whocan.domain.push.devicetoken.DeviceService;
 import org.springframework.stereotype.Service;
