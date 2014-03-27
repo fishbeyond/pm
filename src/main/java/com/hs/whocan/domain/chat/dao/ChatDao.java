@@ -11,4 +11,5 @@ public interface ChatDao {
 
     public List<Chat> findChatByRoomId(String roomId);
 
+    public void deleteChat(String chatId);
 }

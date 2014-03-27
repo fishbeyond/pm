@@ -57,7 +57,7 @@ public class ChatRoomRepository implements ChatRoomDao {
     public void deleteChatRoom(String roomId) {
         final String hql = "delete from ChatRoomEntity e where e.roomId = :roomId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setString("roomId",roomId);
+        query.setString("roomId", roomId);
         query.executeUpdate();
     }
 
@@ -65,7 +65,7 @@ public class ChatRoomRepository implements ChatRoomDao {
     public void deleteChatRoomMapper(String roomId) {
         final String hql = "delete from ChatRoomMapper m where m.roomId = :roomId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setString("roomId",roomId);
+        query.setString("roomId", roomId);
         query.executeUpdate();
     }
 
@@ -76,10 +76,27 @@ public class ChatRoomRepository implements ChatRoomDao {
         query.setString("userId", userId);
         List<ChatRoomEntity> entities = (List<ChatRoomEntity>) query.list();
         List<ChatRoom> chatRoomList = new ArrayList<ChatRoom>();
-        for(ChatRoomEntity chatRoomEntity : entities){
+        for (ChatRoomEntity chatRoomEntity : entities) {
             chatRoomList.add(chatRoomEntity.getChatRoom());
         }
         return chatRoomList;
+    }
+
+    @Override
+    public void deleteChatRoomMapperByUserId(String roomId, String deleteUserId) {
+        final String hql = "delete from ChatRoomMapper e where e.roomId = :roomId and e.userId = :userId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("userId", deleteUserId);
+        query.setString("roomId", roomId);
+        query.executeUpdate();
+    }
+
+    @Override
+    public List<String> findUserIdByRoomId(String roomId) {
+        final String hql = "select e.userId from ChatRoomMapper e where e.roomId = :roomId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("roomId", roomId);
+        return (List<String>)query.list();
     }
 
 }

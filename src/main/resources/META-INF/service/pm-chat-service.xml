@@ -17,9 +17,17 @@
     <int:chain input-channel="chatService.findAllChatRoom">
         <int:service-activator expression="@chatService.findAllChatRoom(payload[userId])"/>
     </int:chain>
+    <int:chain input-channel="chatService.findUserIdInRoom">
+        <int:service-activator
+                expression="@chatService.findUserIdInRoom(payload[roomId])"/>
+    </int:chain>
     <int:chain input-channel="chatService.addPeopleToChatRoom">
         <int:service-activator
                 expression="@chatService.addPeopleToChatRoom(payload[roomId],payload[userId],payload[userIds])"/>
+    </int:chain>
+    <int:chain input-channel="chatService.deletePeopleFromChatRoom">
+        <int:service-activator
+                expression="@chatService.deletePeopleFromChatRoom(payload[roomId],payload[userId],payload[userIds])"/>
     </int:chain>
     <int:chain input-channel="chatService.findPrivateRoom">
         <int:service-activator expression="@chatService.findPrivateRoom(payload[userId],payload[friendId])"/>
@@ -30,6 +38,9 @@
     </int:chain>
     <int:chain input-channel="chatService.findChatByRoomId">
         <int:service-activator expression="@chatService.findChatByRoomId(payload[roomId])"/>
+    </int:chain>
+    <int:chain input-channel="chatService.deleteChat">
+        <int:service-activator expression="@chatService.deleteChat(payload[chatId])"/>
     </int:chain>
 
 </beans>

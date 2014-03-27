@@ -26,8 +26,18 @@ public class ChatService {
         return chatRoomService.findChatRoom(userId);
     }
 
-    public String addPeopleToChatRoom(String roomId,String userId,String[] userIds) {
-        return chatRoomService.addPeopleToChatRoom(roomId,userId,userIds);
+    public List<String> findUserIdInRoom(String roomId){
+        return chatRoomService.findUserIdInRoom(roomId);
+    }
+
+    public String addPeopleToChatRoom(String roomId,String userId,String userIds) {
+        String[] userArray = userIds.split(",");
+        return chatRoomService.addPeopleToChatRoom(roomId,userId,userArray);
+    }
+
+    public boolean deletePeopleFromChatRoom(String roomId,String userId,String deleteUserId){
+        chatRoomService.deletePeopleFromChatRoom(roomId,deleteUserId);
+        return true;
     }
 
     public String findPrivateRoom(String userId, String friendId) {
@@ -41,6 +51,11 @@ public class ChatService {
 
     public List<Chat> findChatByRoomId(String roomId) {
         return chatRoomService.findChatByRoomId(roomId);
+    }
+
+    public boolean deleteChat(String chatId){
+        chatRoomService.deleteChat(chatId);
+        return true;
     }
 
 }

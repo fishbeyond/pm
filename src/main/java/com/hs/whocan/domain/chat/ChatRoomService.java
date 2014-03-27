@@ -65,4 +65,16 @@ public class ChatRoomService {
         }
         return roomId;
     }
+
+    public void deletePeopleFromChatRoom(String roomId, String deleteUserId) {
+        chatRoomDao.deleteChatRoomMapperByUserId(roomId, deleteUserId);
+    }
+
+    public List<String> findUserIdInRoom(String roomId) {
+        return chatRoomDao.findUserIdByRoomId(roomId);
+    }
+
+    public void deleteChat(String chatId) {
+        chatDao.deleteChat(chatId);
+    }
 }

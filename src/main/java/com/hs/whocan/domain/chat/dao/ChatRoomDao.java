@@ -24,4 +24,7 @@ public interface ChatRoomDao {
 
     public List<ChatRoom> findChatRoomByUserId(String userId);
 
+    public void deleteChatRoomMapperByUserId(String roomId, String deleteUserId);
+
+    public List<String> findUserIdByRoomId(String roomId);
 }

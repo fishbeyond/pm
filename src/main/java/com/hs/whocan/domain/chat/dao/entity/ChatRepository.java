@@ -36,4 +36,12 @@ public class ChatRepository implements ChatDao {
         return list;
     }
 
+    @Override
+    public void deleteChat(String chatId) {
+        final String hql = "delete from ChatEntity e where e.chatId = :chatId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("chatId",chatId);
+        query.executeUpdate();
+    }
+
 }
