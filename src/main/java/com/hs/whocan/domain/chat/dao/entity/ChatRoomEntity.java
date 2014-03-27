@@ -32,8 +32,6 @@ public class ChatRoomEntity {
     }
 
     @Id
-    @GenericGenerator(name = "idGenerator", strategy = "uuid")
-    @GeneratedValue(generator = "idGenerator")
     public String getRoomId() {
         return chatRoom.getRoomId();
     }

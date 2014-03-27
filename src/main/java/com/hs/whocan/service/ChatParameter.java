@@ -11,13 +11,12 @@ import java.util.Date;
  * Time: 下午1:33
  * To change this template use File | Settings | File Templates.
  */
-public class ChatForm {
+public class ChatParameter {
     private Chat chat;
-
-    public ChatForm() {
+    public ChatParameter() {
     }
 
-    public ChatForm(Chat chat) {
+    public ChatParameter(Chat chat) {
         this.chat = chat;
     }
 

@@ -7,7 +7,8 @@ import java.util.List;
  */
 
 public interface ChatDao {
-    public void createPublicChat(Chat chat);
+    public void createChat(Chat chat);
 
-    public List<Chat> findPublicChatByProjectId(String projectId);
+    public List<Chat> findChatByRoomId(String roomId);
+
 }

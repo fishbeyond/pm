@@ -15,6 +15,13 @@ public class ChatRoom {
     private String roomName;
     private Date createTime;
 
+    public ChatRoom(){
+    }
+    public ChatRoom(String roomId,String userId){
+        this.roomId = roomId;
+        this.userId = userId;
+        this.createTime = new Date();
+    }
     public String getRoomId() {
         return roomId;
     }

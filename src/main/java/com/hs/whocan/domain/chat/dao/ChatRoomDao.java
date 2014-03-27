@@ -12,9 +12,16 @@ import java.util.List;
 public interface ChatRoomDao {
     public void createChatRoom(ChatRoom chatRoom);
 
+    public void createChatRoomMapper(ChatRoomMapper chatRoomMapper);
+
     public void modifyChatRoomName(ChatRoom chatRoom);
+
+    public ChatRoom findChatRoomById(String roomId1, String roomId2);
+
+    public void deleteChatRoom(String roomId);
+
+    public void deleteChatRoomMapper(String roomId);
 
     public List<ChatRoom> findChatRoomByUserId(String userId);
 
-    public void deleteChatRoom(String roomId);
 }

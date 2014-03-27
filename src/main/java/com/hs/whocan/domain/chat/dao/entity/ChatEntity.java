@@ -11,7 +11,7 @@ import java.util.Date;
  * Created by fish on 14-3-17.
  */
 @Entity
-@Table(name = "public_chat")
+@Table(name = "chat")
 public class ChatEntity {
     private Chat chat;
 

@@ -2,6 +2,7 @@ package com.hs.whocan.domain.chat.dao.entity;
 
 import com.hs.whocan.domain.chat.dao.Chat;
 import com.hs.whocan.domain.chat.dao.ChatDao;
+import com.hs.whocan.domain.chat.dao.ChatRoom;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
@@ -18,20 +19,21 @@ public class ChatRepository implements ChatDao {
     @Resource
     private SessionFactory sessionFactory;
     @Override
-    public void createPublicChat(Chat chat) {
+    public void createChat(Chat chat) {
         sessionFactory.getCurrentSession().save(new ChatEntity(chat));
     }
 
     @Override
-    public List<Chat> findPublicChatByProjectId(String projectId) {
-        final String hql = "from PublicChatEntity e where e.projectId = :projectId order by e.createTime desc";
+    public List<Chat> findChatByRoomId(String roomId) {
+        final String hql = "from ChatEntity e where e.roomId = :roomId order by e.createTime desc";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setString("projectId",projectId);
+        query.setString("roomId",roomId);
         List<ChatEntity> entities = (List<ChatEntity>) query.list();
-        List<Chat> chats = new ArrayList<Chat>();
-        for(ChatEntity entity:entities){
-            chats.add(entity.getChat());
+        List<Chat> list = new ArrayList<Chat>();
+        for(ChatEntity entity : entities){
+            list.add(entity.getChat());
         }
-        return chats;
+        return list;
     }
+
 }

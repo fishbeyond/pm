@@ -2,6 +2,7 @@ package com.hs.whocan.service;
 
 import com.hs.whocan.domain.chat.ChatRoomService;
 import com.hs.whocan.domain.chat.dao.Chat;
+import com.hs.whocan.domain.chat.dao.ChatRoom;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,23 +22,25 @@ public class ChatService {
     @Resource
     private ChatRoomService chatRoomService;
 
+    public List<ChatRoom> findAllChatRoom(String userId) {
+        return chatRoomService.findChatRoom(userId);
+    }
 
+    public String addPeopleToChatRoom(String roomId,String userId,String[] userIds) {
+        return chatRoomService.addPeopleToChatRoom(roomId,userId,userIds);
+    }
 
-    public boolean createChat(ChatForm chatForm) {
-        chatRoomService.createPublicChat(chatForm.getChat());
+    public String findPrivateRoom(String userId, String friendId) {
+        return chatRoomService.findPrivateRoom(userId, friendId);
+    }
+
+    public boolean sendChat(Chat chat) {
+        chatRoomService.sendChat(chat);
         return true;
     }
 
-    public List<ChatForm> findChatByRoomId(String projectId) {
-        List<Chat> chats = chatRoomService.findPublicChatByProjectId(projectId);
-        List<ChatForm> chatForms = new ArrayList<ChatForm>();
-        for (Chat chat : chats) {
-            chatForms.add(new ChatForm(chat));
-        }
-        return chatForms;
+    public List<Chat> findChatByRoomId(String roomId) {
+        return chatRoomService.findChatByRoomId(roomId);
     }
 
-    public void findChatRoomByUserId(){}
-
-    public void addPeopleToChatRoom(){}
 }
