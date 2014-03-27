@@ -1,27 +1,21 @@
-package com.hs.whocan.service;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
+package com.hs.whocan.service.user;
 
 /**
  * Created with IntelliJ IDEA.
  * User: fish
- * Date: 14-3-24
- * Time: 下午5:06
+ * Date: 14-3-21
+ * Time: 上午9:26
  * To change this template use File | Settings | File Templates.
  */
-@Entity
-public class FriendInfo {
+public class UserParameter {
     private String userId;
     private String userName;
     private String phoneNo;
     private String mailAddress;
     private String gender;
     private String remark;
-    private String alias;
-    private String status;
+    private String userToken;
 
-    @Id
     public String getUserId() {
         return userId;
     }
@@ -54,6 +48,14 @@ public class FriendInfo {
         this.mailAddress = mailAddress;
     }
 
+    public String getUserToken() {
+        return userToken;
+    }
+
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
+    }
+
     public String getGender() {
         return gender;
     }
@@ -68,21 +70,5 @@ public class FriendInfo {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public String getAlias() {
-        return alias;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

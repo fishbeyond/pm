@@ -1,6 +1,6 @@
 package com.hs.whocan.domain.user.dao;
 
-import com.hs.whocan.service.FriendInfo;
+import com.hs.whocan.service.social.FriendInfo;
 
 import java.util.List;
 

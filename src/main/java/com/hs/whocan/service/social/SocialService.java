@@ -1,4 +1,4 @@
-package com.hs.whocan.service;
+package com.hs.whocan.service.social;
 
 import com.hs.whocan.domain.user.UserMapperService;
 import com.hs.whocan.domain.user.dao.UserInfo;

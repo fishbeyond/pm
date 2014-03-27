@@ -29,7 +29,7 @@ public class ChatRoomService {
     public String findPrivateRoom(String userId, String friendId) {
         String roomId1 = userId +"_"+ friendId;
         String roomId2 = friendId  +"_"+  userId;
-        ChatRoom chatRoom = chatRoomDao.findChatRoomById(roomId1, roomId2);
+        ChatRoom chatRoom = chatRoomDao.findChatRoomByUnionId(roomId1, roomId2);
         if (null == chatRoom) {
             chatRoom = new ChatRoom(roomId1, userId);
             chatRoomDao.createChatRoom(chatRoom);

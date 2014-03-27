@@ -1,10 +1,12 @@
 package com.hs.whocan.domain.chat.dao.entity;
 
 import com.hs.whocan.domain.chat.dao.ChatRoom;
-import org.hibernate.annotations.GenericGenerator;
+import com.hs.whocan.domain.chat.dao.ChatRoomMapper;
+import com.hs.whocan.domain.user.dao.UserMapper;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -65,5 +67,14 @@ public class ChatRoomEntity {
     @Column
     public String getUserId() {
         return chatRoom.getUserId();
+    }
+    @OneToMany(targetEntity =ChatRoomMapper.class, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "roomId")
+    public Set<ChatRoomMapper> getChatRoomMappers() {
+        return chatRoom.getChatRoomMappers();
+    }
+
+    public void setChatRoomMappers(Set<ChatRoomMapper> chatRoomMappers) {
+        chatRoom.setChatRoomMappers(chatRoomMappers);
     }
 }

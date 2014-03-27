@@ -1,6 +1,6 @@
 package com.hs.whocan.domain.user.dao.entity;
 
-import com.hs.whocan.service.FriendInfo;
+import com.hs.whocan.service.social.FriendInfo;
 import com.hs.whocan.service.LinkmanStatus;
 import com.hs.whocan.domain.user.dao.UserInfo;
 import com.hs.whocan.domain.user.dao.UserInfoDao;

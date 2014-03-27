@@ -1,4 +1,4 @@
-package com.hs.whocan.service;
+package com.hs.whocan.service.chat;
 
 import com.hs.whocan.domain.chat.ChatRoomService;
 import com.hs.whocan.domain.chat.dao.Chat;

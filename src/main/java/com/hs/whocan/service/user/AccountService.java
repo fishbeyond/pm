@@ -1,4 +1,4 @@
-package com.hs.whocan.service;
+package com.hs.whocan.service.user;
 
 import com.hs.whocan.domain.security.SecurityService;
 import com.hs.whocan.domain.security.dao.AccessInfo;
@@ -36,7 +36,7 @@ public class AccountService {
         return true;
     }
 
-    public UserForm loginByAuthCode(String phoneNo, int authCode) {
+    public UserParameter loginByAuthCode(String phoneNo, int authCode) {
         securityService.verifyAuthCode(phoneNo, authCode);
         UserInfo userInfo = userService.findUserByPhoneNo(phoneNo);
         String token = null;
@@ -50,14 +50,14 @@ public class AccountService {
         return transform2UserForm(userInfo, token);
     }
 
-    public UserForm loginByToken(String phoneNo, String token) {
+    public UserParameter loginByToken(String phoneNo, String token) {
         AccessInfo accessInfo = securityService.verifyAndUpdateToken(token);
         UserInfo userInfo = userService.verifyPhoneNo(accessInfo.getAccessId(), phoneNo);
         return transform2UserForm(userInfo, accessInfo.getAccessToken());
     }
 
-    public boolean modifyUser(UserForm userForm) {
-        UserInfo userInfo = transform2UserInfo(userForm);
+    public boolean modifyUser(UserParameter userParameter) {
+        UserInfo userInfo = transform2UserInfo(userParameter);
         userService.modifyUser(userInfo);
         return true;
     }
@@ -76,18 +76,18 @@ public class AccountService {
         return list;
     }
 
-    private UserForm transform2UserForm(UserInfo userInfo, String token) {
-        UserForm userForm = new UserForm();
-        userForm.setUserToken(token);
-        userForm.setUserName(userInfo.getUserName());
-        userForm.setPhoneNo(userInfo.getPhoneNo());
-        userForm.setMailAddress(userInfo.getMailAddress());
-        return userForm;
+    private UserParameter transform2UserForm(UserInfo userInfo, String token) {
+        UserParameter userParameter = new UserParameter();
+        userParameter.setUserToken(token);
+        userParameter.setUserName(userInfo.getUserName());
+        userParameter.setPhoneNo(userInfo.getPhoneNo());
+        userParameter.setMailAddress(userInfo.getMailAddress());
+        return userParameter;
     }
 
-    private UserInfo transform2UserInfo(UserForm userForm) {
+    private UserInfo transform2UserInfo(UserParameter userParameter) {
         UserInfo userInfo = new UserInfo();
-        BeanUtils.copyProperties(userForm, userInfo);
+        BeanUtils.copyProperties(userParameter, userInfo);
         return userInfo;
     }
 

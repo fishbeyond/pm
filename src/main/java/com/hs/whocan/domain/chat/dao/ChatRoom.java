@@ -1,6 +1,9 @@
 package com.hs.whocan.domain.chat.dao;
 
+import com.hs.whocan.domain.user.dao.UserMapper;
+
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,14 +17,17 @@ public class ChatRoom {
     private String userId;
     private String roomName;
     private Date createTime;
+    private Set<ChatRoomMapper> chatRoomMappers;
 
-    public ChatRoom(){
+    public ChatRoom() {
     }
-    public ChatRoom(String roomId,String userId){
+
+    public ChatRoom(String roomId, String userId) {
         this.roomId = roomId;
         this.userId = userId;
         this.createTime = new Date();
     }
+
     public String getRoomId() {
         return roomId;
     }
@@ -52,5 +58,13 @@ public class ChatRoom {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Set<ChatRoomMapper> getChatRoomMappers() {
+        return chatRoomMappers;
+    }
+
+    public void setChatRoomMappers(Set<ChatRoomMapper> chatRoomMappers) {
+        this.chatRoomMappers = chatRoomMappers;
     }
 }

@@ -1,5 +1,6 @@
 package com.hs.whocan.domain.chat.dao;
 
+import com.hs.whocan.domain.chat.dao.entity.ChatRoomEntity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class ChatRoomMapper {
     private String mapperId;
     private String roomId;
     private String userId;
+    private ChatRoomEntity chatRoomEntity;
 
     public ChatRoomMapper() {
     }
@@ -53,4 +55,5 @@ public class ChatRoomMapper {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
 }

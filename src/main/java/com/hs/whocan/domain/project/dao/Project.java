@@ -23,7 +23,6 @@ public class Project {
     private long deadline;
     @XmlElement(name = "IsDone")
     private boolean isDone;
-    @XmlElement(name = "Operator")
     private String userId;
     private Date createTime;
     private String operatorName;

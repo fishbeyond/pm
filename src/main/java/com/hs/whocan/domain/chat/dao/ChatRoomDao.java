@@ -16,7 +16,7 @@ public interface ChatRoomDao {
 
     public void modifyChatRoomName(ChatRoom chatRoom);
 
-    public ChatRoom findChatRoomById(String roomId1, String roomId2);
+    public ChatRoom findChatRoomByUnionId(String roomId1, String roomId2);
 
     public void deleteChatRoom(String roomId);
 

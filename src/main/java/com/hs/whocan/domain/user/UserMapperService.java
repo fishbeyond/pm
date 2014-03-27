@@ -1,6 +1,6 @@
 package com.hs.whocan.domain.user;
 
-import com.hs.whocan.service.FriendInfo;
+import com.hs.whocan.service.social.FriendInfo;
 import com.hs.whocan.domain.user.dao.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;

@@ -1,21 +1,27 @@
-package com.hs.whocan.service;
+package com.hs.whocan.service.social;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  * Created with IntelliJ IDEA.
  * User: fish
- * Date: 14-3-21
- * Time: 上午9:26
+ * Date: 14-3-24
+ * Time: 下午5:06
  * To change this template use File | Settings | File Templates.
  */
-public class UserForm {
+@Entity
+public class FriendInfo {
     private String userId;
     private String userName;
     private String phoneNo;
     private String mailAddress;
     private String gender;
     private String remark;
-    private String userToken;
+    private String alias;
+    private String status;
 
+    @Id
     public String getUserId() {
         return userId;
     }
@@ -48,14 +54,6 @@ public class UserForm {
         this.mailAddress = mailAddress;
     }
 
-    public String getUserToken() {
-        return userToken;
-    }
-
-    public void setUserToken(String userToken) {
-        this.userToken = userToken;
-    }
-
     public String getGender() {
         return gender;
     }
@@ -70,5 +68,21 @@ public class UserForm {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

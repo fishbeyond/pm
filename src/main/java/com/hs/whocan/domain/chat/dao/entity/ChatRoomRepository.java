@@ -44,7 +44,7 @@ public class ChatRoomRepository implements ChatRoomDao {
     }
 
     @Override
-    public ChatRoom findChatRoomById(String roomId1, String roomId2) {
+    public ChatRoom findChatRoomByUnionId(String roomId1, String roomId2) {
         final String hql = "from ChatRoomEntity e where e.roomId = :roomId1 or e.roomId = :roomId2";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("roomId1", roomId1);
