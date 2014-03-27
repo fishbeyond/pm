@@ -68,7 +68,7 @@ public class ChatRoomEntity {
     public String getUserId() {
         return chatRoom.getUserId();
     }
-    @OneToMany(targetEntity =ChatRoomMapper.class, cascade = {CascadeType.ALL})
+    @OneToMany(targetEntity =ChatRoomMapper.class, cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
     @JoinColumn(name = "roomId")
     public Set<ChatRoomMapper> getChatRoomMappers() {
         return chatRoom.getChatRoomMappers();

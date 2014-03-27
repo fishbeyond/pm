@@ -4,6 +4,7 @@ import com.hs.whocan.domain.chat.ChatRoomService;
 import com.hs.whocan.domain.chat.dao.Chat;
 import com.hs.whocan.domain.chat.dao.ChatRoom;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Service
+@Transactional
 public class ChatService {
 
     @Resource
