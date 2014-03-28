@@ -17,4 +17,5 @@
     <int:map-to-object-transformer input-channel="chat.findRoomUser" ref="chatFindRoomUser"/>
     <int:map-to-object-transformer input-channel="chat.findUser" ref="chatFindUser"/>
     <int:map-to-object-transformer input-channel="chat.addUser" ref="chatAddUser"/>
+
 </beans>
