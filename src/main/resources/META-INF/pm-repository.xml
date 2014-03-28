@@ -23,6 +23,7 @@
                 <prop key="show_sql">true</prop>
                 <prop key="format_sql">true</prop>
                 <prop key="hibernate.jdbc.batch_size">50</prop>
+                <prop key="hibernate.autoReconnect">true</prop>
                 <!--<prop key="hibernate.connection.autocommit">true</prop>-->
             </props>
         </property>
