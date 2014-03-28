@@ -1,9 +1,10 @@
 package com.hs.whocan.domain.chat.dao.entity;
 
-import com.hs.whocan.domain.chat.dao.Chat;
 import com.hs.whocan.domain.chat.dao.ChatRoom;
 import com.hs.whocan.domain.chat.dao.ChatRoomDao;
 import com.hs.whocan.domain.chat.dao.ChatRoomMapper;
+import com.hs.whocan.domain.account.user.dao.User;
+import com.hs.whocan.domain.account.user.dao.entity.UserEntity;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
@@ -97,6 +98,19 @@ public class ChatRoomRepository implements ChatRoomDao {
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("roomId", roomId);
         return (List<String>)query.list();
+    }
+
+    @Override
+    public List<User> findChatRoomUserByRoomId(String roomId) {
+        final String hql = "from UserEntity e where e.userId in (select m.userId from ChatRoomMapper m where m.roomId = :roomId)";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("roomId",roomId);
+        List<UserEntity> entities = (List<UserEntity>) query.list();
+        List<User> users = new ArrayList<User>();
+        for(UserEntity entity : entities){
+            users.add(entity.getUser());
+        }
+        return users;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
 }

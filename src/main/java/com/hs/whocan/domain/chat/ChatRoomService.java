@@ -1,11 +1,14 @@
 package com.hs.whocan.domain.chat;
 
 import com.hs.whocan.domain.chat.dao.*;
+import com.hs.whocan.domain.account.user.dao.User;
 import com.hs.whocan.domain.utils.UUIDGenerator;
+import com.hs.whocan.service.chat.ChatRoomInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,18 +29,20 @@ public class ChatRoomService {
     @Resource
     private UUIDGenerator uuidGenerator;
 
-    public String findPrivateRoom(String userId, String friendId) {
-        String roomId1 = userId +"_"+ friendId;
-        String roomId2 = friendId  +"_"+  userId;
+    public ChatRoomInfo findPrivateRoom(String userId, String friendId) {
+        String roomId1 = userId + "_" + friendId;
+        String roomId2 = friendId + "_" + userId;
         ChatRoom chatRoom = chatRoomDao.findChatRoomByUnionId(roomId1, roomId2);
+        ChatRoomInfo chatRoomInfo = new ChatRoomInfo();
+        chatRoomInfo.setChatRoom(chatRoom);
         if (null == chatRoom) {
             chatRoom = new ChatRoom(roomId1, userId);
             chatRoomDao.createChatRoom(chatRoom);
             chatRoomDao.createChatRoomMapper(new ChatRoomMapper(roomId1, userId));
             chatRoomDao.createChatRoomMapper(new ChatRoomMapper(roomId1, friendId));
-            return roomId1;
+            return chatRoomInfo;
         }
-        return chatRoom.getRoomId();
+        return chatRoomInfo;
     }
 
     public void sendChat(Chat chat) {
@@ -45,8 +50,17 @@ public class ChatRoomService {
         chatDao.createChat(chat);
     }
 
-    public List<ChatRoom> findChatRoom(String userId) {
-        return chatRoomDao.findChatRoomByUserId(userId);
+    public List<ChatRoomInfo> findChatRoomInfo(String userId) {
+        List<ChatRoom> chatRooms = chatRoomDao.findChatRoomByUserId(userId);
+        List<ChatRoomInfo> chatRoomInfos = new ArrayList<ChatRoomInfo>();
+        for (ChatRoom chatRoom : chatRooms) {
+            ChatRoomInfo chatRoomInfo = new ChatRoomInfo();
+            List<User> users = chatRoomDao.findChatRoomUserByRoomId(chatRoom.getRoomId());
+            chatRoomInfo.setUserList(users);
+            chatRoomInfo.setChatRoom(chatRoom);
+            chatRoomInfos.add(chatRoomInfo);
+        }
+        return chatRoomInfos;
     }
 
     public List<Chat> findChatByRoomId(String roomId) {
@@ -54,12 +68,12 @@ public class ChatRoomService {
     }
 
     public String addPeopleToChatRoom(String roomId, String userId, String[] userIds) {
-        if(null==roomId){
+        if (null == roomId) {
             roomId = uuidGenerator.shortUuid();
             ChatRoom chatRoom = new ChatRoom(roomId, userId);
             chatRoomDao.createChatRoom(chatRoom);
         }
-        for(String addUserId : userIds){
+        for (String addUserId : userIds) {
             ChatRoomMapper chatRoomMapper = new ChatRoomMapper(roomId, addUserId);
             chatRoomDao.createChatRoomMapper(chatRoomMapper);
         }

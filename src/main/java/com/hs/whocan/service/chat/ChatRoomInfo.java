@@ -1,27 +1,38 @@
-package com.hs.whocan.domain.chat.dao;
+package com.hs.whocan.service.chat;
+
+import com.hs.whocan.domain.account.user.dao.User;
+import com.hs.whocan.domain.chat.dao.ChatRoom;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
  * User: fish
- * Date: 14-3-26
- * Time: 下午7:34
+ * Date: 14-3-28
+ * Time: 上午10:32
  * To change this template use File | Settings | File Templates.
  */
-public class ChatRoom {
+public class ChatRoomInfo {
     private String roomId;
     private String userId;
     private String roomName;
     private Date createTime;
+    private List<User> userList;
 
-    public ChatRoom() {
+    public void setChatRoom(ChatRoom chatRoom) {
+        this.roomId = chatRoom.getRoomId();
+        this.userId = chatRoom.getUserId();
+        this.roomName = chatRoom.getRoomName();
+        this.createTime = chatRoom.getCreateTime();
     }
 
-    public ChatRoom(String roomId, String userId) {
-        this.roomId = roomId;
-        this.userId = userId;
-        this.createTime = new Date();
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
     }
 
     public String getRoomId() {
@@ -55,5 +66,4 @@ public class ChatRoom {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
-
 }

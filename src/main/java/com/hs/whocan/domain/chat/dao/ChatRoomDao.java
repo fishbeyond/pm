@@ -1,5 +1,7 @@
 package com.hs.whocan.domain.chat.dao;
 
+import com.hs.whocan.domain.account.user.dao.User;
+
 import java.util.List;
 
 /**
@@ -27,4 +29,6 @@ public interface ChatRoomDao {
     public void deleteChatRoomMapperByUserId(String roomId, String deleteUserId);
 
     public List<String> findUserIdByRoomId(String roomId);
+
+    public List<User> findChatRoomUserByRoomId(String roomId);
 }

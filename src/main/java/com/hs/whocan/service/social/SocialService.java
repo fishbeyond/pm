@@ -1,8 +1,8 @@
 package com.hs.whocan.service.social;
 
-import com.hs.whocan.domain.user.UserMapperService;
-import com.hs.whocan.domain.user.dao.UserInfo;
-import com.hs.whocan.domain.user.dao.UserMapper;
+import com.hs.whocan.domain.account.user.UserMapperService;
+import com.hs.whocan.domain.account.user.dao.User;
+import com.hs.whocan.domain.account.user.dao.UserMapper;
 import com.hs.whocan.domain.push.PushService;
 import com.hs.whocan.domain.push.devicetoken.DeviceService;
 import org.springframework.stereotype.Service;
@@ -64,7 +64,7 @@ public class SocialService {
         return list;
     }
 
-    public List<UserInfo> findUserByProjectId(String projectId) {
+    public List<User> findUserByProjectId(String projectId) {
         return userMapperService.findUserByProjectId(projectId);
     }
 }

@@ -1,10 +1,10 @@
 package com.hs.whocan.service.user;
 
-import com.hs.whocan.domain.security.SecurityService;
-import com.hs.whocan.domain.security.dao.AccessInfo;
+import com.hs.whocan.domain.account.security.SecurityService;
+import com.hs.whocan.domain.account.security.dao.Access;
 import com.hs.whocan.domain.sms.SmsService;
-import com.hs.whocan.domain.user.UserService;
-import com.hs.whocan.domain.user.dao.UserInfo;
+import com.hs.whocan.domain.account.user.UserService;
+import com.hs.whocan.domain.account.user.dao.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,59 +36,59 @@ public class AccountService {
         return true;
     }
 
-    public UserParameter loginByAuthCode(String phoneNo, int authCode) {
+    public UserInfo loginByAuthCode(String phoneNo, int authCode) {
         securityService.verifyAuthCode(phoneNo, authCode);
-        UserInfo userInfo = userService.findUserByPhoneNo(phoneNo);
+        User user = userService.findUserByPhoneNo(phoneNo);
         String token = null;
-        if (null == userInfo) {
-            userInfo = userService.createUserInfo(phoneNo);
-            token = securityService.createAccessInfo(userInfo.getUserId());
-            userService.relateUserInvitationByPhoneNo(phoneNo, userInfo.getUserId());
+        if (null == user) {
+            user = userService.createUserInfo(phoneNo);
+            token = securityService.createAccessInfo(user.getUserId());
+            userService.relateUserInvitationByPhoneNo(phoneNo, user.getUserId());
         } else {
-            token = securityService.modifyAccessToken(userInfo.getUserId());
+            token = securityService.modifyAccessToken(user.getUserId());
         }
-        return transform2UserForm(userInfo, token);
+        return transform2UserForm(user, token);
     }
 
-    public UserParameter loginByToken(String phoneNo, String token) {
-        AccessInfo accessInfo = securityService.verifyAndUpdateToken(token);
-        UserInfo userInfo = userService.verifyPhoneNo(accessInfo.getAccessId(), phoneNo);
-        return transform2UserForm(userInfo, accessInfo.getAccessToken());
+    public UserInfo loginByToken(String phoneNo, String token) {
+        Access access = securityService.verifyAndUpdateToken(token);
+        User user = userService.verifyPhoneNo(access.getAccessId(), phoneNo);
+        return transform2UserForm(user, access.getAccessToken());
     }
 
-    public boolean modifyUser(UserParameter userParameter) {
-        UserInfo userInfo = transform2UserInfo(userParameter);
-        userService.modifyUser(userInfo);
+    public boolean modifyUser(UserInfo userInfo) {
+        User user = transform2UserInfo(userInfo);
+        userService.modifyUser(user);
         return true;
     }
 
     public List<String> findUserIdByToken(String token) {
-        AccessInfo accessInfo = securityService.findAccessInfoByToken(token);
+        Access access = securityService.findAccessInfoByToken(token);
         List<String> list = new ArrayList<String>();
-        list.add(accessInfo.getAccessId());
+        list.add(access.getAccessId());
         return list;
     }
 
     public List<String> findOperatorByToken(String userId) {
-        UserInfo userInfo = userService.findUserNameInfoById(userId);
+        User user = userService.findUserNameInfoById(userId);
         List<String> list = new ArrayList<String>();
-        list.add(userInfo.getUserName());
+        list.add(user.getUserName());
         return list;
     }
 
-    private UserParameter transform2UserForm(UserInfo userInfo, String token) {
-        UserParameter userParameter = new UserParameter();
-        userParameter.setUserToken(token);
-        userParameter.setUserName(userInfo.getUserName());
-        userParameter.setPhoneNo(userInfo.getPhoneNo());
-        userParameter.setMailAddress(userInfo.getMailAddress());
-        return userParameter;
+    private UserInfo transform2UserForm(User user, String token) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserToken(token);
+        userInfo.setUserName(user.getUserName());
+        userInfo.setPhoneNo(user.getPhoneNo());
+        userInfo.setMailAddress(user.getMailAddress());
+        return userInfo;
     }
 
-    private UserInfo transform2UserInfo(UserParameter userParameter) {
-        UserInfo userInfo = new UserInfo();
-        BeanUtils.copyProperties(userParameter, userInfo);
-        return userInfo;
+    private User transform2UserInfo(UserInfo userInfo) {
+        User user = new User();
+        BeanUtils.copyProperties(userInfo, user);
+        return user;
     }
 
 }

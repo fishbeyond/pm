@@ -15,7 +15,7 @@
                   http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 
     <int:chain input-channel="chatService.findAllChatRoom">
-        <int:service-activator expression="@chatService.findAllChatRoom(payload[userId])"/>
+        <int:service-activator expression="@chatService.findAllChatRoomInfo(payload[userId])"/>
     </int:chain>
     <int:chain input-channel="chatService.findUserIdInRoom">
         <int:service-activator
@@ -42,5 +42,4 @@
     <int:chain input-channel="chatService.deleteChat">
         <int:service-activator expression="@chatService.deleteChat(payload[chatId])"/>
     </int:chain>
-
 </beans>

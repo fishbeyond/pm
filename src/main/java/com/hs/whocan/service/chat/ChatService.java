@@ -3,11 +3,11 @@ package com.hs.whocan.service.chat;
 import com.hs.whocan.domain.chat.ChatRoomService;
 import com.hs.whocan.domain.chat.dao.Chat;
 import com.hs.whocan.domain.chat.dao.ChatRoom;
+import com.hs.whocan.domain.chat.dao.ChatRoomMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,8 +24,8 @@ public class ChatService {
     @Resource
     private ChatRoomService chatRoomService;
 
-    public List<ChatRoom> findAllChatRoom(String userId) {
-        return chatRoomService.findChatRoom(userId);
+    public List<ChatRoomInfo> findAllChatRoomInfo(String userId) {
+        return chatRoomService.findChatRoomInfo(userId);
     }
 
     public List<String> findUserIdInRoom(String roomId){
@@ -42,7 +42,7 @@ public class ChatService {
         return true;
     }
 
-    public String findPrivateRoom(String userId, String friendId) {
+    public ChatRoomInfo findPrivateRoom(String userId, String friendId) {
         return chatRoomService.findPrivateRoom(userId, friendId);
     }
 
