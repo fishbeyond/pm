@@ -23,7 +23,7 @@ public class FindChat extends WhoCanExecutor {
     @Resource
     private ChatRoomComponent chatRoomComponent;
 
-    public List<Chat> findChatByRoomId() {
+    public List<Chat> execute() {
         return chatRoomComponent.findChatByRoomId(roomId);
     }
 
