@@ -1,7 +1,7 @@
 package com.hs.whocan.service;
 
-import com.hs.whocan.domain.work.WorkService;
-import com.hs.whocan.domain.work.dao.Work;
+import com.hs.whocan.component.work.WorkComponent;
+import com.hs.whocan.component.work.dao.Work;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,21 +17,21 @@ import java.util.List;
 @Service
 public class WorkAction {
     @Resource
-    private WorkService workService;
+    private WorkComponent workComponent;
 
     public List<Work> findWorkByProjectId(String projectId) {
-        return workService.findWorkByProjectId(projectId);
+        return workComponent.findWorkByProjectId(projectId);
     }
 
     public void createWork(Work work){
-        workService.createWork(work);
+        workComponent.createWork(work);
     }
 
     public void modifyWork(Work work){
-        workService.modifyWork(work);
+        workComponent.modifyWork(work);
     }
 
     public void deleteWork(String workId){
-        workService.deleteWork(workId);
+        workComponent.deleteWork(workId);
     }
 }

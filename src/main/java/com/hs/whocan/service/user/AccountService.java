@@ -1,10 +1,10 @@
 package com.hs.whocan.service.user;
 
-import com.hs.whocan.domain.account.security.SecurityService;
-import com.hs.whocan.domain.account.security.dao.Access;
-import com.hs.whocan.domain.sms.SmsService;
-import com.hs.whocan.domain.account.user.UserService;
-import com.hs.whocan.domain.account.user.dao.User;
+import com.hs.whocan.component.account.security.SecurityComponent;
+import com.hs.whocan.component.account.security.dao.Access;
+import com.hs.whocan.component.sms.SmsService;
+import com.hs.whocan.component.account.user.UserComponent;
+import com.hs.whocan.component.account.user.dao.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,53 +24,53 @@ import java.util.List;
 @Transactional
 public class AccountService {
     @Resource
-    private UserService userService;
+    private UserComponent userComponent;
     @Resource
     private SmsService smsService;
     @Resource
-    private SecurityService securityService;
+    private SecurityComponent securityComponent;
 
     public boolean sendAuthCode(String phoneNo) {
-        int authCode = securityService.getAuthCode(phoneNo);
+        int authCode = securityComponent.getAuthCode(phoneNo);
         smsService.sendAuthCode(phoneNo, authCode);
         return true;
     }
 
     public UserInfo loginByAuthCode(String phoneNo, int authCode) {
-        securityService.verifyAuthCode(phoneNo, authCode);
-        User user = userService.findUserByPhoneNo(phoneNo);
+        securityComponent.verifyAuthCode(phoneNo, authCode);
+        User user = userComponent.findUserByPhoneNo(phoneNo);
         String token = null;
         if (null == user) {
-            user = userService.createUserInfo(phoneNo);
-            token = securityService.createAccessInfo(user.getUserId());
-            userService.relateUserInvitationByPhoneNo(phoneNo, user.getUserId());
+            user = userComponent.createUserInfo(phoneNo);
+            token = securityComponent.createAccessInfo(user.getUserId());
+            userComponent.relateUserInvitationByPhoneNo(phoneNo, user.getUserId());
         } else {
-            token = securityService.modifyAccessToken(user.getUserId());
+            token = securityComponent.modifyAccessToken(user.getUserId());
         }
         return transform2UserForm(user, token);
     }
 
     public UserInfo loginByToken(String phoneNo, String token) {
-        Access access = securityService.verifyAndUpdateToken(token);
-        User user = userService.verifyPhoneNo(access.getAccessId(), phoneNo);
+        Access access = securityComponent.verifyAndUpdateToken(token);
+        User user = userComponent.verifyPhoneNo(access.getAccessId(), phoneNo);
         return transform2UserForm(user, access.getAccessToken());
     }
 
     public boolean modifyUser(UserInfo userInfo) {
         User user = transform2UserInfo(userInfo);
-        userService.modifyUser(user);
+        userComponent.modifyUser(user);
         return true;
     }
 
     public List<String> findUserIdByToken(String token) {
-        Access access = securityService.findAccessInfoByToken(token);
+        Access access = securityComponent.findAccessInfoByToken(token);
         List<String> list = new ArrayList<String>();
         list.add(access.getAccessId());
         return list;
     }
 
     public List<String> findOperatorByToken(String userId) {
-        User user = userService.findUserNameInfoById(userId);
+        User user = userComponent.findUserNameInfoById(userId);
         List<String> list = new ArrayList<String>();
         list.add(user.getUserName());
         return list;

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-http="http://www.springframework.org/schema/integration/http"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:int-xml="http://www.springframework.org/schema/integration/xml"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                  http://www.springframework.org/schema/beans/spring-beans.xsd
+                  http://www.springframework.org/schema/integration
+                  http://www.springframework.org/schema/integration/spring-integration.xsd
+                  http://www.springframework.org/schema/integration/http
+                  http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+                  http://www.springframework.org/schema/integration/jdbc
+                  http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd http://www.springframework.org/schema/integration/xml http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd">
+
+
+    <int-http:inbound-gateway supported-methods="GET,POST" path="/m/{service}/{method}"
+                              request-channel="wcServiceChannel" error-channel="wcJsonErrorResultChannel"
+                              reply-timeout="5000"
+                              mapped-request-headers="Content-Type,user-agent,host,outbound"
+                              mapped-response-headers="Content-Type">
+        <int-http:header name="headerPath" expression="#pathVariables.service + '.' + #pathVariables.method"/>
+    </int-http:inbound-gateway>
+
+    <int:channel id="wcServiceChannel"/>
+    <int:chain input-channel="wcServiceChannel" output-channel="wcJsonOutputChannel">
+        <int:enricher>
+            <int:property name="userId" expression="@accountService.findUserIdByToken(payload[token])"/>
+        </int:enricher>
+        <int:enricher>
+            <int:property name="operatorName" expression="@accountService.findOperatorByToken(payload[userId])"/>
+        </int:enricher>
+        <int:gateway request-channel="wcServiceRouter" />
+        <int:service-activator expression="payload.execute()"/>
+    </int:chain>
+
+    <int:channel id="wcServiceRouter"/>
+    <int:header-value-router header-name="headerPath" input-channel="wcServiceRouter"
+                             default-output-channel="noWcServerChannel">
+    </int:header-value-router>
+
+    <int:channel id="wcJsonOutputChannel"/>
+    <int:service-activator input-channel="wcJsonOutputChannel"
+                           expression="@jsonResultService.createSuccessResult(payload)"/>
+
+    <int:channel id="wcJsonErrorResultChannel"/>
+    <int:transformer input-channel="wcJsonErrorResultChannel"
+                     expression="@jsonResultService.createExceptionResult(payload)"/>
+
+    <int:channel id="noWcServerChannel"/>
+    <int:transformer input-channel="noWcServerChannel"
+                     expression="@jsonResultService.createExceptionResult('服务不存在')"/>
+
+</beans>

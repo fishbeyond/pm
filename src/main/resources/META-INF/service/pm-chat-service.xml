@@ -33,7 +33,7 @@
         <int:service-activator expression="@chatService.findPrivateRoom(payload[userId],payload[friendId])"/>
     </int:chain>
     <int:chain input-channel="chatService.sendChat">
-        <int:map-to-object-transformer type="com.hs.whocan.domain.chat.dao.Chat"/>
+        <int:map-to-object-transformer type="com.hs.whocan.component.chat.dao.Chat"/>
         <int:service-activator expression="@chatService.sendChat(payload)"/>
     </int:chain>
     <int:chain input-channel="chatService.findChatByRoomId">

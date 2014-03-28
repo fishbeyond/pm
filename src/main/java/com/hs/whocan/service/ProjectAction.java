@@ -1,8 +1,8 @@
 package com.hs.whocan.service;
 
-import com.hs.whocan.domain.operaterecord.OperateRecordService;
-import com.hs.whocan.domain.project.ProjectService;
-import com.hs.whocan.domain.project.dao.Project;
+import com.hs.whocan.component.operaterecord.OperateRecordService;
+import com.hs.whocan.component.project.ProjectService;
+import com.hs.whocan.component.project.dao.Project;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

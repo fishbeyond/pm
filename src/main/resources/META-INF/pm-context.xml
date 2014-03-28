@@ -27,6 +27,13 @@
     <import resource="service/pm-access-service.xml"/>
     <import resource="service/pm-social-service.xml"/>
     <!--<import resource="service/pm-recv-package-service.xml"/>-->
+    <!--===========================================================-->
+
+    <import resource="whocan-gateway.xml"/>
+    <import resource="service/chat-service.xml"/>
+
+
+
 
     <!--<bean id="nullResultHandler" class="com.hs.whocan.framework.transform.NullPayloadHandler"/>-->
     <!--<aop:config>-->
