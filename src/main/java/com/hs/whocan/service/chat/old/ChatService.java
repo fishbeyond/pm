@@ -1,7 +1,7 @@
 package com.hs.whocan.service.chat.old;
 
-import com.hs.whocan.component.chat.ChatRoomComponent;
-import com.hs.whocan.component.chat.dao.Chat;
+import com.hs.whocan.component.session.SessionComponent;
+import com.hs.whocan.component.session.dao.Message;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,41 +20,41 @@ import java.util.List;
 public class ChatService {
 
     @Resource
-    private ChatRoomComponent chatRoomComponent;
+    private SessionComponent sessionComponent;
 
-    public List<ChatRoomInfo> findAllChatRoomInfo(String userId) {
-        return chatRoomComponent.findChatRoomInfo(userId);
+    public List<SessionInfo> findAllChatRoomInfo(String userId) {
+        return sessionComponent.findChatRoomInfo(userId);
     }
 
     public List<String> findUserIdInRoom(String roomId){
-        return chatRoomComponent.findUserIdInRoom(roomId);
+        return sessionComponent.findUserIdInRoom(roomId);
     }
 
     public String addPeopleToChatRoom(String roomId,String userId,String userIds) {
         String[] userArray = userIds.split(",");
-        return chatRoomComponent.addPeopleToChatRoom(roomId,userId,userArray);
+        return sessionComponent.addPeopleToChatRoom(roomId,userId,userArray);
     }
 
     public boolean deletePeopleFromChatRoom(String roomId,String userId,String deleteUserId){
-        chatRoomComponent.deletePeopleFromChatRoom(roomId,deleteUserId);
+        sessionComponent.deletePeopleFromChatRoom(roomId,deleteUserId);
         return true;
     }
 
-    public ChatRoomInfo findPrivateRoom(String userId, String friendId) {
-        return chatRoomComponent.findPrivateRoom(userId, friendId);
+    public SessionInfo findPrivateRoom(String userId, String friendId) {
+        return sessionComponent.findPrivateSession(userId, friendId);
     }
 
-    public boolean sendChat(Chat chat) {
-        chatRoomComponent.sendChat(chat);
+    public boolean sendChat(Message message) {
+        sessionComponent.sendMessage(message);
         return true;
     }
 
-    public List<Chat> findChatByRoomId(String roomId) {
-        return chatRoomComponent.findChatByRoomId(roomId);
+    public List<Message> findChatByRoomId(String roomId) {
+        return sessionComponent.findChatByRoomId(roomId);
     }
 
     public boolean deleteChat(String chatId){
-        chatRoomComponent.deleteChat(chatId);
+        sessionComponent.deleteChat(chatId);
         return true;
     }
 

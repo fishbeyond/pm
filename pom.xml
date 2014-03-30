@@ -304,6 +304,20 @@
             <version>3.2.5.RELEASE</version>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <aggregate>true</aggregate>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+        <finalName>pm</finalName>
+    </build>
     <profiles>
         <profile>
             <id>deployPm2Tomcat</id>
@@ -338,7 +352,4 @@
             </build>
         </profile>
     </profiles>
-    <build>
-        <finalName>pm</finalName>
-    </build>
 </project>

@@ -19,27 +19,27 @@
     </int:chain>
     <int:chain input-channel="chatService.findUserIdInRoom">
         <int:service-activator
-                expression="@chatService.findUserIdInRoom(payload[roomId])"/>
+                expression="@chatService.findUserIdInRoom(payload[sessionId])"/>
     </int:chain>
     <int:chain input-channel="chatService.addPeopleToChatRoom">
         <int:service-activator
-                expression="@chatService.addPeopleToChatRoom(payload[roomId],payload[userId],payload[userIds])"/>
+                expression="@chatService.addPeopleToChatRoom(payload[sessionId],payload[userId],payload[userIds])"/>
     </int:chain>
     <int:chain input-channel="chatService.deletePeopleFromChatRoom">
         <int:service-activator
-                expression="@chatService.deletePeopleFromChatRoom(payload[roomId],payload[userId],payload[userIds])"/>
+                expression="@chatService.deletePeopleFromChatRoom(payload[sessionId],payload[userId],payload[userIds])"/>
     </int:chain>
     <int:chain input-channel="chatService.findPrivateRoom">
         <int:service-activator expression="@chatService.findPrivateRoom(payload[userId],payload[friendId])"/>
     </int:chain>
     <int:chain input-channel="chatService.sendChat">
-        <int:map-to-object-transformer type="com.hs.whocan.component.chat.dao.Chat"/>
+        <int:map-to-object-transformer type="com.hs.whocan.component.session.dao.Message"/>
         <int:service-activator expression="@chatService.sendChat(payload)"/>
     </int:chain>
     <int:chain input-channel="chatService.findChatByRoomId">
-        <int:service-activator expression="@chatService.findChatByRoomId(payload[roomId])"/>
+        <int:service-activator expression="@chatService.findChatByRoomId(payload[sessionId])"/>
     </int:chain>
     <int:chain input-channel="chatService.deleteChat">
-        <int:service-activator expression="@chatService.deleteChat(payload[chatId])"/>
+        <int:service-activator expression="@chatService.deleteChat(payload[messageId])"/>
     </int:chain>
 </beans>

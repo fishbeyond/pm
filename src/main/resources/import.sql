@@ -42,14 +42,14 @@ CREATE TABLE pm.work (
   isDone       BOOLEAN,
   PRIMARY KEY (workId));
 
-CREATE TABLE pm.chat (
-  chatId       INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE pm.message (
+  messageId       INT NOT NULL AUTO_INCREMENT,
   message      VARCHAR(255),
   fromUserName VARCHAR(50),
   fromUserId   VARCHAR(50),
   projectId    INT NOT NULL,
   createTime   DATETIME,
-  PRIMARY KEY (chatId));
+  PRIMARY KEY (messageId));
 CREATE TABLE pm.device_token (
   tokenId INT NOT NULL AUTO_INCREMENT,
   userId  VARCHAR(50),

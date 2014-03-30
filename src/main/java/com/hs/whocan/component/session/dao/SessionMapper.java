@@ -1,6 +1,6 @@
-package com.hs.whocan.component.chat.dao;
+package com.hs.whocan.component.session.dao;
 
-import com.hs.whocan.component.chat.dao.entity.ChatRoomEntity;
+import com.hs.whocan.component.session.dao.entity.SessionEntity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -13,17 +13,17 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="chat_room_mapper")
-public class ChatRoomMapper {
+@Table(name="session_mapper")
+public class SessionMapper {
     private String mapperId;
     private String roomId;
     private String userId;
-    private ChatRoomEntity chatRoomEntity;
+    private SessionEntity sessionEntity;
 
-    public ChatRoomMapper() {
+    public SessionMapper() {
     }
 
-    public ChatRoomMapper(String roomId, String userId) {
+    public SessionMapper(String roomId, String userId) {
         this.roomId = roomId;
         this.userId = userId;
     }

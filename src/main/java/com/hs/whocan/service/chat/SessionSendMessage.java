@@ -1,7 +1,7 @@
 package com.hs.whocan.service.chat;
 
-import com.hs.whocan.component.chat.ChatRoomComponent;
-import com.hs.whocan.component.chat.dao.Chat;
+import com.hs.whocan.component.session.SessionComponent;
+import com.hs.whocan.component.session.dao.Message;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -16,20 +16,20 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SendChat {
+public class SessionSendMessage {
     @Resource
-    private ChatRoomComponent chatRoomComponent;
-    private Chat chat;
+    private SessionComponent sessionComponent;
+    private Message message;
     public boolean execute() {
-        chatRoomComponent.sendChat(chat);
+        sessionComponent.sendMessage(message);
         return true;
     }
 
-    public Chat getChat() {
-        return chat;
+    public Message getMessage() {
+        return message;
     }
 
-    public void setChat(Chat chat) {
-        this.chat = chat;
+    public void setMessage(Message message) {
+        this.message = message;
     }
 }

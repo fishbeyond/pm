@@ -1,6 +1,6 @@
 package com.hs.whocan.service.chat;
 
-import com.hs.whocan.component.chat.ChatRoomComponent;
+import com.hs.whocan.component.session.SessionComponent;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +15,12 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class DeleteChat {
+public class SessionDeleteMessage {
     private String chatId;
     @Resource
-    private ChatRoomComponent chatRoomComponent;
+    private SessionComponent sessionComponent;
     public boolean execute(){
-        chatRoomComponent.deleteChat(chatId);
+        sessionComponent.deleteChat(chatId);
         return true;
     }
 

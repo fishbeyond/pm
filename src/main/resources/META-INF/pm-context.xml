@@ -30,7 +30,7 @@
     <!--===========================================================-->
 
     <import resource="whocan-gateway.xml"/>
-    <import resource="service/chat-service.xml"/>
+    <import resource="service/session-service.xml"/>
 
 
 

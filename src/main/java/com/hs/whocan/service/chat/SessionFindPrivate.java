@@ -1,13 +1,12 @@
 package com.hs.whocan.service.chat;
 
-import com.hs.whocan.component.chat.ChatRoomComponent;
+import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.service.WhoCanExecutor;
-import com.hs.whocan.service.chat.old.ChatRoomInfo;
+import com.hs.whocan.service.chat.old.SessionInfo;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,15 +17,15 @@ import java.util.Date;
  */
 @Service
 @Scope("prototype")
-public class ChatFindPrivateRoom extends WhoCanExecutor {
+public class SessionFindPrivate extends WhoCanExecutor {
 
     protected String friendId;
 
     @Resource
-    protected ChatRoomComponent chatRoomComponent;
+    protected SessionComponent sessionComponent;
 
-    public ChatRoomInfo execute() {
-        return chatRoomComponent.findPrivateRoom(userId, friendId);
+    public SessionInfo execute() {
+        return sessionComponent.findPrivateSession(userId, friendId);
     }
 
     public String getFriendId() {

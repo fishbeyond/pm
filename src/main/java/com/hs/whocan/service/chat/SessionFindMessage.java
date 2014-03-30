@@ -1,7 +1,7 @@
 package com.hs.whocan.service.chat;
 
-import com.hs.whocan.component.chat.ChatRoomComponent;
-import com.hs.whocan.component.chat.dao.Chat;
+import com.hs.whocan.component.session.SessionComponent;
+import com.hs.whocan.component.session.dao.Message;
 import com.hs.whocan.service.WhoCanExecutor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -18,13 +18,13 @@ import java.util.List;
  */
 @Service
 @Scope("prototype")
-public class FindChat extends WhoCanExecutor {
+public class SessionFindMessage extends WhoCanExecutor {
     private String roomId;
     @Resource
-    private ChatRoomComponent chatRoomComponent;
+    private SessionComponent sessionComponent;
 
-    public List<Chat> execute() {
-        return chatRoomComponent.findChatByRoomId(roomId);
+    public List<Message> execute() {
+        return sessionComponent.findChatByRoomId(roomId);
     }
 
     public String getRoomId() {

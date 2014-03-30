@@ -1,7 +1,7 @@
 package com.hs.whocan.service.chat.old;
 
 import com.hs.whocan.component.account.user.dao.User;
-import com.hs.whocan.component.chat.dao.ChatRoom;
+import com.hs.whocan.component.session.dao.Session;
 
 import java.util.Date;
 import java.util.List;
@@ -13,18 +13,18 @@ import java.util.List;
  * Time: 上午10:32
  * To change this template use File | Settings | File Templates.
  */
-public class ChatRoomInfo {
-    private String roomId;
+public class SessionInfo {
+    private String sessionId;
     private String userId;
-    private String roomName;
+    private String sessionName;
     private Date createTime;
     private List<User> userList;
 
-    public void setChatRoom(ChatRoom chatRoom) {
-        this.roomId = chatRoom.getRoomId();
-        this.userId = chatRoom.getUserId();
-        this.roomName = chatRoom.getRoomName();
-        this.createTime = chatRoom.getCreateTime();
+    public void setChatRoom(Session session) {
+        this.sessionId = session.getSessionId();
+        this.userId = session.getUserId();
+        this.sessionName = session.getSessionName();
+        this.createTime = session.getCreateTime();
     }
 
     public List<User> getUserList() {
@@ -35,12 +35,12 @@ public class ChatRoomInfo {
         this.userList = userList;
     }
 
-    public String getRoomId() {
-        return roomId;
+    public String getSessionId() {
+        return sessionId;
     }
 
-    public void setRoomId(String roomId) {
-        this.roomId = roomId;
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
     public String getUserId() {
@@ -51,12 +51,12 @@ public class ChatRoomInfo {
         this.userId = userId;
     }
 
-    public String getRoomName() {
-        return roomName;
+    public String getSessionName() {
+        return sessionName;
     }
 
-    public void setRoomName(String roomName) {
-        this.roomName = roomName;
+    public void setSessionName(String sessionName) {
+        this.sessionName = sessionName;
     }
 
     public Date getCreateTime() {

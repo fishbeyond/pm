@@ -1,4 +1,4 @@
-package com.hs.whocan.component.chat.dao;
+package com.hs.whocan.component.session.dao;
 
 import java.util.Date;
 
@@ -9,27 +9,27 @@ import java.util.Date;
  * Time: 下午7:34
  * To change this template use File | Settings | File Templates.
  */
-public class ChatRoom {
-    private String roomId;
+public class Session {
+    private String sessionId;
     private String userId;
-    private String roomName;
+    private String sessionName;
     private Date createTime;
 
-    public ChatRoom() {
+    public Session() {
     }
 
-    public ChatRoom(String roomId, String userId) {
-        this.roomId = roomId;
+    public Session(String sessionId, String userId) {
+        this.sessionId = sessionId;
         this.userId = userId;
         this.createTime = new Date();
     }
 
-    public String getRoomId() {
-        return roomId;
+    public String getSessionId() {
+        return sessionId;
     }
 
-    public void setRoomId(String roomId) {
-        this.roomId = roomId;
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
     public String getUserId() {
@@ -40,12 +40,12 @@ public class ChatRoom {
         this.userId = userId;
     }
 
-    public String getRoomName() {
-        return roomName;
+    public String getSessionName() {
+        return sessionName;
     }
 
-    public void setRoomName(String roomName) {
-        this.roomName = roomName;
+    public void setSessionName(String sessionName) {
+        this.sessionName = sessionName;
     }
 
     public Date getCreateTime() {
