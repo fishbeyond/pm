@@ -30,7 +30,7 @@ public class UserModify extends WhoCanExecutor {
     @Resource
     private UserComponent userComponent;
     @Transactional
-    public boolean execute() {
+    public Boolean execute() {
         User user = new User();
         BeanUtils.copyProperties(this,user);
         userComponent.modifyUser(user);

@@ -1,6 +1,7 @@
-package com.hs.whocan.service.chat.old;
+package com.hs.whocan.service.session.old;
 
 import com.hs.whocan.component.account.user.dao.User;
+import com.hs.whocan.component.session.SessionType;
 import com.hs.whocan.component.session.dao.Session;
 
 import java.util.Date;
@@ -18,6 +19,7 @@ public class SessionInfo {
     private String userId;
     private String sessionName;
     private Date createTime;
+    private Enum<SessionType> type;
     private List<User> userList;
 
     public void setSession(Session session) {
@@ -25,6 +27,7 @@ public class SessionInfo {
         this.userId = session.getUserId();
         this.sessionName = session.getSessionName();
         this.createTime = session.getCreateTime();
+        this.setType(session.getType());
     }
 
     public List<User> getUserList() {
@@ -65,5 +68,13 @@ public class SessionInfo {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Enum<SessionType> getType() {
+        return type;
+    }
+
+    public void setType(Enum<SessionType> type) {
+        this.type = type;
     }
 }

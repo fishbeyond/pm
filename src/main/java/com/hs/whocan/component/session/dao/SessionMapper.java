@@ -4,6 +4,7 @@ import com.hs.whocan.component.session.dao.entity.SessionEntity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,7 +19,7 @@ public class SessionMapper {
     private String mapperId;
     private String sessionId;
     private String userId;
-    private SessionEntity sessionEntity;
+    private Date addTime;
 
     public SessionMapper() {
     }
@@ -26,6 +27,7 @@ public class SessionMapper {
     public SessionMapper(String sessionId, String userId) {
         this.sessionId = sessionId;
         this.userId = userId;
+        this.addTime = new Date();
     }
 
     @Id
@@ -56,4 +58,12 @@ public class SessionMapper {
         this.userId = userId;
     }
 
+    @Column
+    public Date getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(Date addTime) {
+        this.addTime = addTime;
+    }
 }

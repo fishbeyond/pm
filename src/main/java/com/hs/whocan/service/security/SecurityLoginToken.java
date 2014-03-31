@@ -20,7 +20,7 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class TokenLogin {
+public class SecurityLoginToken {
     private String token;
     private String phoneNo;
     @Resource

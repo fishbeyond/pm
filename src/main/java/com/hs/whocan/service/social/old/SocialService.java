@@ -1,10 +1,11 @@
-package com.hs.whocan.service.social;
+package com.hs.whocan.service.social.old;
 
 import com.hs.whocan.component.account.user.UserMapperComponent;
 import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.component.account.user.dao.UserMapper;
 import com.hs.whocan.component.push.PushService;
 import com.hs.whocan.component.push.devicetoken.DeviceService;
+import com.hs.whocan.service.social.FriendInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

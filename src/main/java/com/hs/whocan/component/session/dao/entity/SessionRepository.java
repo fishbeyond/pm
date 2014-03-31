@@ -137,7 +137,7 @@ public class SessionRepository implements SessionDao {
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("sessionId",sessionId);
         SessionEntity entity = (SessionEntity) query.uniqueResult();
-        return entity.getSession();
+        return entity!=null?entity.getSession():null;
     }
 
 }

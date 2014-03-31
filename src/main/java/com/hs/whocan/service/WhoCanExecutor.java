@@ -11,6 +11,8 @@ public abstract class WhoCanExecutor {
     protected String userId;
     protected String operatorName;
 
+    protected abstract Object execute();
+
     public String getUserId() {
         return userId;
     }

@@ -1,31 +1,30 @@
-package com.hs.whocan.service.chat;
+package com.hs.whocan.service.session;
 
 import com.hs.whocan.component.session.SessionComponent;
+import com.hs.whocan.component.session.dao.Message;
 import com.hs.whocan.service.WhoCanExecutor;
-import com.hs.whocan.service.chat.old.SessionInfo;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
  * User: fish
  * Date: 14-3-28
- * Time: 下午5:32
+ * Time: 下午7:01
  * To change this template use File | Settings | File Templates.
  */
 @Service
 @Scope("prototype")
-public class SessionAddUser extends WhoCanExecutor {
-    protected String sessionId;
-    private String userIds;
+public class SessionFindMessage extends WhoCanExecutor {
+    private String sessionId;
     @Resource
-    protected SessionComponent sessionComponent;
+    private SessionComponent sessionComponent;
 
-    public SessionInfo execute() {
-        String[] userArray = userIds.split(",");
-        return sessionComponent.addPeopleToSession(sessionId, userId, userArray);
+    public List<Message> execute() {
+        return sessionComponent.findChatByRoomId(sessionId);
     }
 
     public String getSessionId() {
@@ -34,13 +33,5 @@ public class SessionAddUser extends WhoCanExecutor {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
-    }
-
-    public String getUserIds() {
-        return userIds;
-    }
-
-    public void setUserIds(String userIds) {
-        this.userIds = userIds;
     }
 }

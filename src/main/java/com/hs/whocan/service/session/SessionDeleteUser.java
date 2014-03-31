@@ -1,4 +1,4 @@
-package com.hs.whocan.service.chat;
+package com.hs.whocan.service.session;
 
 import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.service.WhoCanExecutor;
@@ -21,10 +21,10 @@ public class SessionDeleteUser extends WhoCanExecutor {
     private String sessionId;
     private String deleteUserId;
     @Resource
-    protected SessionComponent sessionComponent;
+    private SessionComponent sessionComponent;
 
     public boolean execute(){
-        sessionComponent.deletePeopleFromSession(sessionId, deleteUserId);
+        sessionComponent.deleteUser(sessionId, deleteUserId);
         return true;
     }
 

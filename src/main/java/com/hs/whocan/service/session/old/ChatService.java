@@ -1,4 +1,4 @@
-package com.hs.whocan.service.chat.old;
+package com.hs.whocan.service.session.old;
 
 import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.component.session.SessionComponent;
@@ -37,7 +37,7 @@ public class ChatService {
     }
 
     public boolean deletePeopleFromChatRoom(String roomId,String userId,String deleteUserId){
-        sessionComponent.deletePeopleFromSession(roomId, deleteUserId);
+        sessionComponent.deleteUser(roomId, deleteUserId);
         return true;
     }
 
@@ -55,7 +55,7 @@ public class ChatService {
     }
 
     public boolean deleteChat(String chatId){
-        sessionComponent.deleteChat(chatId);
+        sessionComponent.deleteMessage(chatId);
         return true;
     }
 

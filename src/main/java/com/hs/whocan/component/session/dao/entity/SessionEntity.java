@@ -1,5 +1,6 @@
 package com.hs.whocan.component.session.dao.entity;
 
+import com.hs.whocan.component.session.SessionType;
 import com.hs.whocan.component.session.dao.Session;
 
 import javax.persistence.*;
@@ -64,5 +65,13 @@ public class SessionEntity {
     @Column
     public String getUserId() {
         return session.getUserId();
+    }
+
+    public void setType(Enum<SessionType> type) {
+        session.setType(type);
+    }
+    @Column
+    public Enum<SessionType> getType() {
+        return session.getType();
     }
 }

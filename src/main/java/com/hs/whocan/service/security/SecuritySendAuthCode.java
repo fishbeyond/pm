@@ -16,7 +16,7 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class AuthCodeSend {
+public class SecuritySendAuthCode {
     private String phoneNo;
     @Resource
     private SecurityComponent securityComponent;

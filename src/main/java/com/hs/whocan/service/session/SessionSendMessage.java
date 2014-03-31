@@ -1,8 +1,7 @@
-package com.hs.whocan.service.chat;
+package com.hs.whocan.service.session;
 
 import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.dao.Message;
-import com.hs.whocan.component.utils.UUIDGenerator;
 import com.hs.whocan.service.WhoCanExecutor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;

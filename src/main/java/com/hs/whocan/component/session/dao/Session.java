@@ -1,5 +1,7 @@
 package com.hs.whocan.component.session.dao;
 
+import com.hs.whocan.component.session.SessionType;
+
 import java.util.Date;
 
 /**
@@ -14,6 +16,7 @@ public class Session {
     private String userId;
     private String sessionName;
     private Date createTime;
+    private Enum<SessionType> type;
 
     public Session() {
     }
@@ -56,4 +59,11 @@ public class Session {
         this.createTime = createTime;
     }
 
+    public Enum<SessionType> getType() {
+        return type;
+    }
+
+    public void setType(Enum<SessionType> type) {
+        this.type = type;
+    }
 }

@@ -1,4 +1,4 @@
-package com.hs.whocan.service.chat;
+package com.hs.whocan.service.session;
 
 import com.hs.whocan.component.session.SessionComponent;
 import org.springframework.context.annotation.Scope;
@@ -20,7 +20,7 @@ public class SessionDeleteMessage {
     @Resource
     private SessionComponent sessionComponent;
     public boolean execute(){
-        sessionComponent.deleteChat(messageId);
+        sessionComponent.deleteMessage(messageId);
         return true;
     }
 
