@@ -1,4 +1,4 @@
-package com.hs.whocan.service;
+package com.hs.whocan.component.account.user;
 
 /**
  * Created with IntelliJ IDEA.
