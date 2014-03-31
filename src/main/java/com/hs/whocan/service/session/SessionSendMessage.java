@@ -24,7 +24,7 @@ public class SessionSendMessage extends WhoCanExecutor {
     private String content;
     private String sessionId;
 
-    public boolean execute() {
+    public Boolean execute() {
         Message message = new Message();
         message.setCreateTime(new Date());
         message.setContent(content);

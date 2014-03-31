@@ -23,7 +23,7 @@ public class SessionDeleteUser extends WhoCanExecutor {
     @Resource
     private SessionComponent sessionComponent;
 
-    public boolean execute(){
+    public Boolean execute(){
         sessionComponent.deleteUser(sessionId, deleteUserId);
         return true;
     }
