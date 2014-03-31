@@ -19,20 +19,20 @@ import java.util.List;
 @Scope("prototype")
 public class SessionFindUser extends WhoCanExecutor {
 
-    protected String roomId;
+    protected String sessionId;
     @Resource
     protected SessionComponent sessionComponent;
 
     public List<String> execute(){
-        return sessionComponent.findUserIdInRoom(roomId);
+        return sessionComponent.findUserIdInRoom(sessionId);
     }
 
-    public String getRoomId() {
-        return roomId;
+    public String getSessionId() {
+        return sessionId;
     }
 
-    public void setRoomId(String roomId) {
-        this.roomId = roomId;
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
 }

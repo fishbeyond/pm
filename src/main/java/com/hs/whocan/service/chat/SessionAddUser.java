@@ -17,22 +17,22 @@ import javax.annotation.Resource;
 @Service
 @Scope("prototype")
 public class SessionAddUser extends WhoCanExecutor {
-    protected String roomId;
+    protected String sessionId;
     private String userIds;
     @Resource
     protected SessionComponent sessionComponent;
 
     public String execute() {
         String[] userArray = userIds.split(",");
-        return sessionComponent.addPeopleToChatRoom(roomId,userId,userArray);
+        return sessionComponent.addPeopleToChatRoom(sessionId,userId,userArray);
     }
 
-    public String getRoomId() {
-        return roomId;
+    public String getSessionId() {
+        return sessionId;
     }
 
-    public void setRoomId(String roomId) {
-        this.roomId = roomId;
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
     public String getUserIds() {

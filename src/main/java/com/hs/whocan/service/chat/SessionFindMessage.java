@@ -19,19 +19,19 @@ import java.util.List;
 @Service
 @Scope("prototype")
 public class SessionFindMessage extends WhoCanExecutor {
-    private String roomId;
+    private String sessionId;
     @Resource
     private SessionComponent sessionComponent;
 
     public List<Message> execute() {
-        return sessionComponent.findChatByRoomId(roomId);
+        return sessionComponent.findChatByRoomId(sessionId);
     }
 
-    public String getRoomId() {
-        return roomId;
+    public String getSessionId() {
+        return sessionId;
     }
 
-    public void setRoomId(String roomId) {
-        this.roomId = roomId;
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 }

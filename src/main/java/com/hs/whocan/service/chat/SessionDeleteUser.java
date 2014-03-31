@@ -18,22 +18,22 @@ import javax.annotation.Resource;
 @Scope("prototype")
 public class SessionDeleteUser extends WhoCanExecutor {
 
-    protected String roomId;
+    protected String sessionId;
     private String deleteUserId;
     @Resource
     protected SessionComponent sessionComponent;
 
     public boolean execute(){
-        sessionComponent.deletePeopleFromChatRoom(roomId,deleteUserId);
+        sessionComponent.deletePeopleFromChatRoom(sessionId,deleteUserId);
         return true;
     }
 
-    public String getRoomId() {
-        return roomId;
+    public String getSessionId() {
+        return sessionId;
     }
 
-    public void setRoomId(String roomId) {
-        this.roomId = roomId;
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
     public String getDeleteUserId() {

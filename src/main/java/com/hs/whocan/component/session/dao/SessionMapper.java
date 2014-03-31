@@ -16,15 +16,15 @@ import javax.persistence.*;
 @Table(name="session_mapper")
 public class SessionMapper {
     private String mapperId;
-    private String roomId;
+    private String sessionId;
     private String userId;
     private SessionEntity sessionEntity;
 
     public SessionMapper() {
     }
 
-    public SessionMapper(String roomId, String userId) {
-        this.roomId = roomId;
+    public SessionMapper(String sessionId, String userId) {
+        this.sessionId = sessionId;
         this.userId = userId;
     }
 
@@ -40,12 +40,12 @@ public class SessionMapper {
     }
 
     @Column
-    public String getRoomId() {
-        return roomId;
+    public String getSessionId() {
+        return sessionId;
     }
 
-    public void setRoomId(String roomId) {
-        this.roomId = roomId;
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
     @Column
     public String getUserId() {

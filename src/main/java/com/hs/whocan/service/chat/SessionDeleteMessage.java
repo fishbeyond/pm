@@ -16,19 +16,19 @@ import javax.annotation.Resource;
 @Service
 @Scope("prototype")
 public class SessionDeleteMessage {
-    private String chatId;
+    private String messageId;
     @Resource
     private SessionComponent sessionComponent;
     public boolean execute(){
-        sessionComponent.deleteChat(chatId);
+        sessionComponent.deleteChat(messageId);
         return true;
     }
 
-    public String getChatId() {
-        return chatId;
+    public String getMessageId() {
+        return messageId;
     }
 
-    public void setChatId(String chatId) {
-        this.chatId = chatId;
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
     }
 }
