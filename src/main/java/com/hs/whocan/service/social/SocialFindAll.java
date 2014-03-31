@@ -18,10 +18,11 @@ import java.util.List;
  */
 @Service
 @Scope("prototype")
-public class SocialFindAll extends WhoCanExecutor{
+public class SocialFindAll implements WhoCanExecutor {
 
     @Resource
     private UserMapperComponent userMapperComponent;
+    private String userId;
 
     public List<FriendInfo> execute() {
         List<FriendInfo> alreadyFriends = userMapperComponent.findFriendUserId(userId);
@@ -34,5 +35,13 @@ public class SocialFindAll extends WhoCanExecutor{
         list.addAll(invitedFriends);
         list.addAll(notAddFriends);
         return list;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

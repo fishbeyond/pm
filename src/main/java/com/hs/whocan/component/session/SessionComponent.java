@@ -4,12 +4,10 @@ import com.hs.whocan.component.account.user.dao.UserDao;
 import com.hs.whocan.component.session.dao.*;
 import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.component.utils.UUIDGenerator;
-import com.hs.whocan.service.session.old.SessionInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +30,7 @@ public class SessionComponent {
     private UserDao userDao;
 
     @Transactional
-    public SessionInfo findPrivateSession(String userId, String friendId) {
+    public Session getPrivateSession(String userId, String friendId) {
         String roomId1 = userId + "_" + friendId;
         String roomId2 = friendId + "_" + userId;
         Session session = sessionDao.findSessionByUnionId(roomId1, roomId2);
@@ -43,8 +41,7 @@ public class SessionComponent {
             sessionDao.createSessionMapper(new SessionMapper(roomId1, userId));
             sessionDao.createSessionMapper(new SessionMapper(roomId1, friendId));
         }
-        SessionInfo sessionInfo = createSessionInfo(userId, session);
-        return sessionInfo;
+        return session;
     }
 
     @Transactional
@@ -52,47 +49,17 @@ public class SessionComponent {
         messageDao.createMessage(message);
     }
 
-    @Transactional
-    public List<SessionInfo> findSessionInfo(String userId) {
-        List<Session> sessions = sessionDao.findSessionByUserId(userId);
-        List<SessionInfo> sessionInfos = new ArrayList<SessionInfo>();
-        for (Session session : sessions) {
-            SessionInfo sessionInfo = createSessionInfo(userId, session);
-            sessionInfos.add(sessionInfo);
-        }
-        return sessionInfos;
-    }
-
-    private SessionInfo createSessionInfo(String userId, Session session) {
-        SessionInfo sessionInfo = new SessionInfo();
-        List<User> users = sessionDao.findSessionUserBySessionId(session.getSessionId());
-        sessionInfo.setUserList(users);
-        sessionInfo.setSession(session);
-        setSessionInfoName(sessionInfo, userId, users);
-        return sessionInfo;
-    }
-
-    private void setSessionInfoName(SessionInfo sessionInfo, String userId, List<User> users) {
-        if (sessionInfo.getType().equals(SessionType.PRIVATE_SESSION)) {
-            for (User user : users) {
-                if (userId.equals(user.getUserId())) {
-                } else {
-                    sessionInfo.setSessionName(user.getUserName());
-                }
-            }
-        } else if (null == sessionInfo.getSessionName() || "".equals(sessionInfo.getSessionName())) {
-            int userNum = sessionDao.findUserNumInSession(sessionInfo.getSessionId());
-            sessionInfo.setSessionName("群聊(" + userNum + "人)");
-        }
+    public List<Session> findSession(String userId) {
+        return sessionDao.findSessionByUserId(userId);
     }
 
     @Transactional
-    public List<Message> findChatByRoomId(String roomId) {
+    public List<Message> findMessageBySession(String roomId) {
         return messageDao.findMessageBySessionId(roomId);
     }
 
     @Transactional
-    public SessionInfo addPeopleToSession(String sessionId, String userId, String[] userIds) {
+    public Session addPeopleToSession(String sessionId, String userId, String[] userIds) {
         Session session = null;
         if (null == sessionId) {
             sessionId = uuidGenerator.shortUuid();
@@ -106,7 +73,7 @@ public class SessionComponent {
             session = sessionDao.findSessionById(sessionId);
         }
         relateSessionUser(sessionId, userIds);
-        return createSessionInfo(userId, session);
+        return session;
     }
 
     private void relateSessionUser(String sessionId, String[] userIds) {
@@ -135,8 +102,7 @@ public class SessionComponent {
     @Transactional
     public void deleteUser(String sessionId, String deleteUserId) {
         sessionDao.deleteSessionMapperByUserId(sessionId, deleteUserId);
-        User userById = userDao.findUserById(deleteUserId);
-        createSessionSystemMessage(sessionId, deleteUserId,"被请出群");
+        createSessionSystemMessage(sessionId, deleteUserId, "被请出群");
     }
 
     @Transactional

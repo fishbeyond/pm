@@ -18,13 +18,14 @@ import java.util.List;
  */
 @Service
 @Scope("prototype")
-public class SessionFindMessage extends WhoCanExecutor {
+public class SessionFindMessage implements WhoCanExecutor {
     private String sessionId;
     @Resource
     private SessionComponent sessionComponent;
+    private String userId;
 
     public List<Message> execute() {
-        return sessionComponent.findChatByRoomId(sessionId);
+        return sessionComponent.findMessageBySession(sessionId);
     }
 
     public String getSessionId() {
@@ -33,5 +34,13 @@ public class SessionFindMessage extends WhoCanExecutor {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

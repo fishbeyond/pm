@@ -16,10 +16,11 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SocialDeleteFriend extends WhoCanExecutor{
+public class SocialDeleteFriend implements WhoCanExecutor {
     private String friendId;
     @Resource
     private UserMapperComponent userMapperComponent;
+    private String userId;
 
 
     public Boolean execute() {
@@ -33,5 +34,13 @@ public class SocialDeleteFriend extends WhoCanExecutor{
 
     public void setFriendId(String friendId) {
         this.friendId = friendId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

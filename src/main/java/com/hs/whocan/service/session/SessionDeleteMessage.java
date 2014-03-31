@@ -1,6 +1,7 @@
 package com.hs.whocan.service.session;
 
 import com.hs.whocan.component.session.SessionComponent;
+import com.hs.whocan.service.WhoCanExecutor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +16,11 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SessionDeleteMessage {
+public class SessionDeleteMessage  implements WhoCanExecutor {
     private String messageId;
     @Resource
     private SessionComponent sessionComponent;
-    public boolean execute(){
+    public Boolean execute(){
         sessionComponent.deleteMessage(messageId);
         return true;
     }

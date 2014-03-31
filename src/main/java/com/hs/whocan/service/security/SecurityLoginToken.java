@@ -4,6 +4,7 @@ import com.hs.whocan.component.account.security.SecurityComponent;
 import com.hs.whocan.component.account.security.dao.Access;
 import com.hs.whocan.component.account.user.UserComponent;
 import com.hs.whocan.component.account.user.dao.User;
+import com.hs.whocan.service.WhoCanExecutor;
 import com.hs.whocan.service.security.transformer.UserTransformer;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SecurityLoginToken {
+public class SecurityLoginToken implements WhoCanExecutor {
     private String token;
     private String phoneNo;
     @Resource
@@ -31,7 +32,7 @@ public class SecurityLoginToken {
     private UserTransformer userTransformer;
 
     @Transactional
-    public UserInfo execute() {
+    public UserInfoResult execute() {
         Access access = securityComponent.verifyAndUpdateToken(token);
         User user = userComponent.verifyPhoneNo(access.getAccessId(), phoneNo);
         return userTransformer.transform2UserInfo(user, access.getAccessToken());

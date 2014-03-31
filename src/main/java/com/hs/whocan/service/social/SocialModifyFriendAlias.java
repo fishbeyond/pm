@@ -17,12 +17,13 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SocialModifyFriendAlias extends WhoCanExecutor{
+public class SocialModifyFriendAlias implements WhoCanExecutor {
     private String mapperId;
     private String friendId;
     private String alias;
     @Resource
     private UserMapperComponent userMapperComponent;
+    private String userId;
 
     public Boolean execute() {
         UserMapper userMapper = new UserMapper();
@@ -55,5 +56,13 @@ public class SocialModifyFriendAlias extends WhoCanExecutor{
 
     public void setAlias(String alias) {
         this.alias = alias;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

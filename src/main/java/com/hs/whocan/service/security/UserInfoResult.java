@@ -7,7 +7,7 @@ package com.hs.whocan.service.security;
  * Time: 上午9:26
  * To change this template use File | Settings | File Templates.
  */
-public class UserInfo {
+public class UserInfoResult {
     private String userId;
     private String userName;
     private String phoneNo;

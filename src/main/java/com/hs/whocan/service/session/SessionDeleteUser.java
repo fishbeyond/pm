@@ -16,14 +16,15 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SessionDeleteUser extends WhoCanExecutor {
+public class SessionDeleteUser implements WhoCanExecutor {
 
     private String sessionId;
     private String deleteUserId;
     @Resource
     private SessionComponent sessionComponent;
+    private String userId;
 
-    public Boolean execute(){
+    public Boolean execute() {
         sessionComponent.deleteUser(sessionId, deleteUserId);
         return true;
     }
@@ -42,5 +43,13 @@ public class SessionDeleteUser extends WhoCanExecutor {
 
     public void setDeleteUserId(String deleteUserId) {
         this.deleteUserId = deleteUserId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

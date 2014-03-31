@@ -1,7 +1,7 @@
 package com.hs.whocan.service.security.transformer;
 
 import com.hs.whocan.component.account.user.dao.User;
-import com.hs.whocan.service.security.UserInfo;
+import com.hs.whocan.service.security.UserInfoResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserTransformer {
 
-    public UserInfo transform2UserInfo(User user, String token) {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setUserToken(token);
-        BeanUtils.copyProperties(user,userInfo);
-        return userInfo;
+    public UserInfoResult transform2UserInfo(User user, String token) {
+        UserInfoResult userInfoResult = new UserInfoResult();
+        userInfoResult.setUserToken(token);
+        BeanUtils.copyProperties(user, userInfoResult);
+        return userInfoResult;
     }
 }

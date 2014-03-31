@@ -1,4 +1,4 @@
-package com.hs.whocan.service.session.old;
+package com.hs.whocan.service.session;
 
 import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.component.session.SessionType;

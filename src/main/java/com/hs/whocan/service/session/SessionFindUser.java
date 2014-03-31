@@ -5,6 +5,7 @@ import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.service.WhoCanExecutor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -18,13 +19,15 @@ import java.util.List;
  */
 @Service
 @Scope("prototype")
-public class SessionFindUser extends WhoCanExecutor {
+public class SessionFindUser implements WhoCanExecutor {
 
     private String sessionId;
     @Resource
     private SessionComponent sessionComponent;
+    private String userId;
 
-    public List<User> execute(){
+    @Transactional
+    public List<User> execute() {
         return sessionComponent.findUserIdInSession(sessionId);
     }
 
@@ -36,4 +39,11 @@ public class SessionFindUser extends WhoCanExecutor {
         this.sessionId = sessionId;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 }

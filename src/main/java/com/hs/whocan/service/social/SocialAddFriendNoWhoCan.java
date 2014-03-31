@@ -11,28 +11,35 @@ import javax.annotation.Resource;
  * Created with IntelliJ IDEA.
  * User: fish
  * Date: 14-3-31
- * Time: 下午5:43
+ * Time: 下午5:47
  * To change this template use File | Settings | File Templates.
  */
 @Service
 @Scope("prototype")
-public class SocialAddFriendAlreadyRegister extends WhoCanExecutor{
-    private String friendId;
+public class SocialAddFriendNoWhoCan implements WhoCanExecutor {
+    private String phoneNo;
     @Resource
     private UserMapperComponent userMapperComponent;
+    private String userId;
 
     public Boolean execute() {
-        userMapperComponent.addFriendAlreadyRegister(userId, friendId);
-//        List<String> deviceTokens = deviceService.findDeviceTokenByUser(friendId);
-//        pushService.push(deviceTokens, "添加好友邀请");
+        userMapperComponent.addFriendNoRegister(userId, phoneNo);
         return true;
     }
 
-    public String getFriendId() {
-        return friendId;
+    public String getPhoneNo() {
+        return phoneNo;
     }
 
-    public void setFriendId(String friendId) {
-        this.friendId = friendId;
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

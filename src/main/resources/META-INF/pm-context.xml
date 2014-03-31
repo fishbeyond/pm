@@ -18,14 +18,10 @@
     <import resource="pm-ds.xml"/>
     <import resource="pm-repository.xml"/>
     <import resource="pm-register-service.xml"/>
-    <import resource="pm-noregister-gateway.xml"/>
-    <import resource="service/pm-user-service.xml"/>
-    <import resource="service/pm-project-service.xml"/>
-    <import resource="service/pm-work-service.xml"/>
-    <import resource="service/pm-chat-service.xml"/>
-    <import resource="service/pm-device-service.xml"/>
-    <import resource="service/pm-access-service.xml"/>
-    <import resource="service/pm-social-service.xml"/>
+    <import resource="whocan-noregister-gateway.xml"/>
+    <import resource="service/old/pm-project-service.xml"/>
+    <import resource="service/old/pm-work-service.xml"/>
+    <import resource="service/old/pm-device-service.xml"/>
     <!--<import resource="service/pm-recv-package-service.xml"/>-->
     <!--===========================================================-->
 

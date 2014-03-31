@@ -15,15 +15,15 @@
                   http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd http://www.springframework.org/schema/integration/xml http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd">
 
 
-    <int-http:inbound-gateway supported-methods="GET,POST" path="/old/{method}"
-                              request-channel="registerChannel" error-channel="jsonErrorResultChannel"
+    <int-http:inbound-gateway supported-methods="GET,POST" path="/{method}.json"
+                              request-channel="registerChannel" error-channel="wcJsonErrorResultChannel"
                               reply-timeout="5000"
                               mapped-request-headers="Content-Type,user-agent,host,outbound"
                               mapped-response-headers="Content-Type">
         <int-http:header name="serviceChannel" expression="#pathVariables.method"/>
     </int-http:inbound-gateway>
 
-    <int:chain input-channel="registerChannel" output-channel="pmJsonOutputChannel">
+    <int:chain input-channel="registerChannel" output-channel="wcJsonOutputChannel">
         <int:gateway request-channel="registerRouter"/>
     </int:chain>
     <int:header-value-router header-name="serviceChannel" input-channel="registerRouter"/>

@@ -18,11 +18,12 @@ import java.util.Date;
  */
 @Service
 @Scope("prototype")
-public class SessionSendMessage extends WhoCanExecutor {
+public class SessionSendMessage implements WhoCanExecutor {
     @Resource
     private SessionComponent sessionComponent;
     private String content;
     private String sessionId;
+    private String userId;
 
     public Boolean execute() {
         Message message = new Message();
@@ -48,5 +49,13 @@ public class SessionSendMessage extends WhoCanExecutor {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

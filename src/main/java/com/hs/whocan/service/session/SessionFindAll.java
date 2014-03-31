@@ -1,13 +1,16 @@
 package com.hs.whocan.service.session;
 
 import com.hs.whocan.component.session.SessionComponent;
+import com.hs.whocan.component.session.SessionQuery;
+import com.hs.whocan.component.session.dao.Session;
 import com.hs.whocan.service.WhoCanExecutor;
-import com.hs.whocan.service.session.old.SessionInfo;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,13 +22,30 @@ import java.util.List;
  */
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class SessionFindAll extends WhoCanExecutor {
+public class SessionFindAll implements WhoCanExecutor {
 
     @Resource
     private SessionComponent sessionComponent;
+    @Resource
+    private SessionQuery sessionQuery;
+    private String userId;
 
+    @Transactional
     public List<SessionInfo> execute() {
-        return sessionComponent.findSessionInfo(userId);
+        List<Session> sessions = sessionComponent.findSession(userId);
+        List<SessionInfo> sessionInfos = new ArrayList<SessionInfo>();
+        for (Session session : sessions) {
+            SessionInfo sessionInfo = sessionQuery.querySessionInfo(userId, session);
+            sessionInfos.add(sessionInfo);
+        }
+        return sessionInfos;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 }

@@ -16,11 +16,12 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SocialUploadLinkman extends WhoCanExecutor{
+public class SocialUploadLinkman implements WhoCanExecutor {
 
     private String phones;
     @Resource
     private UserMapperComponent userMapperComponent;
+    private String userId;
 
     public Boolean execute() {
         String[] phoneArray = phones.split(",");
@@ -34,5 +35,13 @@ public class SocialUploadLinkman extends WhoCanExecutor{
 
     public void setPhones(String phones) {
         this.phones = phones;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

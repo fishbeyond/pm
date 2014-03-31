@@ -19,7 +19,7 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class UserModify extends WhoCanExecutor {
+public class UserModify implements WhoCanExecutor {
     private String userId;
     private String userName;
     private String phoneNo;
@@ -29,6 +29,7 @@ public class UserModify extends WhoCanExecutor {
 
     @Resource
     private UserComponent userComponent;
+
     @Transactional
     public Boolean execute() {
         User user = new User();

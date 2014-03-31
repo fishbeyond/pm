@@ -26,17 +26,17 @@
     <int:channel id="wcServiceChannel"/>
     <int:chain input-channel="wcServiceChannel" output-channel="wcJsonOutputChannel">
         <int:enricher>
-            <int:property name="userId" expression="@accountService.findUserIdByToken(payload[token])"/>
+            <int:property name="userId" expression="@securityFilter.findUserIdByToken(payload[token])"/>
         </int:enricher>
         <int:enricher>
-            <int:property name="operatorName" expression="@accountService.findOperatorByToken(payload[userId])"/>
+            <int:property name="operatorName" expression="@securityFilter.findOperatorByToken(payload[userId])"/>
         </int:enricher>
-        <int:gateway request-channel="wcServiceRouter" />
+        <int:gateway request-channel="wcServiceRouter"/>
         <int:service-activator expression="payload.execute()"/>
     </int:chain>
 
     <int:channel id="wcServiceRouter"/>
-    <int:header-value-router header-name="headerPath" input-channel="wcServiceRouter"
+    <int:header-value-router header-name="headerPath" input-channel="wcServiceRouter" resolution-required="false"
                              default-output-channel="noWcServerChannel">
     </int:header-value-router>
 
