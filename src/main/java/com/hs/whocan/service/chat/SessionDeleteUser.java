@@ -18,13 +18,13 @@ import javax.annotation.Resource;
 @Scope("prototype")
 public class SessionDeleteUser extends WhoCanExecutor {
 
-    protected String sessionId;
+    private String sessionId;
     private String deleteUserId;
     @Resource
     protected SessionComponent sessionComponent;
 
     public boolean execute(){
-        sessionComponent.deletePeopleFromChatRoom(sessionId,deleteUserId);
+        sessionComponent.deletePeopleFromSession(sessionId, deleteUserId);
         return true;
     }
 

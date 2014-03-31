@@ -20,7 +20,7 @@ public class SessionInfo {
     private Date createTime;
     private List<User> userList;
 
-    public void setChatRoom(Session session) {
+    public void setSession(Session session) {
         this.sessionId = session.getSessionId();
         this.userId = session.getUserId();
         this.sessionName = session.getSessionName();

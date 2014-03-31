@@ -16,7 +16,7 @@ public interface SessionDao {
 
     public void createSessionMapper(SessionMapper sessionMapper);
 
-    public void modifySessionName(Session session);
+    public void modifySessionName(String sessionId,String sessionName);
 
     public Session findSessionByUnionId(String sessionId1, String sessionId2);
 
@@ -31,4 +31,6 @@ public interface SessionDao {
     public List<String> findUserIdBySessionId(String sessionId);
 
     public List<User> findSessionUserBySessionId(String sessionId);
+
+    public int findUserNumInSession(String sessionId);
 }

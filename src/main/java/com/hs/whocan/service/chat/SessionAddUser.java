@@ -24,7 +24,7 @@ public class SessionAddUser extends WhoCanExecutor {
 
     public String execute() {
         String[] userArray = userIds.split(",");
-        return sessionComponent.addPeopleToChatRoom(sessionId,userId,userArray);
+        return sessionComponent.addPeopleToSession(sessionId, userId, userArray);
     }
 
     public String getSessionId() {

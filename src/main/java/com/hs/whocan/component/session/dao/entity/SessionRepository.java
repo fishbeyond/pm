@@ -36,11 +36,11 @@ public class SessionRepository implements SessionDao {
     }
 
     @Override
-    public void modifySessionName(Session session) {
+    public void modifySessionName(String sessionId,String sessionName) {
         final String hql = "update SessionEntity e set e.sessionName = :sessionName where e.sessionId = :sessionId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setString("sessionName", session.getSessionName());
-        query.setString("sessionId", session.getSessionId());
+        query.setString("sessionName", sessionName);
+        query.setString("sessionId", sessionId);
         query.executeUpdate();
     }
 
@@ -111,6 +111,15 @@ public class SessionRepository implements SessionDao {
             users.add(entity.getUser());
         }
         return users;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public int findUserNumInSession(String sessionId) {
+        final String hql = "select count(e.sessionId) from SessionMapper e where e.sessionId = :sessionId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("sessionId",sessionId);
+        String result = query.uniqueResult().toString();
+        return Integer.valueOf(result);
     }
 
 }

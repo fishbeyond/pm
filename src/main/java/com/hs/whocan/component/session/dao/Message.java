@@ -13,7 +13,7 @@ public class Message {
     private String messageId;
     private String content;
     private String userId;
-    private String roomId;
+    private String sessionId;
     private Date createTime;
 
     public String getMessageId() {
@@ -40,12 +40,12 @@ public class Message {
         this.userId = userId;
     }
 
-    public String getRoomId() {
-        return roomId;
+    public String getSessionId() {
+        return sessionId;
     }
 
-    public void setRoomId(String roomId) {
-        this.roomId = roomId;
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
     public Date getCreateTime() {

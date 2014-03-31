@@ -67,11 +67,11 @@ public class MessageEntity {
         message.setCreateTime(createTime);
     }
     @Column
-    public String getRoomId() {
-        return message.getRoomId();
+    public String getSessionId() {
+        return message.getSessionId();
     }
 
-    public void setRoomId(String roomId) {
-        message.setRoomId(roomId);
+    public void setSessionId(String sessionId) {
+        message.setSessionId(sessionId);
     }
 }

@@ -1,5 +1,6 @@
 package com.hs.whocan.component.session;
 
+import com.hs.whocan.component.account.user.dao.UserDao;
 import com.hs.whocan.component.session.dao.*;
 import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.component.utils.UUIDGenerator;
@@ -9,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,25 +28,25 @@ public class SessionComponent {
     private MessageDao messageDao;
     @Resource
     private UUIDGenerator uuidGenerator;
+    @Resource
+    private UserDao userDao;
 
     public SessionInfo findPrivateSession(String userId, String friendId) {
         String roomId1 = userId + "_" + friendId;
         String roomId2 = friendId + "_" + userId;
         Session session = sessionDao.findSessionByUnionId(roomId1, roomId2);
         SessionInfo sessionInfo = new SessionInfo();
-        sessionInfo.setChatRoom(session);
         if (null == session) {
-            session = new Session(roomId1, userId);
+            session = new Session(roomId1, userId, null);
             sessionDao.createSession(session);
             sessionDao.createSessionMapper(new SessionMapper(roomId1, userId));
             sessionDao.createSessionMapper(new SessionMapper(roomId1, friendId));
-            return sessionInfo;
         }
+        sessionInfo.setSession(session);
         return sessionInfo;
     }
 
     public void sendMessage(Message message) {
-        message.setCreateTime(new Date());
         messageDao.createMessage(message);
     }
 
@@ -57,7 +57,7 @@ public class SessionComponent {
             SessionInfo sessionInfo = new SessionInfo();
             List<User> users = sessionDao.findSessionUserBySessionId(session.getSessionId());
             sessionInfo.setUserList(users);
-            sessionInfo.setChatRoom(session);
+            sessionInfo.setSession(session);
             sessionInfos.add(sessionInfo);
         }
         return sessionInfos;
@@ -67,25 +67,31 @@ public class SessionComponent {
         return messageDao.findMessageBySessionId(roomId);
     }
 
-    public String addPeopleToChatRoom(String roomId, String userId, String[] userIds) {
-        if (null == roomId) {
-            roomId = uuidGenerator.shortUuid();
-            Session session = new Session(roomId, userId);
+    public String addPeopleToSession(String sessionId, String userId, String[] userIds) {
+        int userNum = userIds.length;
+        if (null == sessionId) {
+            String sessionName = "群聊(" + userNum + "人)";
+            sessionId = uuidGenerator.shortUuid();
+            Session session = new Session(sessionId, userId, sessionName);
             sessionDao.createSession(session);
+        } else {
+            int oldNum = sessionDao.findUserNumInSession(sessionId);
+            String sessionName = "群聊(" + (oldNum+userNum) + "人)";
+            sessionDao.modifySessionName(sessionId,sessionName);
         }
         for (String addUserId : userIds) {
-            SessionMapper sessionMapper = new SessionMapper(roomId, addUserId);
+            SessionMapper sessionMapper = new SessionMapper(sessionId, addUserId);
             sessionDao.createSessionMapper(sessionMapper);
         }
-        return roomId;
+        return sessionId;
     }
 
-    public void deletePeopleFromChatRoom(String roomId, String deleteUserId) {
-        sessionDao.deleteSessionMapperByUserId(roomId, deleteUserId);
+    public void deletePeopleFromSession(String sessionId, String deleteUserId) {
+        sessionDao.deleteSessionMapperByUserId(sessionId, deleteUserId);
     }
 
-    public List<String> findUserIdInRoom(String roomId) {
-        return sessionDao.findUserIdBySessionId(roomId);
+    public List<User> findUserIdInSession(String sessionId) {
+        return sessionDao.findSessionUserBySessionId(sessionId);
     }
 
     public void deleteChat(String chatId) {

@@ -1,5 +1,6 @@
 package com.hs.whocan.service.chat.old;
 
+import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.dao.Message;
 import org.springframework.stereotype.Service;
@@ -26,17 +27,17 @@ public class ChatService {
         return sessionComponent.findChatRoomInfo(userId);
     }
 
-    public List<String> findUserIdInRoom(String roomId){
-        return sessionComponent.findUserIdInRoom(roomId);
+    public List<User> findUserIdInRoom(String roomId){
+        return sessionComponent.findUserIdInSession(roomId);
     }
 
     public String addPeopleToChatRoom(String roomId,String userId,String userIds) {
         String[] userArray = userIds.split(",");
-        return sessionComponent.addPeopleToChatRoom(roomId,userId,userArray);
+        return sessionComponent.addPeopleToSession(roomId, userId, userArray);
     }
 
     public boolean deletePeopleFromChatRoom(String roomId,String userId,String deleteUserId){
-        sessionComponent.deletePeopleFromChatRoom(roomId,deleteUserId);
+        sessionComponent.deletePeopleFromSession(roomId, deleteUserId);
         return true;
     }
 

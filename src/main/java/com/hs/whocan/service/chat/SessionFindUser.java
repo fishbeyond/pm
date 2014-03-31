@@ -1,5 +1,6 @@
 package com.hs.whocan.service.chat;
 
+import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.service.WhoCanExecutor;
 import org.springframework.context.annotation.Scope;
@@ -19,12 +20,12 @@ import java.util.List;
 @Scope("prototype")
 public class SessionFindUser extends WhoCanExecutor {
 
-    protected String sessionId;
+    private String sessionId;
     @Resource
     protected SessionComponent sessionComponent;
 
-    public List<String> execute(){
-        return sessionComponent.findUserIdInRoom(sessionId);
+    public List<User> execute(){
+        return sessionComponent.findUserIdInSession(sessionId);
     }
 
     public String getSessionId() {
