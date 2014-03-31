@@ -16,7 +16,7 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SocialAddFriendAlreadyWhoCan implements WhoCanExecutor {
+public class SocialAddFriendRegister implements WhoCanExecutor {
     private String friendId;
     @Resource
     private UserMapperComponent userMapperComponent;

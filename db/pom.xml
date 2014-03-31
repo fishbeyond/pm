@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.hs.pm</groupId>
+    <artifactId>progect_managerment</artifactId>
+    <version>1.0</version>
+    <packaging>war</packaging>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.dbdeploy</groupId>
+                <artifactId>maven-dbdeploy-plugin</artifactId>
+                <version>3.0M3</version>
+
+                <configuration>
+                    <scriptdirectory>.</scriptdirectory>
+                    <driver>org.hsqldb.jdbcDriver</driver>
+                    <url>jdbc:mysql://127.0.0.1:3306/pm?userUnicode=true8</url>
+                    <userid>root</userid>
+                    <password>root123</password>
+                    <dbms>mysql</dbms>
+                    <delimiter>;</delimiter>
+                    <delimiterType>row</delimiterType>
+                </configuration>
+
+                <dependencies>
+                    <dependency>
+                        <groupId>hsqldb</groupId>
+                        <artifactId>hsqldb</artifactId>
+                        <version>1.8.0.7</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+</project>
