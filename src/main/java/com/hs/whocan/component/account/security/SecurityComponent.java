@@ -9,6 +9,7 @@ import com.hs.whocan.component.utils.UUIDGenerator;
 import com.hs.whocan.component.account.security.exception.AuthCodeErrorException;
 import com.hs.whocan.component.account.security.exception.TokenDisableException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -26,6 +27,7 @@ public class SecurityComponent {
     @Resource
     private UUIDGenerator uuidGenerator;
 
+    @Transactional
     public int getAuthCode(String phoneNo) {
         int authCode = getAuthCode();
         PhoneAuthCode phoneAuthCode = phoneAuthCodeDao.findPhoneAuthCode(phoneNo);

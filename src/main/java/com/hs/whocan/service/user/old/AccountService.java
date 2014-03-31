@@ -1,10 +1,11 @@
-package com.hs.whocan.service.user;
+package com.hs.whocan.service.user.old;
 
 import com.hs.whocan.component.account.security.SecurityComponent;
 import com.hs.whocan.component.account.security.dao.Access;
 import com.hs.whocan.component.sms.SmsService;
 import com.hs.whocan.component.account.user.UserComponent;
 import com.hs.whocan.component.account.user.dao.User;
+import com.hs.whocan.service.security.UserInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

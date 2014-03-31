@@ -31,8 +31,8 @@
 
     <import resource="whocan-gateway.xml"/>
     <import resource="service/session-service.xml"/>
-    <!--<import resource="service/access-service.xml"/>-->
-
+    <import resource="service/access-service.xml"/>
+    <import resource="service/user-service.xml"/>
 
 
     <!--<bean id="nullResultHandler" class="com.hs.whocan.framework.transform.NullPayloadHandler"/>-->

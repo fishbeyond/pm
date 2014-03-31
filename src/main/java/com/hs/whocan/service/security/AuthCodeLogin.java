@@ -4,9 +4,9 @@ import com.hs.whocan.component.account.security.SecurityComponent;
 import com.hs.whocan.component.account.user.UserComponent;
 import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.service.security.transformer.UserTransformer;
-import com.hs.whocan.service.user.UserInfo;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -30,6 +30,7 @@ public class AuthCodeLogin {
     @Resource
     private UserTransformer userTransformer;
 
+    @Transactional
     public UserInfo execute() {
         securityComponent.verifyAuthCode(phoneNo, authCode);
         User user = userComponent.findUserByPhoneNo(phoneNo);

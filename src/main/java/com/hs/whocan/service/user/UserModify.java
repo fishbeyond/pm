@@ -1,20 +1,41 @@
 package com.hs.whocan.service.user;
 
+import com.hs.whocan.component.account.user.UserComponent;
+import com.hs.whocan.component.account.user.dao.User;
+import com.hs.whocan.service.WhoCanExecutor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+
 /**
  * Created with IntelliJ IDEA.
  * User: fish
- * Date: 14-3-21
- * Time: 上午9:26
+ * Date: 14-3-31
+ * Time: 下午12:11
  * To change this template use File | Settings | File Templates.
  */
-public class UserInfo {
+@Service
+@Scope("prototype")
+public class UserModify extends WhoCanExecutor {
     private String userId;
     private String userName;
     private String phoneNo;
     private String mailAddress;
     private String gender;
     private String remark;
-    private String userToken;
+
+    @Resource
+    private UserComponent userComponent;
+    @Transactional
+    public boolean execute() {
+        User user = new User();
+        BeanUtils.copyProperties(this,user);
+        userComponent.modifyUser(user);
+        return true;
+    }
 
     public String getUserId() {
         return userId;
@@ -46,14 +67,6 @@ public class UserInfo {
 
     public void setMailAddress(String mailAddress) {
         this.mailAddress = mailAddress;
-    }
-
-    public String getUserToken() {
-        return userToken;
-    }
-
-    public void setUserToken(String userToken) {
-        this.userToken = userToken;
     }
 
     public String getGender() {
