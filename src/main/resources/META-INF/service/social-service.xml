@@ -14,7 +14,7 @@
                   http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd">
 
     <int:map-to-object-transformer input-channel="social.uploadLinkman" ref="socialUploadLinkman"/>
-    <int:map-to-object-transformer input-channel="social.addFriendAlreadyRegister"
+    <int:map-to-object-transformer input-channel="social.addFriendRegister"
                                    ref="socialAddFriendRegister"/>
     <int:map-to-object-transformer input-channel="social.addFriendNoRegister" ref="socialAddFriendNoRegister"/>
     <int:map-to-object-transformer input-channel="social.modifyFriendAlias" ref="socialModifyFriendAlias"/>
