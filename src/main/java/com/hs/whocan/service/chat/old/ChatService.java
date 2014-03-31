@@ -24,14 +24,14 @@ public class ChatService {
     private SessionComponent sessionComponent;
 
     public List<SessionInfo> findAllChatRoomInfo(String userId) {
-        return sessionComponent.findChatRoomInfo(userId);
+        return sessionComponent.findSessionInfo(userId);
     }
 
     public List<User> findUserIdInRoom(String roomId){
         return sessionComponent.findUserIdInSession(roomId);
     }
 
-    public String addPeopleToChatRoom(String roomId,String userId,String userIds) {
+    public SessionInfo addPeopleToChatRoom(String roomId,String userId,String userIds) {
         String[] userArray = userIds.split(",");
         return sessionComponent.addPeopleToSession(roomId, userId, userArray);
     }

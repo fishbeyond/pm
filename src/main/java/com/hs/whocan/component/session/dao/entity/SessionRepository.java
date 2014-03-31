@@ -122,4 +122,22 @@ public class SessionRepository implements SessionDao {
         return Integer.valueOf(result);
     }
 
+    @Override
+    public SessionMapper findSessionMapper(String sessionId, String userId) {
+        final String hql = "from SessionMapper e where e.sessionId = :sessionId and e.userId = :userId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("sessionId",sessionId);
+        query.setString("userId",userId);
+        return (SessionMapper)query.uniqueResult();
+    }
+
+    @Override
+    public Session findSessionById(String sessionId) {
+        final String hql = "from SessionEntity e where e.sessionId = :sessionId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("sessionId",sessionId);
+        SessionEntity entity = (SessionEntity) query.uniqueResult();
+        return entity.getSession();
+    }
+
 }

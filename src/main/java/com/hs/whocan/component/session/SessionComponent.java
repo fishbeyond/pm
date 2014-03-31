@@ -37,7 +37,7 @@ public class SessionComponent {
         Session session = sessionDao.findSessionByUnionId(roomId1, roomId2);
         SessionInfo sessionInfo = new SessionInfo();
         if (null == session) {
-            session = new Session(roomId1, userId, null);
+            session = new Session(roomId1, userId);
             sessionDao.createSession(session);
             sessionDao.createSessionMapper(new SessionMapper(roomId1, userId));
             sessionDao.createSessionMapper(new SessionMapper(roomId1, friendId));
@@ -50,40 +50,66 @@ public class SessionComponent {
         messageDao.createMessage(message);
     }
 
-    public List<SessionInfo> findChatRoomInfo(String userId) {
+    public List<SessionInfo> findSessionInfo(String userId) {
         List<Session> sessions = sessionDao.findSessionByUserId(userId);
         List<SessionInfo> sessionInfos = new ArrayList<SessionInfo>();
         for (Session session : sessions) {
-            SessionInfo sessionInfo = new SessionInfo();
-            List<User> users = sessionDao.findSessionUserBySessionId(session.getSessionId());
-            sessionInfo.setUserList(users);
-            sessionInfo.setSession(session);
+            SessionInfo sessionInfo = createSessionInfo(userId, session);
             sessionInfos.add(sessionInfo);
         }
         return sessionInfos;
+    }
+
+    private SessionInfo createSessionInfo(String userId, Session session) {
+        SessionInfo sessionInfo = new SessionInfo();
+        List<User> users = sessionDao.findSessionUserBySessionId(session.getSessionId());
+        sessionInfo.setUserList(users);
+        sessionInfo.setSession(session);
+        setPrivateSessionName(userId, sessionInfo, users);
+        return sessionInfo;
+    }
+
+    private void setPrivateSessionName(String userId, SessionInfo sessionInfo, List<User> users) {
+        if (users.size() == 2) {
+            for (User user : users) {
+                if (userId.equals(user.getUserId())) {
+                } else {
+                    sessionInfo.setSessionName(user.getUserName());
+                }
+            }
+        } else if (null == sessionInfo.getSessionName()||"".equals(sessionInfo.getSessionName())) {
+            int userNum = sessionDao.findUserNumInSession(sessionInfo.getSessionId());
+            sessionInfo.setSessionName("群聊(" + userNum + "人)");
+        }
     }
 
     public List<Message> findChatByRoomId(String roomId) {
         return messageDao.findMessageBySessionId(roomId);
     }
 
-    public String addPeopleToSession(String sessionId, String userId, String[] userIds) {
+    public SessionInfo addPeopleToSession(String sessionId, String userId, String[] userIds) {
         int userNum = userIds.length;
+        Session session = null;
         if (null == sessionId) {
-            String sessionName = "群聊(" + userNum + "人)";
             sessionId = uuidGenerator.shortUuid();
-            Session session = new Session(sessionId, userId, sessionName);
+            session = new Session(sessionId, userId);
             sessionDao.createSession(session);
+            relateSessionUser(sessionId, userId);
         } else {
-            int oldNum = sessionDao.findUserNumInSession(sessionId);
-            String sessionName = "群聊(" + (oldNum+userNum) + "人)";
-            sessionDao.modifySessionName(sessionId,sessionName);
+            session = sessionDao.findSessionById(sessionId);
         }
         for (String addUserId : userIds) {
-            SessionMapper sessionMapper = new SessionMapper(sessionId, addUserId);
+            relateSessionUser(sessionId, addUserId);
+        }
+        return createSessionInfo(userId, session);
+    }
+
+    private void relateSessionUser(String sessionId, String userId) {
+        SessionMapper sessionMapper = sessionDao.findSessionMapper(sessionId, userId);
+        if (null == sessionMapper) {
+            sessionMapper = new SessionMapper(sessionId, userId);
             sessionDao.createSessionMapper(sessionMapper);
         }
-        return sessionId;
     }
 
     public void deletePeopleFromSession(String sessionId, String deleteUserId) {

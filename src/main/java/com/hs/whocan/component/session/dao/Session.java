@@ -18,10 +18,9 @@ public class Session {
     public Session() {
     }
 
-    public Session(String sessionId, String userId,String sessionName) {
+    public Session(String sessionId, String userId) {
         this.sessionId = sessionId;
         this.userId = userId;
-        this.sessionName = sessionName;
         this.createTime = new Date();
     }
 

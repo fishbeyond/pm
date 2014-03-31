@@ -25,7 +25,7 @@ public class SessionFindSessionUser extends WhoCanExecutor {
     protected SessionComponent sessionComponent;
 
     public List<SessionInfo> execute() {
-        return sessionComponent.findChatRoomInfo(userId);
+        return sessionComponent.findSessionInfo(userId);
     }
 
 }

@@ -2,6 +2,7 @@ package com.hs.whocan.service.chat;
 
 import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.service.WhoCanExecutor;
+import com.hs.whocan.service.chat.old.SessionInfo;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class SessionAddUser extends WhoCanExecutor {
     @Resource
     protected SessionComponent sessionComponent;
 
-    public String execute() {
+    public SessionInfo execute() {
         String[] userArray = userIds.split(",");
         return sessionComponent.addPeopleToSession(sessionId, userId, userArray);
     }
