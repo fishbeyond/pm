@@ -2,6 +2,7 @@ package com.hs.whocan.component.push;
 
 import com.hs.whocan.component.push.devicetoken.DeviceComponent;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -19,6 +20,8 @@ public class PushMessageComponent {
     private PushComponent pushComponent;
     @Resource
     private DeviceComponent deviceComponent;
+
+    @Transactional
     public void push(List<String> userIds,String message){
         List<String> deviceToken = deviceComponent.findDeviceTokenByUsers(userIds);
         pushComponent.push(deviceToken, message);

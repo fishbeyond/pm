@@ -39,7 +39,19 @@ public class DeviceDao {
     public List<String> findDeviceToken(List<String> userIds) {
         final String hql = "select t.token from DeviceToken t where t.userId in ( :userIds )";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setParameterList("userIds",userIds);
+        query.setParameterList("userIds", userIds);
         return (List<String>) query.list();
+    }
+
+    public DeviceToken findDeviceToken(String userId, String token) {
+        final String hql = "select t.token from DeviceToken t where t.userId = :userId and t.token = :token";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("userId", userId);
+        query.setString("token", token);
+        return (DeviceToken) query.uniqueResult();
+    }
+
+    public void modifyDeviceToken(DeviceToken oldDeviceToken) {
+        sessionFactory.getCurrentSession().update(oldDeviceToken);
     }
 }

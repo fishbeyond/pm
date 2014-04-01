@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -33,9 +34,10 @@ public class SessionAddUser implements WhoCanExecutor {
 
     public SessionInfo execute() {
         String[] userArray = userIds.split(",");
-        Session session = sessionComponent.addPeopleToSession(sessionId, userId, userArray);
+        List<String> userList = Arrays.asList(userArray);
+        Session session = sessionComponent.addPeopleToSession(sessionId, userId, userList);
         SessionInfo sessionInfo = sessionQuery.querySessionInfo(userId, session);
-        pushMessageComponent.push(Arrays.asList(userArray),"您被加入群:"+sessionInfo.getSessionName());
+        pushMessageComponent.push(userList,"您被加入群:"+sessionInfo.getSessionName());
         return sessionInfo;
     }
 

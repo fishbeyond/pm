@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -59,15 +60,15 @@ public class SessionComponent {
     }
 
     @Transactional
-    public Session addPeopleToSession(String sessionId, String userId, String[] userIds) {
+    public Session addPeopleToSession(String sessionId, String userId, List<String> userIds) {
         Session session = null;
         if (null == sessionId) {
             sessionId = uuidGenerator.shortUuid();
             session = new Session(sessionId, userId);
             session.setType(SessionType.PUBLIC__SESSION);
             sessionDao.createSession(session);
-            String[] oneUserId = new String[1];
-            oneUserId[0] = userId;
+            List<String> oneUserId = new ArrayList<String>();
+            oneUserId.add(userId);
             relateSessionUser(sessionId, oneUserId);
         } else {
             session = sessionDao.findSessionById(sessionId);
@@ -76,9 +77,8 @@ public class SessionComponent {
         return session;
     }
 
-    private void relateSessionUser(String sessionId, String[] userIds) {
+    private void relateSessionUser(String sessionId, List<String> userIds) {
         for (String addUserId : userIds) {
-
             SessionMapper sessionMapper = sessionDao.findSessionMapper(sessionId, addUserId);
             if (null == sessionMapper) {
                 sessionMapper = new SessionMapper(sessionId, addUserId);

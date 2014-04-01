@@ -21,7 +21,13 @@ public class DeviceComponent {
     @Resource
     private DeviceDao deviceDao;
     public void createDeviceToken(DeviceToken deviceToken){
-        deviceDao.createDeviceToken(deviceToken);
+        DeviceToken oldDeviceToken = deviceDao.findDeviceToken(deviceToken.getUserId(),deviceToken.getToken());
+        if(null==oldDeviceToken){
+            deviceDao.createDeviceToken(deviceToken);
+        }else {
+            oldDeviceToken.setToken(deviceToken.getToken());
+            deviceDao.modifyDeviceToken(oldDeviceToken);
+        }
     }
     public List<String> findDeviceTokenByUser(String userId){
         return deviceDao.findDeviceToken(userId);

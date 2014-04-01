@@ -4,6 +4,7 @@ import com.hs.whocan.component.account.security.dao.Access;
 import com.hs.whocan.component.account.security.dao.AccessDao;
 import com.hs.whocan.component.account.security.dao.PhoneAuthCode;
 import com.hs.whocan.component.account.security.dao.PhoneAuthCodeDao;
+import com.hs.whocan.component.account.security.exception.AuthCodeDisableException;
 import com.hs.whocan.component.utils.RandomGenerator;
 import com.hs.whocan.component.utils.UUIDGenerator;
 import com.hs.whocan.component.account.security.exception.AuthCodeErrorException;
@@ -15,7 +16,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 
 /**
- * Created by yinwenbo on 14-3-26.
+ * Created by fish on 14-3-26.
  */
 @Service
 public class SecurityComponent {
@@ -47,9 +48,13 @@ public class SecurityComponent {
     public void verifyAuthCode(String phoneNo, int authCode) {
         PhoneAuthCode phoneAuthCode = phoneAuthCodeDao.findPhoneAuthCode(phoneNo, authCode);
         long applyTime = System.currentTimeMillis()-phoneAuthCode.getCreateTime().getTime();
-        if(null == phoneAuthCode || applyTime>VALID_TIME){
+        if(null == phoneAuthCode){
             throw new AuthCodeErrorException();
         }
+        if(applyTime>VALID_TIME){
+            throw new AuthCodeDisableException();
+        }
+
     }
 
     public String createAccessInfo(String accessId){
