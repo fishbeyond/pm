@@ -14,8 +14,8 @@
                   http://www.springframework.org/schema/integration/jdbc
                   http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 
-    <int:map-to-object-transformer input-channel="sendAuthCode" ref="securitySendAuthCode"/>
-    <int:map-to-object-transformer input-channel="loginAuthCode" ref="securityLoginAuthCode"/>
-    <int:map-to-object-transformer input-channel="loginToken" ref="securityLoginToken"/>
+    <int:map-to-object-transformer input-channel="security.sendAuthCode" ref="securitySendAuthCode"/>
+    <int:map-to-object-transformer input-channel="security.loginAuthCode" ref="securityLoginAuthCode"/>
+    <int:map-to-object-transformer input-channel="security.loginToken" ref="securityLoginToken"/>
 
 </beans>

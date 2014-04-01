@@ -20,7 +20,7 @@
                               reply-timeout="5000"
                               mapped-request-headers="Content-Type,user-agent,host,outbound"
                               mapped-response-headers="Content-Type">
-        <int-http:header name="headerPath" expression="#pathVariables.method"/>
+        <int-http:header name="headerPath" expression="'security.'+#pathVariables.method"/>
     </int-http:inbound-gateway>
 
     <int:channel id="noRegisterServiceChannel"/>

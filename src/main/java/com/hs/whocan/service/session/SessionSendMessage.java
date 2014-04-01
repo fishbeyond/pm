@@ -1,5 +1,9 @@
 package com.hs.whocan.service.session;
 
+import com.hs.whocan.component.account.user.dao.User;
+import com.hs.whocan.component.push.PushMessageComponent;
+import com.hs.whocan.component.push.devicetoken.DeviceComponent;
+import com.hs.whocan.component.push.PushComponent;
 import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.dao.Message;
 import com.hs.whocan.service.WhoCanExecutor;
@@ -7,7 +11,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,12 +25,14 @@ import java.util.Date;
 @Service
 @Scope("prototype")
 public class SessionSendMessage implements WhoCanExecutor {
-    @Resource
-    private SessionComponent sessionComponent;
     private String content;
     private String sessionId;
     private String userId;
     private String messageId;
+    @Resource
+    private SessionComponent sessionComponent;
+    @Resource
+    private PushMessageComponent pushMessageComponent;
 
     public Boolean execute() {
         Message message = new Message();
@@ -34,6 +42,15 @@ public class SessionSendMessage implements WhoCanExecutor {
         message.setUserId(userId);
         message.setSessionId(sessionId);
         sessionComponent.sendMessage(message);
+        List<User> users = sessionComponent.findUserIdInSession(sessionId);
+        List<String> userIds = new ArrayList<String>();
+        for (User user : users) {
+            if (userId.equals(user.getUserId())) {
+            } else {
+                userIds.add(user.getUserId());
+            }
+        }
+        pushMessageComponent.push(userIds,"您有新的消息");
         return true;
     }
 

@@ -29,10 +29,17 @@ public class DeviceDao {
         return (List<String>) query.list();
     }
 
-    public List<String> findDeviceTokenByUser(String userId) {
+    public List<String> findDeviceToken(String userId) {
         final String hql = "select t.token from DeviceToken t where t.userId = :userId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("userId", userId);
+        return (List<String>) query.list();
+    }
+
+    public List<String> findDeviceToken(List<String> userIds) {
+        final String hql = "select t.token from DeviceToken t where t.userId in ( :userIds )";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setParameterList("userIds",userIds);
         return (List<String>) query.list();
     }
 }

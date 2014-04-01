@@ -29,7 +29,6 @@
     <import resource="service/access-service.xml"/>
     <import resource="service/user-service.xml"/>
     <import resource="service/social-service.xml"/>
-    <import resource="service/device-service.xml"/>
 
     <!--<bean id="nullResultHandler" class="com.hs.whocan.framework.transform.NullPayloadHandler"/>-->
     <!--<aop:config>-->

@@ -15,6 +15,13 @@ public class DeviceToken {
     private int tokenId;
     private String userId;
     private String token;
+    public DeviceToken(){}
+
+    public DeviceToken(String userId, String token) {
+        this.userId = userId;
+        this.token = token;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getTokenId() {

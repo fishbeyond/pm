@@ -1,4 +1,4 @@
-package com.hs.whocan.component.account.user;
+package com.hs.whocan.component.account.user.linkman;
 
 /**
  * Created with IntelliJ IDEA.

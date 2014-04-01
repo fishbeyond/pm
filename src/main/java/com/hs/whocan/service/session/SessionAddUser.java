@@ -1,5 +1,6 @@
 package com.hs.whocan.service.session;
 
+import com.hs.whocan.component.push.PushMessageComponent;
 import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.SessionQuery;
 import com.hs.whocan.component.session.dao.Session;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,11 +28,15 @@ public class SessionAddUser implements WhoCanExecutor {
     private SessionComponent sessionComponent;
     @Resource
     private SessionQuery sessionQuery;
+    @Resource
+    private PushMessageComponent pushMessageComponent;
 
     public SessionInfo execute() {
         String[] userArray = userIds.split(",");
         Session session = sessionComponent.addPeopleToSession(sessionId, userId, userArray);
-        return sessionQuery.querySessionInfo(userId, session);
+        SessionInfo sessionInfo = sessionQuery.querySessionInfo(userId, session);
+        pushMessageComponent.push(Arrays.asList(userArray),"您被加入群:"+sessionInfo.getSessionName());
+        return sessionInfo;
     }
 
     public String getSessionId() {

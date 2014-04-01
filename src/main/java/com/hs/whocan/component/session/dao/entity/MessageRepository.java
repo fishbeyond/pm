@@ -24,7 +24,7 @@ public class MessageRepository implements MessageDao {
 
     @Override
     public List<Message> findMessageBySessionId(String sessionId) {
-        final String hql = "from MessageEntity e where e.sessionId = :sessionId order by e.createTime desc";
+        final String hql = "from MessageEntity e where e.sessionId = :sessionId order by e.createTime";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("sessionId", sessionId);
         List<MessageEntity> entities = (List<MessageEntity>) query.list();

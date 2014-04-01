@@ -3,6 +3,8 @@ package com.hs.whocan.service.security;
 import com.hs.whocan.component.account.security.SecurityComponent;
 import com.hs.whocan.component.account.user.UserComponent;
 import com.hs.whocan.component.account.user.dao.User;
+import com.hs.whocan.component.push.devicetoken.DeviceComponent;
+import com.hs.whocan.component.push.devicetoken.dao.DeviceToken;
 import com.hs.whocan.service.WhoCanExecutor;
 import com.hs.whocan.service.security.transformer.UserTransformer;
 import org.springframework.context.annotation.Scope;
@@ -23,6 +25,7 @@ import javax.annotation.Resource;
 public class SecurityLoginAuthCode implements WhoCanExecutor {
     private String phoneNo;
     private int authCode;
+    private String deviceToken;
 
     @Resource
     private SecurityComponent securityComponent;
@@ -30,6 +33,8 @@ public class SecurityLoginAuthCode implements WhoCanExecutor {
     private UserComponent userComponent;
     @Resource
     private UserTransformer userTransformer;
+    @Resource
+    private DeviceComponent deviceComponent;
 
     @Transactional
     public UserInfoResult execute() {
@@ -43,6 +48,7 @@ public class SecurityLoginAuthCode implements WhoCanExecutor {
         } else {
             token = securityComponent.modifyAccessToken(user.getUserId());
         }
+        deviceComponent.createDeviceToken(new DeviceToken(user.getUserId(),deviceToken));
         return userTransformer.transform2UserInfo(user, token);
     }
 
@@ -60,5 +66,13 @@ public class SecurityLoginAuthCode implements WhoCanExecutor {
 
     public void setAuthCode(int authCode) {
         this.authCode = authCode;
+    }
+
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
     }
 }

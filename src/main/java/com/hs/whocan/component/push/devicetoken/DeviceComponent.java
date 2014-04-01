@@ -17,14 +17,17 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class DeviceService {
+public class DeviceComponent {
     @Resource
     private DeviceDao deviceDao;
-    public boolean createDeviceToken(DeviceToken deviceToken){
+    public void createDeviceToken(DeviceToken deviceToken){
         deviceDao.createDeviceToken(deviceToken);
-        return true;
     }
     public List<String> findDeviceTokenByUser(String userId){
-        return deviceDao.findDeviceTokenByUser(userId);
+        return deviceDao.findDeviceToken(userId);
+    }
+
+    public List<String> findDeviceTokenByUsers(List<String> userIds){
+        return deviceDao.findDeviceToken(userIds);
     }
 }

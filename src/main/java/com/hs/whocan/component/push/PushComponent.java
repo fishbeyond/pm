@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,19 +23,14 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class PushServiceImpl implements PushService {
-    @Resource
-    private DeviceDao deviceDao;
-    private static final String p12File = "D:\\github\\Certificates_whocan.p12";
+public class PushComponent {
+    private static final String p12File = PushComponent.class.getClassLoader().getResource("").getPath()+ "Certificates_whocan.p12";
     private static final String p12FilePassword = "1234qwer";
     private String deviceToken = "25ecb9e6226034c17b162230fbffbe30fdb7f635afaf7112d43ad902e7bcba8a";//test
 
-    @Override
-    public void push(String deviceToken, String content) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+    @Resource
+    private DeviceDao deviceDao;
 
-    @Override
     public void push(List<String> deviceTokens, String content) {
         try {
             PushNotificationPayload payLoad = new PushNotificationPayload();
