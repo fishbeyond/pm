@@ -15,7 +15,7 @@
                   http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd http://www.springframework.org/schema/integration/xml http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd">
 
 
-    <int-http:inbound-gateway supported-methods="GET,POST" path="/{method}.json"
+    <int-http:inbound-gateway supported-methods="GET,POST" path="/security/{method}.json"
                               request-channel="noRegisterServiceChannel" error-channel="wcJsonErrorResultChannel"
                               reply-timeout="5000"
                               mapped-request-headers="Content-Type,user-agent,host,outbound"
