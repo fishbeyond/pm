@@ -5,6 +5,7 @@ import com.hs.whocan.component.session.dao.Session;
 import com.hs.whocan.component.session.dao.SessionDao;
 import com.hs.whocan.service.session.SessionInfo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -21,6 +22,7 @@ public class SessionQuery {
 
     @Resource
     private SessionDao sessionDao;
+    @Transactional
     public SessionInfo querySessionInfo(String userId, Session session) {
         SessionInfo sessionInfo = new SessionInfo();
         List<User> users = sessionDao.findSessionUserBySessionId(session.getSessionId());
