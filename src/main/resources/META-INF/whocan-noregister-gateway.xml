@@ -16,15 +16,16 @@
 
 
     <int-http:inbound-gateway supported-methods="GET,POST" path="/{method}.json"
-                              request-channel="registerChannel" error-channel="wcJsonErrorResultChannel"
+                              request-channel="noRegisterServiceChannel" error-channel="wcJsonErrorResultChannel"
                               reply-timeout="5000"
                               mapped-request-headers="Content-Type,user-agent,host,outbound"
                               mapped-response-headers="Content-Type">
-        <int-http:header name="serviceChannel" expression="#pathVariables.method"/>
+        <int-http:header name="headerPath" expression="#pathVariables.method"/>
     </int-http:inbound-gateway>
 
-    <int:chain input-channel="registerChannel" output-channel="wcJsonOutputChannel">
-        <int:gateway request-channel="registerRouter"/>
+    <int:channel id="noRegisterServiceChannel"/>
+    <int:chain input-channel="noRegisterServiceChannel" output-channel="wcJsonOutputChannel">
+        <int:gateway request-channel="wcServiceRouter"/>
+        <int:service-activator expression="payload.execute()"/>
     </int:chain>
-    <int:header-value-router header-name="serviceChannel" input-channel="registerRouter"/>
 </beans>
