@@ -1,4 +1,4 @@
-package com.hs.whocan.component.account.user.dao;
+package com.hs.whocan.component.account.user.linkman.dao;
 
 /**
  * Created with IntelliJ IDEA.

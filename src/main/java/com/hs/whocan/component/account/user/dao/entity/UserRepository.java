@@ -1,9 +1,9 @@
 package com.hs.whocan.component.account.user.dao.entity;
 
-import com.hs.whocan.service.social.FriendInfo;
-import com.hs.whocan.component.account.user.LinkmanStatus;
 import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.component.account.user.dao.UserDao;
+import com.hs.whocan.component.account.user.linkman.LinkmanStatus;
+import com.hs.whocan.service.social.FriendInfo;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;

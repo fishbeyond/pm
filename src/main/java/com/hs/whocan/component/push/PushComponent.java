@@ -1,6 +1,6 @@
 package com.hs.whocan.component.push;
 
-import com.hs.whocan.component.push.devicetoken.dao.DeviceDao;
+import com.hs.whocan.component.account.user.devicetoken.dao.DeviceDao;
 import javapns.devices.Device;
 import javapns.devices.implementations.basic.BasicDevice;
 import javapns.notification.AppleNotificationServerBasicImpl;
@@ -22,19 +22,13 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class PushServiceImpl implements PushService {
+public class PushComponent {
     @Resource
     private DeviceDao deviceDao;
     private static final String p12File = "D:\\github\\Certificates_whocan.p12";
     private static final String p12FilePassword = "1234qwer";
     private String deviceToken = "25ecb9e6226034c17b162230fbffbe30fdb7f635afaf7112d43ad902e7bcba8a";//test
 
-    @Override
-    public void push(String deviceToken, String content) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
     public void push(List<String> deviceTokens, String content) {
         try {
             PushNotificationPayload payLoad = new PushNotificationPayload();

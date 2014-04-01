@@ -1,7 +1,7 @@
-package com.hs.whocan.component.account.user.dao.entity;
+package com.hs.whocan.component.account.user.linkman.dao.entity;
 
-import com.hs.whocan.component.account.user.dao.LinkMan;
-import com.hs.whocan.component.account.user.dao.LinkmanDao;
+import com.hs.whocan.component.account.user.linkman.dao.LinkMan;
+import com.hs.whocan.component.account.user.linkman.dao.LinkmanDao;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

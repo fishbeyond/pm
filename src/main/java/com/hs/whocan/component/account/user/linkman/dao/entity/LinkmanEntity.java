@@ -1,6 +1,6 @@
-package com.hs.whocan.component.account.user.dao.entity;
+package com.hs.whocan.component.account.user.linkman.dao.entity;
 
-import com.hs.whocan.component.account.user.dao.LinkMan;
+import com.hs.whocan.component.account.user.linkman.dao.LinkMan;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;

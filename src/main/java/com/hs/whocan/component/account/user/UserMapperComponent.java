@@ -1,5 +1,6 @@
 package com.hs.whocan.component.account.user;
 
+import com.hs.whocan.component.account.user.linkman.dao.LinkmanDao;
 import com.hs.whocan.service.social.FriendInfo;
 import com.hs.whocan.component.account.user.dao.*;
 import org.springframework.beans.BeanUtils;

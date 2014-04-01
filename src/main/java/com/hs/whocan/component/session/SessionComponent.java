@@ -91,6 +91,7 @@ public class SessionComponent {
     private void createSessionSystemMessage(String sessionId, String userId, String content) {
         User user = userDao.findUserById(userId);
         Message message = new Message();
+        message.setMessageId(uuidGenerator.shortUuid());
         message.setCreateTime(new Date());
         message.setSessionId(sessionId);
         message.setContent(user.getUserName() + content);
