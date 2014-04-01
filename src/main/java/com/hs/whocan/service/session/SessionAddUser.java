@@ -35,7 +35,7 @@ public class SessionAddUser implements WhoCanExecutor {
         String[] userArray = userIds.split(",");
         Session session = sessionComponent.addPeopleToSession(sessionId, userId, userArray);
         SessionInfo sessionInfo = sessionQuery.querySessionInfo(userId, session);
-        pushMessageComponent.push(Arrays.asList(userArray),"您被加入群"+sessionInfo.getSessionName());
+        pushMessageComponent.push(Arrays.asList(userArray),"您被加入群:"+sessionInfo.getSessionName());
         return sessionInfo;
     }
 

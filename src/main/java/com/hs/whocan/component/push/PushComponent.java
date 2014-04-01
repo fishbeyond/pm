@@ -24,13 +24,12 @@ import java.util.List;
 @Service
 @Transactional
 public class PushComponent {
-    private static final String p12File = PushComponent.class.getResource("").getPath()+ "Certificates_whocan.p12";
+    private static final String p12File = PushComponent.class.getClassLoader().getResource("").getPath()+ "Certificates_whocan.p12";
     private static final String p12FilePassword = "1234qwer";
     private String deviceToken = "25ecb9e6226034c17b162230fbffbe30fdb7f635afaf7112d43ad902e7bcba8a";//test
 
     @Resource
     private DeviceDao deviceDao;
-
 
     public void push(List<String> deviceTokens, String content) {
         try {
