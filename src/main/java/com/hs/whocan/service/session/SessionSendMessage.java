@@ -24,9 +24,11 @@ public class SessionSendMessage implements WhoCanExecutor {
     private String content;
     private String sessionId;
     private String userId;
+    private String messageId;
 
     public Boolean execute() {
         Message message = new Message();
+        message.setMessageId(messageId);
         message.setCreateTime(new Date());
         message.setContent(content);
         message.setUserId(userId);
@@ -57,5 +59,13 @@ public class SessionSendMessage implements WhoCanExecutor {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
     }
 }

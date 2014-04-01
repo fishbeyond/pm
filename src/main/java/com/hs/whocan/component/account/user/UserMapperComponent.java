@@ -28,6 +28,7 @@ public class UserMapperComponent {
     @Resource
     private LinkmanDao linkmanDao;
 
+    @Transactional
     public void createLinkman(String userId,String[] phones) {
         linkmanDao.createLinkman(userId,phones);
     }

@@ -10,7 +10,9 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface PushService {
-    public void push(List<String> deviceTokens,String content);
+    public void push(String deviceToken, String content);
+
+    public void push(List<String> deviceTokens, String content);
 }
 
 

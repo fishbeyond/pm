@@ -28,8 +28,6 @@ public class MessageEntity {
         return this.message;
     }
     @Id
-    @GenericGenerator(name = "idGenerator", strategy = "uuid")
-    @GeneratedValue(generator = "idGenerator")
     public String getMessageId() {
         return message.getMessageId();
     }

@@ -30,6 +30,11 @@ public class PushServiceImpl implements PushService {
     private String deviceToken = "25ecb9e6226034c17b162230fbffbe30fdb7f635afaf7112d43ad902e7bcba8a";//test
 
     @Override
+    public void push(String deviceToken, String content) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public void push(List<String> deviceTokens, String content) {
         try {
             PushNotificationPayload payLoad = new PushNotificationPayload();
