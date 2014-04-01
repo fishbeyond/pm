@@ -1,6 +1,6 @@
 package com.hs.whocan.component.push;
 
-import com.hs.whocan.component.account.user.devicetoken.dao.DeviceDao;
+import com.hs.whocan.component.push.devicetoken.dao.DeviceDao;
 import javapns.devices.Device;
 import javapns.devices.implementations.basic.BasicDevice;
 import javapns.notification.AppleNotificationServerBasicImpl;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +24,13 @@ import java.util.List;
 @Service
 @Transactional
 public class PushComponent {
-    @Resource
-    private DeviceDao deviceDao;
-    private static final String p12File = "D:\\github\\Certificates_whocan.p12";
+    private static final String p12File = PushComponent.class.getResource("").getPath()+ "Certificates_whocan.p12";
     private static final String p12FilePassword = "1234qwer";
     private String deviceToken = "25ecb9e6226034c17b162230fbffbe30fdb7f635afaf7112d43ad902e7bcba8a";//test
+
+    @Resource
+    private DeviceDao deviceDao;
+
 
     public void push(List<String> deviceTokens, String content) {
         try {

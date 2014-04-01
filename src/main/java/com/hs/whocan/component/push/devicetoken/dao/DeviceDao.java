@@ -1,4 +1,4 @@
-package com.hs.whocan.component.account.user.devicetoken.dao;
+package com.hs.whocan.component.push.devicetoken.dao;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;

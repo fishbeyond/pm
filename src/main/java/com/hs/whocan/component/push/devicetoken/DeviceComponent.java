@@ -1,7 +1,7 @@
-package com.hs.whocan.component.account.user.devicetoken;
+package com.hs.whocan.component.push.devicetoken;
 
-import com.hs.whocan.component.account.user.devicetoken.dao.DeviceDao;
-import com.hs.whocan.component.account.user.devicetoken.dao.DeviceToken;
+import com.hs.whocan.component.push.devicetoken.dao.DeviceDao;
+import com.hs.whocan.component.push.devicetoken.dao.DeviceToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

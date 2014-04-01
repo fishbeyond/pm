@@ -1,7 +1,8 @@
 package com.hs.whocan.service.session;
 
 import com.hs.whocan.component.account.user.dao.User;
-import com.hs.whocan.component.account.user.devicetoken.DeviceComponent;
+import com.hs.whocan.component.push.PushMessageComponent;
+import com.hs.whocan.component.push.devicetoken.DeviceComponent;
 import com.hs.whocan.component.push.PushComponent;
 import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.dao.Message;
@@ -31,9 +32,7 @@ public class SessionSendMessage implements WhoCanExecutor {
     @Resource
     private SessionComponent sessionComponent;
     @Resource
-    private PushComponent pushComponent;
-    @Resource
-    private DeviceComponent deviceComponent;
+    private PushMessageComponent pushMessageComponent;
 
     public Boolean execute() {
         Message message = new Message();
@@ -51,8 +50,7 @@ public class SessionSendMessage implements WhoCanExecutor {
                 userIds.add(user.getUserId());
             }
         }
-        List<String> deviceToken = deviceComponent.findDeviceTokenByUsers(userIds);
-        pushComponent.push(deviceToken, "您收到一条新消息");
+        pushMessageComponent.push(userIds,"您有新的消息");
         return true;
     }
 
