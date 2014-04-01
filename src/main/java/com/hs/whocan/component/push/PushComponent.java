@@ -1,6 +1,7 @@
 package com.hs.whocan.component.push;
 
 import com.hs.whocan.component.push.devicetoken.dao.DeviceDao;
+import com.hs.whocan.component.push.exception.PushFailException;
 import javapns.devices.Device;
 import javapns.devices.implementations.basic.BasicDevice;
 import javapns.notification.AppleNotificationServerBasicImpl;
@@ -50,7 +51,7 @@ public class PushComponent {
             pushManager.sendNotifications(payLoad, devices);
             pushManager.stopConnection();
         } catch (Exception e) {
-            throw new RuntimeException("iphone 推送消息异常：", e);
+            throw new PushFailException();
         }
     }
 
