@@ -1,17 +1,16 @@
 package com.hs.whocan.component.account.user;
 
-import com.hs.whocan.component.account.security.dao.AccessDao;
-import com.hs.whocan.component.account.security.dao.PhoneAuthCode;
-import com.hs.whocan.component.account.security.dao.PhoneAuthCodeDao;
-import com.hs.whocan.component.account.user.dao.User;
-import com.hs.whocan.component.account.user.dao.UserDao;
-import com.hs.whocan.component.account.user.dao.UserInvitationDao;
-import com.hs.whocan.component.utils.RandomGenerator;
-import com.hs.whocan.component.utils.UUIDGenerator;
+import com.hs.whocan.component.account.security.access.dao.AccessDao;
+import com.hs.whocan.component.account.security.authcode.dao.PhoneAuthCode;
+import com.hs.whocan.component.account.security.authcode.dao.PhoneAuthCodeDao;
+import com.hs.whocan.component.account.user.info.dao.User;
+import com.hs.whocan.component.account.user.info.dao.UserDao;
+import com.hs.whocan.component.account.user.invitation.dao.UserInvitationDao;
+import com.hs.whocan.framework.utils.RandomGenerator;
+import com.hs.whocan.framework.utils.UUIDGenerator;
 import com.hs.whocan.component.account.user.exception.PhoneNoDisableException;
 import com.hs.whocan.component.account.security.exception.TokenDisableException;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;

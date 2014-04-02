@@ -3,7 +3,7 @@ package com.hs.whocan.component.project;
 import com.hs.whocan.component.project.dao.Project;
 import com.hs.whocan.component.project.dao.ProjectDao;
 import com.hs.whocan.component.project.dao.ProjectUserMapper;
-import com.hs.whocan.component.utils.UUIDGenerator;
+import com.hs.whocan.framework.utils.UUIDGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

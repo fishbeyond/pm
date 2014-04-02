@@ -11,7 +11,7 @@ import java.util.Date;
  * Created by fish on 14-3-17.
  */
 @Entity
-@Table(name = "message")
+@Table(name = "session_message")
 public class MessageEntity {
     private Message message;
 

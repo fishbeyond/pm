@@ -1,7 +1,7 @@
 package com.hs.whocan.service.user;
 
 import com.hs.whocan.component.account.user.UserComponent;
-import com.hs.whocan.component.account.user.dao.User;
+import com.hs.whocan.component.account.user.info.dao.User;
 import com.hs.whocan.service.WhoCanExecutor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Scope;

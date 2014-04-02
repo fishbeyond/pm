@@ -14,7 +14,7 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name = "work")
+@Table(name = "project_work")
 public class WorkEntity {
     private Work work;
 

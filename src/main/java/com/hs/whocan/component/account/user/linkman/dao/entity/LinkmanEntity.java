@@ -13,7 +13,7 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name = "linkman")
+@Table(name = "user_linkman")
 public class LinkmanEntity {
     private LinkMan linkman;
 

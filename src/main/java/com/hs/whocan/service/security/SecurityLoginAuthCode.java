@@ -2,9 +2,9 @@ package com.hs.whocan.service.security;
 
 import com.hs.whocan.component.account.security.SecurityComponent;
 import com.hs.whocan.component.account.user.UserComponent;
-import com.hs.whocan.component.account.user.dao.User;
-import com.hs.whocan.component.push.devicetoken.DeviceComponent;
-import com.hs.whocan.component.push.devicetoken.dao.DeviceToken;
+import com.hs.whocan.component.account.user.info.dao.User;
+import com.hs.whocan.component.account.security.device.DeviceComponent;
+import com.hs.whocan.component.account.security.device.dao.DeviceToken;
 import com.hs.whocan.service.WhoCanExecutor;
 import com.hs.whocan.service.security.transformer.UserTransformer;
 import org.springframework.context.annotation.Scope;

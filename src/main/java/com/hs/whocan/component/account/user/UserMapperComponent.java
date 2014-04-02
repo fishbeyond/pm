@@ -1,8 +1,12 @@
 package com.hs.whocan.component.account.user;
 
+import com.hs.whocan.component.account.user.info.dao.User;
+import com.hs.whocan.component.account.user.info.dao.UserDao;
+import com.hs.whocan.component.account.user.invitation.dao.UserInvitation;
+import com.hs.whocan.component.account.user.invitation.dao.UserInvitationDao;
 import com.hs.whocan.component.account.user.linkman.dao.LinkmanDao;
 import com.hs.whocan.service.social.FriendInfo;
-import com.hs.whocan.component.account.user.dao.*;
+import com.hs.whocan.component.account.user.friend.dao.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,12 +80,6 @@ public class UserMapperComponent {
 
     public List<FriendInfo> findFriendNotAdd(String userId) {
         return userInfoDao.findFriendNotAdd(userId);
-    }
-
-    private FriendInfo transform2FriendInfo(User user) {
-        FriendInfo friendInfo = new FriendInfo();
-        BeanUtils.copyProperties(user, friendInfo);
-        return friendInfo;
     }
 
     public List<User> findUserByProjectId(String projectId) {

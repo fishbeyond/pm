@@ -1,6 +1,6 @@
 package com.hs.whocan.service;
 
-import com.hs.whocan.component.operaterecord.OperateRecordService;
+import com.hs.whocan.component.operaterecord.OperateRecordComponent;
 import com.hs.whocan.component.project.ProjectService;
 import com.hs.whocan.component.project.dao.Project;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class ProjectAction {
     @Resource
     private ProjectService projectService;
     @Resource
-    private OperateRecordService operateRecordService;
+    private OperateRecordComponent operateRecordService;
 
     public List<Project> findProjectByUserId(String userId) {
         return projectService.findProjectByUserId(userId);

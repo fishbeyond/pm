@@ -1,6 +1,6 @@
 package com.hs.whocan.component.push;
 
-import com.hs.whocan.component.push.devicetoken.dao.DeviceDao;
+import com.hs.whocan.component.account.security.device.dao.DeviceDao;
 import com.hs.whocan.component.push.exception.PushFailException;
 import javapns.devices.Device;
 import javapns.devices.implementations.basic.BasicDevice;
@@ -11,13 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
- * user: fish
+ * info: fish
  * Date: 14-3-10
  * Time: 下午6:22
  * To change this template use File | Settings | File Templates.
