@@ -31,8 +31,8 @@
         <int:enricher>
             <int:property name="operatorName" expression="@securityFilter.findOperatorByToken(payload[userId])"/>
         </int:enricher>
-        <int:gateway request-channel="wcServiceRouter" error-channel="wcJsonErrorResultChannel"/>
-        <int:gateway request-channel="wcPayloadRouter" error-channel="wcJsonErrorResultChannel"/>
+        <int:gateway request-channel="wcServiceRouter"/>
+        <int:gateway request-channel="wcPayloadRouter"/>
     </int:chain>
 
     <int:channel id="wcServiceRouter"/>
