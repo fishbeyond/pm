@@ -65,7 +65,7 @@ public class SessionComponent {
         if (null == sessionId) {
             sessionId = uuidGenerator.shortUuid();
             session = new Session(sessionId, userId);
-            session.setType(SessionType.PUBLIC__SESSION);
+            session.setType(SessionType.PUBLIC_SESSION);
             sessionDao.createSession(session);
             List<String> oneUserId = new ArrayList<String>();
             oneUserId.add(userId);

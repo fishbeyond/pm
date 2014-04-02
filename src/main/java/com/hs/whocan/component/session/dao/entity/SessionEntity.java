@@ -66,12 +66,12 @@ public class SessionEntity {
     public String getUserId() {
         return session.getUserId();
     }
-
-    public void setType(Enum<SessionType> type) {
-        session.setType(type);
-    }
     @Column
-    public Enum<SessionType> getType() {
+    public String getType() {
         return session.getType();
+    }
+
+    public void setType(String type) {
+        session.setType(type);
     }
 }

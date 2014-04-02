@@ -16,7 +16,7 @@ public class Session {
     private String userId;
     private String sessionName;
     private Date createTime;
-    private Enum<SessionType> type;
+    private String type;
 
     public Session() {
     }
@@ -59,11 +59,11 @@ public class Session {
         this.createTime = createTime;
     }
 
-    public Enum<SessionType> getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Enum<SessionType> type) {
+    public void setType(String type) {
         this.type = type;
     }
 }

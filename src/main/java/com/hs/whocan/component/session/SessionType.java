@@ -7,6 +7,7 @@ package com.hs.whocan.component.session;
  * Time: 下午3:23
  * To change this template use File | Settings | File Templates.
  */
-public enum SessionType {
-    PRIVATE_SESSION,PUBLIC__SESSION
+public class SessionType {
+    public static String PRIVATE_SESSION = "PRIVATE";
+    public static String PUBLIC_SESSION ="PUBLIC";
 }
