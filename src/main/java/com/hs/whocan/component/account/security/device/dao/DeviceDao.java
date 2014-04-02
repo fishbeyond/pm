@@ -48,7 +48,8 @@ public class DeviceDao {
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("userId", userId);
         query.setString("token", token);
-        return (DeviceToken) query.uniqueResult();
+        Object result = query.uniqueResult();
+        return result!=null?(DeviceToken)result:null;
     }
 
     public void modifyDeviceToken(DeviceToken oldDeviceToken) {
