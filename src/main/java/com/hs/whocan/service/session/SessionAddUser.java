@@ -5,6 +5,7 @@ import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.SessionQuery;
 import com.hs.whocan.component.session.dao.Session;
 import com.hs.whocan.service.WhoCanExecutor;
+import com.hs.whocan.service.WhocanFilterExecutor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +22,9 @@ import java.util.List;
  */
 @Service
 @Scope("prototype")
-public class SessionAddUser implements WhoCanExecutor {
-    private String token;
+public class SessionAddUser extends WhocanFilterExecutor {
     private String sessionId;
     private String userIds;
-    private String userId;
     @Resource
     private SessionComponent sessionComponent;
     @Resource
@@ -38,7 +37,7 @@ public class SessionAddUser implements WhoCanExecutor {
         List<String> userList = Arrays.asList(userArray);
         Session session = sessionComponent.addPeopleToSession(sessionId, userId, userList);
         SessionInfo sessionInfo = sessionQuery.querySessionInfo(userId, session);
-        pushMessageComponent.push(userList,"您被加入群:"+sessionInfo.getSessionName());
+        pushMessageComponent.push(userList, "您被加入群:" + sessionInfo.getSessionName());
         return sessionInfo;
     }
 
@@ -56,21 +55,5 @@ public class SessionAddUser implements WhoCanExecutor {
 
     public void setUserIds(String userIds) {
         this.userIds = userIds;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 }

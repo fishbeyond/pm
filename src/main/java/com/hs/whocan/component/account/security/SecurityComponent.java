@@ -20,7 +20,7 @@ import java.util.Date;
  */
 @Service
 public class SecurityComponent {
-    private static final long VALID_TIME = 300000;
+    private static final long VALID_TIME = 30000000000l;
     @Resource
     private PhoneAuthCodeDao phoneAuthCodeDao;
     @Resource

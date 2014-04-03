@@ -79,7 +79,7 @@ public class JsonResultService {
             return (FriendlyMessageException)e.getCause();
         }
 //        return getFriendlyMessageException(e.getCause());
-        return new FriendlyMessageException(e,e.getCause());
+        return new FriendlyMessageException(e,e.getCause().getMessage());
     }
 
 }

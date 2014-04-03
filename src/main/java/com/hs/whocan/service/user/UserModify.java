@@ -3,6 +3,7 @@ package com.hs.whocan.service.user;
 import com.hs.whocan.component.account.user.UserComponent;
 import com.hs.whocan.component.account.user.info.dao.User;
 import com.hs.whocan.service.WhoCanExecutor;
+import com.hs.whocan.service.WhocanFilterExecutor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class UserModify implements WhoCanExecutor {
+public class UserModify extends WhocanFilterExecutor {
     private String userId;
     private String userName;
     private String phoneNo;
@@ -33,7 +34,7 @@ public class UserModify implements WhoCanExecutor {
     @Transactional
     public Boolean execute() {
         User user = new User();
-        BeanUtils.copyProperties(this,user);
+        BeanUtils.copyProperties(this, user);
         userComponent.modifyUser(user);
         return true;
     }

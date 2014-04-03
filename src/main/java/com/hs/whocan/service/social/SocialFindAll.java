@@ -2,6 +2,7 @@ package com.hs.whocan.service.social;
 
 import com.hs.whocan.component.account.user.UserMapperComponent;
 import com.hs.whocan.service.WhoCanExecutor;
+import com.hs.whocan.service.WhocanFilterExecutor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ import java.util.List;
  */
 @Service
 @Scope("prototype")
-public class SocialFindAll implements WhoCanExecutor {
+public class SocialFindAll extends WhocanFilterExecutor {
 
     @Resource
     private UserMapperComponent userMapperComponent;

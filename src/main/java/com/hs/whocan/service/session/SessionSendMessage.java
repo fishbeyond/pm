@@ -5,6 +5,7 @@ import com.hs.whocan.component.account.security.PushMessageComponent;
 import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.dao.Message;
 import com.hs.whocan.service.WhoCanExecutor;
+import com.hs.whocan.service.WhocanFilterExecutor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ import java.util.List;
  */
 @Service
 @Scope("prototype")
-public class SessionSendMessage implements WhoCanExecutor {
+public class SessionSendMessage extends WhocanFilterExecutor {
     private String content;
     private String sessionId;
     private String userId;
@@ -48,7 +49,7 @@ public class SessionSendMessage implements WhoCanExecutor {
                 userIds.add(user.getUserId());
             }
         }
-        pushMessageComponent.push(userIds,"您有新的消息");
+        pushMessageComponent.push(userIds, "您有新的消息");
         return true;
     }
 
