@@ -1,5 +1,7 @@
 package com.hs.whocan.framework.transform;
 
+import java.io.Serializable;
+
 /**
  * Created by yinwenbo on 13-12-30.
  */

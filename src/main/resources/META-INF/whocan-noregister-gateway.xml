@@ -16,7 +16,7 @@
 
 
     <int-http:inbound-gateway supported-methods="GET,POST" path="/security/{method}.json"
-                              request-channel="noRegisterServiceChannel" error-channel="wcJsonErrorResultChannel"
+                              request-channel="noRegisterServiceChannel" error-channel="wcOutputChannel"
                               reply-timeout="5000"
                               mapped-request-headers="Content-Type,user-agent,host,outbound"
                               mapped-response-headers="Content-Type">
@@ -24,8 +24,8 @@
     </int-http:inbound-gateway>
 
     <int:channel id="noRegisterServiceChannel"/>
-    <int:chain input-channel="noRegisterServiceChannel" output-channel="wcJsonOutputChannel">
-        <int:gateway request-channel="wcServiceRouter"/>
-        <int:service-activator expression="payload.execute()"/>
+    <int:chain input-channel="noRegisterServiceChannel" output-channel="wcOutputChannel">
+        <int:gateway request-channel="wcServiceRouter" error-channel="noWcServerChannel"/>
+        <int:gateway request-channel="wcPayloadRouter" error-channel="noWcPayloadChannel"/>
     </int:chain>
 </beans>
