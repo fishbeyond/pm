@@ -139,8 +139,12 @@ public class UserRepository implements UserDao {
     }
 
     @Override
-    public void modifyPortrait(String userId, String filePath) {
-        final String sql ="";
+    public void modifyPortrait(String userId, String portrait) {
+        final String hql ="update user_info e set e.portrait = :portrait where e.userId = :userId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("userId",userId);
+        query.setString("portrait",portrait);
+        query.executeUpdate();
     }
 
 }

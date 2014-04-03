@@ -107,7 +107,7 @@ public class UserComponent {
         return userInfoDao.findUserById(userId);
     }
 
-    public void modifyPortrait(String userId, String filePath) {
-        userInfoDao.modifyPortrait(userId,filePath);
+    public void modifyPortrait(String userId, String portrait) {
+        userInfoDao.modifyPortrait(userId,portrait);
     }
 }

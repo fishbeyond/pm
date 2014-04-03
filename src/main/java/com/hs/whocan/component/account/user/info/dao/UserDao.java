@@ -32,5 +32,5 @@ public interface UserDao {
 
     public List<FriendInfo> findFriendNotAdd(String userId);
 
-    public void modifyPortrait(String userId, String filePath);
+    public void modifyPortrait(String userId, String portrait);
 }

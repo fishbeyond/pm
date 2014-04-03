@@ -1,12 +1,16 @@
 package com.hs.whocan.service.social;
 
+import com.hs.whocan.component.account.security.PushMessageComponent;
 import com.hs.whocan.component.account.user.UserMapperComponent;
+import com.hs.whocan.component.push.PushComponent;
 import com.hs.whocan.service.WhoCanExecutor;
 import com.hs.whocan.service.WhocanFilterExecutor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,14 +23,17 @@ import javax.annotation.Resource;
 @Scope("prototype")
 public class SocialAddFriendRegister extends WhocanFilterExecutor {
     private String friendId;
+
     @Resource
     private UserMapperComponent userMapperComponent;
-    private String userId;
+    @Resource
+    private PushMessageComponent pushMessageComponent;
 
     public Boolean execute() {
         userMapperComponent.addFriendAlreadyRegister(userId, friendId);
-//        List<String> deviceTokens = deviceService.findDeviceTokenByUser(friendId);
-//        pushService.push(deviceTokens, "添加好友邀请");
+        List<String> users = new ArrayList<String>();
+        users.add(friendId);
+        pushMessageComponent.push(users, "新的好友邀请:来自"+operator );
         return true;
     }
 
@@ -38,11 +45,4 @@ public class SocialAddFriendRegister extends WhocanFilterExecutor {
         this.friendId = friendId;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 }
