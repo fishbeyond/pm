@@ -78,9 +78,9 @@ public class UserComponent {
         return RandomGenerator.getRandom(111111, 999999);
     }
 
-    public User verifyPhoneNo(String userId,String phoneNo){
+    public User verifyPhoneNo(String userId, String phoneNo) {
         User user = userInfoDao.findUserByIdAndPhoneNo(userId, phoneNo);
-        if(null== user){
+        if (null == user) {
             throw new PhoneNoDisableException();
         }
         return user;
@@ -105,5 +105,9 @@ public class UserComponent {
 
     public User findUserNameInfoById(String userId) {
         return userInfoDao.findUserById(userId);
+    }
+
+    public void modifyPortrait(String userId, String filePath) {
+        userInfoDao.modifyPortrait(userId,filePath);
     }
 }

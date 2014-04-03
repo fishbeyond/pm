@@ -138,4 +138,9 @@ public class UserRepository implements UserDao {
         return  (List<FriendInfo>)sqlQuery.list();
     }
 
+    @Override
+    public void modifyPortrait(String userId, String filePath) {
+        final String sql ="";
+    }
+
 }

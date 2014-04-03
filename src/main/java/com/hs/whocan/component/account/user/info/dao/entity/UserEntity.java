@@ -80,4 +80,12 @@ public class UserEntity {
     public void setGender(String gender) {
         user.setGender(gender);
     }
+
+    public void setPortrait(String portrait) {
+        user.setPortrait(portrait);
+    }
+
+    public String getPortrait() {
+        return user.getPortrait();
+    }
 }

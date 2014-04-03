@@ -27,4 +27,5 @@ public class PushMessageComponent {
         List<String> deviceToken = deviceComponent.findDeviceTokenByUsers(userIds);
         pushComponent.push(deviceToken, message);
     }
+
 }

@@ -30,6 +30,9 @@
     <import resource="service/user-service.xml"/>
     <import resource="service/social-service.xml"/>
 
+    <bean id="fileUploadSavePath" class="java.lang.String">
+        <constructor-arg value="${upload.file.image.path}"></constructor-arg>
+    </bean>
     <!--<bean id="nullResultHandler" class="com.hs.whocan.framework.transform.NullPayloadHandler"/>-->
     <!--<aop:config>-->
         <!--<aop:aspect id="myAop" ref="nullResultHandler">-->
