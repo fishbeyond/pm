@@ -5,6 +5,7 @@ import com.hs.whocan.component.account.security.access.dao.Access;
 import com.hs.whocan.component.account.user.UserComponent;
 import com.hs.whocan.component.account.user.info.dao.User;
 import com.hs.whocan.service.WhoCanExecutor;
+import com.hs.whocan.service.WhoCanLoginExecutor;
 import com.hs.whocan.service.security.transformer.UserTransformer;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SecurityLoginToken implements WhoCanExecutor {
+public class SecurityLogin implements WhoCanLoginExecutor {
     private String token;
     private String phoneNo;
     @Resource

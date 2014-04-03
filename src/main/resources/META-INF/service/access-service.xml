@@ -16,6 +16,6 @@
 
     <int:map-to-object-transformer input-channel="security.sendAuthCode" ref="securitySendAuthCode"/>
     <int:map-to-object-transformer input-channel="security.loginAuthCode" ref="securityLoginAuthCode"/>
-    <int:map-to-object-transformer input-channel="security.loginToken" ref="securityLoginToken"/>
+    <int:map-to-object-transformer input-channel="security.loginToken" ref="securityLogin"/>
 
 </beans>

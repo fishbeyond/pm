@@ -44,7 +44,7 @@ public class DeviceDao {
     }
 
     public DeviceToken findDeviceToken(String userId, String token) {
-        final String hql = "select t.token from DeviceToken t where t.userId = :userId and t.token = :token";
+        final String hql = "from DeviceToken t where t.userId = :userId and t.token = :token";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("userId", userId);
         query.setString("token", token);

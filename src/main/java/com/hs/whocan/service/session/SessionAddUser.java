@@ -22,6 +22,7 @@ import java.util.List;
 @Service
 @Scope("prototype")
 public class SessionAddUser implements WhoCanExecutor {
+    private String token;
     private String sessionId;
     private String userIds;
     private String userId;
@@ -63,5 +64,13 @@ public class SessionAddUser implements WhoCanExecutor {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

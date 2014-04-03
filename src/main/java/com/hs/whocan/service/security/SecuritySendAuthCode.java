@@ -3,6 +3,7 @@ package com.hs.whocan.service.security;
 import com.hs.whocan.component.account.security.SecurityComponent;
 import com.hs.whocan.component.sms.SmsService;
 import com.hs.whocan.service.WhoCanExecutor;
+import com.hs.whocan.service.WhoCanLoginExecutor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SecuritySendAuthCode implements WhoCanExecutor {
+public class SecuritySendAuthCode implements WhoCanLoginExecutor {
     private String phoneNo;
     @Resource
     private SecurityComponent securityComponent;

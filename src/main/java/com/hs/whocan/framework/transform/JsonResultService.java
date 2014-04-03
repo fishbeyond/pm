@@ -75,7 +75,7 @@ public class JsonResultService {
         if (e instanceof FriendlyMessageException) {
             return (FriendlyMessageException) e;
         }
-        if(e instanceof MessageHandlingException){
+        if(e.getCause() instanceof FriendlyMessageException){
             return (FriendlyMessageException)e.getCause();
         }
 //        return getFriendlyMessageException(e.getCause());

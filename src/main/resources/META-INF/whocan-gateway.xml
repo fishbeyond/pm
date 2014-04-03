@@ -16,7 +16,7 @@
 
 
     <int-http:inbound-gateway supported-methods="GET,POST" path="/{service}/{method}.json"
-                              request-channel="wcServiceChannel" error-channel="wcOutputChannel"
+                              request-channel="wcServiceChannel"
                               reply-timeout="5000" reply-channel="jsonReplayChannel"
                               mapped-request-headers="Content-Type,user-agent,host,outbound"
                               mapped-response-headers="Content-Type">
@@ -24,50 +24,67 @@
     </int-http:inbound-gateway>
 
     <int:channel id="wcServiceChannel"/>
+    <!--<int:enricher>-->
+    <!--<int:property name="userId" expression="@securityFilter.findUserIdByToken(payload[token])"/>-->
+    <!--</int:enricher>-->
+    <!--<int:enricher>-->
+    <!--<int:property name="operatorName" expression="@securityFilter.findOperatorByToken(payload[userId])"/>-->
+    <!--</int:enricher>-->
     <int:chain input-channel="wcServiceChannel" output-channel="wcOutputChannel">
-        <int:enricher>
-            <int:property name="userId" expression="@securityFilter.findUserIdByToken(payload[token])"/>
-        </int:enricher>
-        <int:enricher>
-            <int:property name="operatorName" expression="@securityFilter.findOperatorByToken(payload[userId])"/>
-        </int:enricher>
-        <int:gateway request-channel="wcServiceRouter" error-channel="noWcServerChannel"/>
-        <int:gateway request-channel="wcPayloadRouter" error-channel="noWcPayloadChannel"/>
+        <int:gateway request-channel="wcServiceRouter" error-channel="wcErrorChannel"/>
+        <int:gateway request-channel="wcPayloadRouter" error-channel="wcErrorChannel"/>
     </int:chain>
 
     <int:channel id="wcServiceRouter"/>
-    <int:header-value-router header-name="headerPath" input-channel="wcServiceRouter" resolution-required="false"
+    <int:header-value-router header-name="headerPath" input-channel="wcServiceRouter"
                              default-output-channel="noWcServerChannel">
     </int:header-value-router>
 
     <int:channel id="wcPayloadRouter"/>
     <int:payload-type-router input-channel="wcPayloadRouter" default-output-channel="noWcPayloadChannel">
+        <int:mapping type="com.hs.whocan.service.WhoCanLoginExecutor" channel="loginChannel"/>
+        <int:mapping type="com.hs.whocan.service.WhoCanExecutor" channel="verifyExecuteChannel"/>
         <int:mapping type="com.hs.whocan.framework.transform.JsonResult" channel="noWcServerChannel"/>
-        <int:mapping type="com.hs.whocan.service.WhoCanExecutor" channel="serviceChannel"/>
     </int:payload-type-router>
-
-    <int:chain input-channel="serviceChannel">
+    <int:chain input-channel="loginChannel">
         <int:service-activator expression="payload.execute()"/>
     </int:chain>
+    <int:chain input-channel="verifyExecuteChannel">
+        <int:service-activator expression="payload.verifyTokenAndSetUserId()"/>
+        <int:service-activator expression="payload.execute()"/>
+    </int:chain>
+
+
+    <int:channel id="wcErrorChannel"/>
+    <!--<int:payload-type-router input-channel="wcErrorChannel">-->
+        <!--<int:mapping type="java.lang.Exception" channel="wcExceptionResultChannel"/>-->
+    <!--</int:payload-type-router>-->
+    <!--<int:service-activator input-channel="wcErrorChannel" expression="@testService.handle(payload)"/>-->
 
     <int:channel id="wcOutputChannel"/>
     <int:payload-type-router input-channel="wcOutputChannel" default-output-channel="wcJsonSuccessChannel">
         <int:mapping type="com.hs.whocan.framework.transform.JsonResult" channel="resultToJson"/>
         <int:mapping type="java.lang.Exception" channel="wcExceptionResultChannel"/>
     </int:payload-type-router>
+
+
+
     <int:service-activator input-channel="wcJsonSuccessChannel" output-channel="resultToJson"
                            expression="@jsonResultService.createSuccessResult(payload)"/>
 
     <int:transformer input-channel="wcExceptionResultChannel" output-channel="resultToJson"
                      expression="@jsonResultService.createExceptionResult(payload)"/>
 
-    <int:transformer input-channel="noWcServerChannel" output-channel="resultToJson"
-                     expression="@jsonResultService.createExceptionResult('服务不存在')"/>
 
-    <int:transformer input-channel="noWcPayloadChannel" output-channel="resultToJson"
+
+    <int:transformer input-channel="wcErrorChannel"
+                     expression="@jsonResultService.createExceptionResult(payload)"/>
+    <int:transformer input-channel="noWcServerChannel"
+                     expression="@jsonResultService.createExceptionResult('服务不存在')"/>
+    <int:transformer input-channel="noWcPayloadChannel"
                      expression="@jsonResultService.createExceptionResult('payload不存在')"/>
 
     <int:channel id="jsonReplayChannel"/>
-    <int:object-to-json-transformer input-channel="resultToJson" output-channel="jsonReplayChannel"
+    <int:object-to-json-transformer input-channel="resultToJson"
                                     content-type="text/json;charset=utf-8"/>
 </beans>

@@ -20,7 +20,7 @@ import java.util.Date;
  */
 @Service
 public class SecurityComponent {
-    private final long VALID_TIME = 300000;
+    private static final long VALID_TIME = 300000;
     @Resource
     private PhoneAuthCodeDao phoneAuthCodeDao;
     @Resource
@@ -47,10 +47,10 @@ public class SecurityComponent {
     }
     public void verifyAuthCode(String phoneNo, int authCode) {
         PhoneAuthCode phoneAuthCode = phoneAuthCodeDao.findPhoneAuthCode(phoneNo, authCode);
-        long applyTime = System.currentTimeMillis()-phoneAuthCode.getCreateTime().getTime();
         if(null == phoneAuthCode){
             throw new AuthCodeErrorException();
         }
+        long applyTime = System.currentTimeMillis()-phoneAuthCode.getCreateTime().getTime();
         if(applyTime>VALID_TIME){
             throw new AuthCodeDisableException();
         }

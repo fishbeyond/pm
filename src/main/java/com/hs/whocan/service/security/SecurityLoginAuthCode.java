@@ -6,6 +6,7 @@ import com.hs.whocan.component.account.user.info.dao.User;
 import com.hs.whocan.component.account.security.device.DeviceComponent;
 import com.hs.whocan.component.account.security.device.dao.DeviceToken;
 import com.hs.whocan.service.WhoCanExecutor;
+import com.hs.whocan.service.WhoCanLoginExecutor;
 import com.hs.whocan.service.security.transformer.UserTransformer;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -22,11 +23,10 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SecurityLoginAuthCode implements WhoCanExecutor {
+public class SecurityLoginAuthCode implements WhoCanLoginExecutor {
     private String phoneNo;
     private int authCode;
     private String deviceToken;
-
     @Resource
     private SecurityComponent securityComponent;
     @Resource
