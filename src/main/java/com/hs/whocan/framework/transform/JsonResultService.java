@@ -1,6 +1,7 @@
 package com.hs.whocan.framework.transform;
 
 import com.hs.whocan.framework.exception.FriendlyMessageException;
+import org.springframework.integration.MessageHandlingException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -73,6 +74,9 @@ public class JsonResultService {
         }
         if (e instanceof FriendlyMessageException) {
             return (FriendlyMessageException) e;
+        }
+        if(e instanceof MessageHandlingException){
+            return (FriendlyMessageException)e.getCause();
         }
 //        return getFriendlyMessageException(e.getCause());
         return new FriendlyMessageException(e,e.getCause());
