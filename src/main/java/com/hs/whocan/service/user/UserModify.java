@@ -21,7 +21,6 @@ import javax.annotation.Resource;
 @Scope("prototype")
 public class UserModify extends WhocanNeedLoginService {
     private String userName;
-    private String phoneNo;
     private String mailAddress;
     private String gender;
     private String remark;
@@ -44,14 +43,6 @@ public class UserModify extends WhocanNeedLoginService {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public String getPhoneNo() {
-        return phoneNo;
-    }
-
-    public void setPhoneNo(String phoneNo) {
-        this.phoneNo = phoneNo;
     }
 
     public String getMailAddress() {

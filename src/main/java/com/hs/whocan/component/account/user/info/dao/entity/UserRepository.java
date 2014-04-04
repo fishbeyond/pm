@@ -68,7 +68,15 @@ public class UserRepository implements UserDao {
 
     @Override
     public void modifyUser(User user) {
-        sessionFactory.getCurrentSession().update(new UserEntity(user));
+        final String hql = "update UserEntity e set e.gender = :gender,e.mailAddress = :mailAddress,e.portrait = :portrait, e.remark = :remark,e.userName = :userName where e.userId = :userId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("gender", user.getGender());
+        query.setString("mailAddress", user.getMailAddress());
+        query.setString("portrait", user.getPortrait());
+        query.setString("remark", user.getRemark());
+        query.setString("userName", user.getUserName());
+        query.setString("userId", user.getUserId());
+        query.executeUpdate();
     }
 
     @Override
