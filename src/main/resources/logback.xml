@@ -84,7 +84,7 @@
     <logger name="org.springframework.amqp.rabbit.listener.BlockingQueueConsumer" level="ERROR"/>
     <logger name="org.springframework">
         <appender-ref ref="log_console"/>
-        <appender-ref ref="logfile_debug"/>
+        <!--<appender-ref ref="logfile_debug"/>-->
     </logger>
     <logger name="org.springframework.orm.hibernate4.LocalSessionFactoryBean" level="DEBUG"/>
 </configuration>

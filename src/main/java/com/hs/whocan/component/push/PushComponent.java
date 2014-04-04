@@ -21,17 +21,20 @@ import java.util.List;
  * Time: 下午6:22
  * To change this template use File | Settings | File Templates.
  */
-@Service
-@Transactional
-public class PushComponent {
+public class PushComponent implements Runnable{
     private static final String p12File = PushComponent.class.getClassLoader().getResource("").getPath()+ "Certificates_whocan.p12";
     private static final String p12FilePassword = "1234qwer";
     private String deviceToken = "25ecb9e6226034c17b162230fbffbe30fdb7f635afaf7112d43ad902e7bcba8a";//test
+    private List<String> deviceTokens;
+    private String content;
 
-    @Resource
-    private DeviceDao deviceDao;
+    public PushComponent(List<String> deviceTokens, String content) {
+        this.deviceTokens = deviceTokens;
+        this.content = content;
+    }
 
-    public void push(List<String> deviceTokens, String content) {
+    @Override
+    public void run() {
         try {
             PushNotificationPayload payLoad = new PushNotificationPayload();
             payLoad.addAlert(content);
@@ -53,7 +56,6 @@ public class PushComponent {
             throw new PushFailException();
         }
     }
-
 }
 
 

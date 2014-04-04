@@ -18,14 +18,12 @@ import java.util.List;
 @Service
 public class PushMessageComponent {
     @Resource
-    private PushComponent pushComponent;
-    @Resource
     private DeviceComponent deviceComponent;
 
-    @Transactional
+//    @Transactional
     public void push(List<String> userIds,String message){
         List<String> deviceToken = deviceComponent.findDeviceTokenByUsers(userIds);
-        pushComponent.push(deviceToken, message);
+        new Thread(new PushComponent(deviceToken,message)).start();
     }
 
 }

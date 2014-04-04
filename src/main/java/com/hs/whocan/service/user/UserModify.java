@@ -25,6 +25,7 @@ public class UserModify extends WhocanNeedLoginService {
     private String mailAddress;
     private String gender;
     private String remark;
+    private String portrait;
 
     @Resource
     private UserComponent userComponent;
@@ -75,5 +76,13 @@ public class UserModify extends WhocanNeedLoginService {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getPortrait() {
+        return portrait;
+    }
+
+    public void setPortrait(String portrait) {
+        this.portrait = portrait;
     }
 }
