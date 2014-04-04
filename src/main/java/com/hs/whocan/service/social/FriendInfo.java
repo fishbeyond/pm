@@ -21,6 +21,7 @@ public class FriendInfo {
     private String remark;
     private String alias;
     private String status;
+    private String portrait;
 
     @Id
     public String getUserId() {
@@ -85,5 +86,13 @@ public class FriendInfo {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getPortrait() {
+        return portrait;
+    }
+
+    public void setPortrait(String portrait) {
+        this.portrait = portrait;
     }
 }

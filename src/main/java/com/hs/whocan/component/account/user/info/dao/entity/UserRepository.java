@@ -102,7 +102,7 @@ public class UserRepository implements UserDao {
 
     @Override
     public List<FriendInfo> findFriendByUserId(String userId) {
-        final String sql = "select :status as status, alias,userId,gender,mailAddress,phoneNo,remark,userName " +
+        final String sql = "select :status as status, portrait,alias,userId,gender,mailAddress,phoneNo,remark,userName " +
                 "from (select m.alias,m.friendId from user_mapper m where m.userId = :userId) temp left join user_info i on temp.friendId = i.userId;";
         SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(FriendInfo.class);
         sqlQuery.setString("userId", userId);
@@ -112,7 +112,7 @@ public class UserRepository implements UserDao {
 
     @Override
     public List<FriendInfo> findFriendInvite(String userId) {
-        final String sql = "select :status as status, null as alias,userId,gender,mailAddress,phoneNo,remark,userName " +
+        final String sql = "select :status as status, null as alias,portrait,userId,gender,mailAddress,phoneNo,remark,userName " +
                 "from user_info u where u.userId in (select friendId from user_invitation m where m.userId = :userId)";
         SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(FriendInfo.class);
         sqlQuery.setString("userId", userId);
@@ -122,7 +122,7 @@ public class UserRepository implements UserDao {
 
     @Override
     public List<FriendInfo> findFriendInvited(String userId) {
-        final String sql = "select :status as status,null as alias,userId,gender,mailAddress,phoneNo,remark,userName " +
+        final String sql = "select :status as status,null as alias,portrait,userId,gender,mailAddress,phoneNo,remark,userName " +
                 "from user_info u where u.userId in (select userId from user_invitation m where m.friendId = :userId)";
         SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(FriendInfo.class);
         sqlQuery.setString("userId", userId);
@@ -132,7 +132,7 @@ public class UserRepository implements UserDao {
 
     @Override
     public List<FriendInfo> findFriendNotAdd(String userId) {
-        final String sql = "select :status as status, null as alias,userId,gender,mailAddress,phoneNo,remark,userName " +
+        final String sql = "select :status as status, null as alias,portrait,userId,gender,mailAddress,phoneNo,remark,userName " +
                 "from (select phoneNo findPhone from user_linkman l where l.userId = :userId) temp inner join user_info u on temp.findPhone = u.phoneNo and" +
                 " u.userId not in (select friendId from user_mapper m where m.userId= :userId)";
         SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(FriendInfo.class);
