@@ -1,5 +1,6 @@
 package com.hs.whocan.component.account.user;
 
+import com.hs.whocan.component.account.user.exception.FriendAlreadyExistException;
 import com.hs.whocan.component.account.user.info.dao.User;
 import com.hs.whocan.component.account.user.info.dao.UserDao;
 import com.hs.whocan.component.account.user.invitation.dao.UserInvitation;
@@ -7,7 +8,6 @@ import com.hs.whocan.component.account.user.invitation.dao.UserInvitationDao;
 import com.hs.whocan.component.account.user.linkman.dao.LinkmanDao;
 import com.hs.whocan.service.social.FriendInfo;
 import com.hs.whocan.component.account.user.friend.dao.*;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,13 +34,17 @@ public class UserMapperComponent {
     private LinkmanDao linkmanDao;
 
     @Transactional
-    public void createLinkman(String userId,String[] phones) {
-        linkmanDao.createLinkman(userId,phones);
+    public void createLinkman(String userId, String[] phones) {
+        linkmanDao.createLinkman(userId, phones);
     }
 
     public void addFriendAlreadyRegister(String userId, String friendId) {
-        if(0!=userInvitationDao.findUserInvitation(friendId,userId).size()){
-            confirmFriend(userId,friendId);
+        UserMapper userMapper = userMapperDao.findUserMapper(userId, friendId);
+        if (userMapper != null) {
+            throw new FriendAlreadyExistException();
+        }
+        if (0 != userInvitationDao.findUserInvitation(friendId, userId).size()) {
+            confirmFriend(userId, friendId);
         } else {
             UserInvitation userInvitation = new UserInvitation();
             userInvitation.setUserId(userId);
@@ -66,11 +70,11 @@ public class UserMapperComponent {
         userMapperDao.modifyUserMapperAlias(userMapper);
     }
 
-    public List<FriendInfo> findFriendUserId(String userId) {
+    public List<FriendInfo> findFriendByUserId(String userId) {
         return userInfoDao.findFriendByUserId(userId);
     }
 
-    public List<FriendInfo> findFriendInvite(String userId){
+    public List<FriendInfo> findFriendInvite(String userId) {
         return userInfoDao.findFriendInvite(userId);
     }
 
@@ -87,7 +91,7 @@ public class UserMapperComponent {
     }
 
     public void deleteFriend(String userId, String friendId) {
-        userMapperDao.deleteUserMapper(userId,friendId);
-        userMapperDao.deleteUserMapper(friendId,userId);
+        userMapperDao.deleteUserMapper(userId, friendId);
+        userMapperDao.deleteUserMapper(friendId, userId);
     }
 }

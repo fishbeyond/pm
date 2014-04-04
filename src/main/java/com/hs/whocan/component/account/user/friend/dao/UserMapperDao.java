@@ -13,4 +13,6 @@ public interface UserMapperDao {
     public void modifyUserMapperAlias(UserMapper userMapper);
 
     public void deleteUserMapper(String userId,String friendId);
+
+    public UserMapper findUserMapper(String userId, String friendId);
 }

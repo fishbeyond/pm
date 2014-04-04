@@ -24,7 +24,7 @@ public class SocialFindAll extends WhocanNeedLoginService {
     private UserMapperComponent userMapperComponent;
 
     public List<FriendInfo> execute() {
-        List<FriendInfo> alreadyFriends = userMapperComponent.findFriendUserId(userId);
+        List<FriendInfo> alreadyFriends = userMapperComponent.findFriendByUserId(userId);
         List<FriendInfo> inviteFriends = userMapperComponent.findFriendInvite(userId);
         List<FriendInfo> invitedFriends = userMapperComponent.findFriendInvited(userId);
         List<FriendInfo> notAddFriends = userMapperComponent.findFriendNotAdd(userId);

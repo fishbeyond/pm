@@ -48,7 +48,7 @@ public class UserRepository implements UserDao {
         final String hql = "from UserEntity e where e.userId = :userId and e.phoneNo = :phoneNo";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("userId", userId);
-        query.setString("phoneNo",phoneNo);
+        query.setString("phoneNo", phoneNo);
         UserEntity entity = (UserEntity) query.uniqueResult();
         return entity == null ? null : entity.getUser();
     }
@@ -71,11 +71,6 @@ public class UserRepository implements UserDao {
         sessionFactory.getCurrentSession().update(new UserEntity(user));
     }
 
-
-
-
-
-
     @Override
     public List<User> findUserByProjectId(String projectId) {
         final String hql = "from UserEntity u  where u.userId in (select e.userId from ProjectUserMapperEntity e where e.projectId = :projectId)";
@@ -94,7 +89,7 @@ public class UserRepository implements UserDao {
         final String hql = "select e.phoneNo from  UserEntity e where e.userId = :userId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("userId", userId);
-        return (String)query.uniqueResult();
+        return (String) query.uniqueResult();
     }
 
     @Override
@@ -104,7 +99,7 @@ public class UserRepository implements UserDao {
         SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(FriendInfo.class);
         sqlQuery.setString("userId", userId);
         sqlQuery.setString("status", LinkmanStatus.FRIEND);
-        return (List<FriendInfo>)sqlQuery.list();
+        return (List<FriendInfo>) sqlQuery.list();
     }
 
     @Override
@@ -112,9 +107,9 @@ public class UserRepository implements UserDao {
         final String sql = "select :status as status, null as alias,userId,gender,mailAddress,phoneNo,remark,userName " +
                 "from user_info u where u.userId in (select friendId from user_invitation m where m.userId = :userId)";
         SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(FriendInfo.class);
-        sqlQuery.setString("userId",userId);
+        sqlQuery.setString("userId", userId);
         sqlQuery.setString("status", LinkmanStatus.MY_INVITE);
-        return  (List<FriendInfo>)sqlQuery.list();
+        return (List<FriendInfo>) sqlQuery.list();
     }
 
     @Override
@@ -122,9 +117,9 @@ public class UserRepository implements UserDao {
         final String sql = "select :status as status,null as alias,userId,gender,mailAddress,phoneNo,remark,userName " +
                 "from user_info u where u.userId in (select userId from user_invitation m where m.friendId = :userId)";
         SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(FriendInfo.class);
-        sqlQuery.setString("userId",userId);
+        sqlQuery.setString("userId", userId);
         sqlQuery.setString("status", LinkmanStatus.INVITE_ME);
-        return  (List<FriendInfo>)sqlQuery.list();
+        return (List<FriendInfo>) sqlQuery.list();
     }
 
     @Override
@@ -133,17 +128,17 @@ public class UserRepository implements UserDao {
                 "from (select phoneNo findPhone from user_linkman l where l.userId = :userId) temp inner join user_info u on temp.findPhone = u.phoneNo and" +
                 " u.userId not in (select friendId from user_mapper m where m.userId= :userId)";
         SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(FriendInfo.class);
-        sqlQuery.setString("userId",userId);
+        sqlQuery.setString("userId", userId);
         sqlQuery.setString("status", LinkmanStatus.NOT_FRIEND);
-        return  (List<FriendInfo>)sqlQuery.list();
+        return (List<FriendInfo>) sqlQuery.list();
     }
 
     @Override
     public void modifyPortrait(String userId, String portrait) {
-        final String hql ="update user_info e set e.portrait = :portrait where e.userId = :userId";
+        final String hql = "update user_info e set e.portrait = :portrait where e.userId = :userId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setString("userId",userId);
-        query.setString("portrait",portrait);
+        query.setString("userId", userId);
+        query.setString("portrait", portrait);
         query.executeUpdate();
     }
 

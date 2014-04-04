@@ -43,4 +43,14 @@ public class UserMapperRepository implements UserMapperDao {
         query.setString("friendId", friendId);
         query.executeUpdate();
     }
+
+    @Override
+    public UserMapper findUserMapper(String userId, String friendId) {
+        final String hql = "from UserMapperEntity e where e.userId = :userId and e.friendId = :friendId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("userId",userId);
+        query.setString("friendId",friendId);
+        UserMapperEntity entity = (UserMapperEntity)query.uniqueResult();
+        return entity!=null?entity.getUserMapper():null;
+    }
 }

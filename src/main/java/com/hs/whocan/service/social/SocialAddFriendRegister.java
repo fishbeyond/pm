@@ -31,7 +31,7 @@ public class SocialAddFriendRegister extends WhocanNeedLoginService {
         userMapperComponent.addFriendAlreadyRegister(userId, friendId);
         List<String> users = new ArrayList<String>();
         users.add(friendId);
-        pushMessageComponent.push(users, "新的好友邀请:来自"+operator );
+        pushMessageComponent.push(users, "新的好友邀请:来自" + operator);
         return true;
     }
 
