@@ -1,8 +1,7 @@
 package com.hs.whocan.service.session;
 
 import com.hs.whocan.component.session.SessionComponent;
-import com.hs.whocan.service.WhoCanExecutor;
-import com.hs.whocan.service.WhocanFilterExecutor;
+import com.hs.whocan.service.WhocanNeedLoginService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,7 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SessionDeleteUser extends WhocanFilterExecutor {
+public class SessionDeleteUser extends WhocanNeedLoginService {
 
     private String sessionId;
     private String deleteUserId;

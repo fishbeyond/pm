@@ -3,8 +3,7 @@ package com.hs.whocan.service.session;
 import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.SessionQuery;
 import com.hs.whocan.component.session.dao.Session;
-import com.hs.whocan.service.WhoCanExecutor;
-import com.hs.whocan.service.WhocanFilterExecutor;
+import com.hs.whocan.service.WhocanNeedLoginService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,7 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SessionFindPrivate extends WhocanFilterExecutor {
+public class SessionFindPrivate extends WhocanNeedLoginService {
 
     private String friendId;
 
@@ -27,7 +26,6 @@ public class SessionFindPrivate extends WhocanFilterExecutor {
     private SessionComponent sessionComponent;
     @Resource
     private SessionQuery sessionQuery;
-    private String userId;
 
     public SessionInfo execute() {
         Session session = sessionComponent.getPrivateSession(userId, friendId);
@@ -40,13 +38,5 @@ public class SessionFindPrivate extends WhocanFilterExecutor {
 
     public void setFriendId(String friendId) {
         this.friendId = friendId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 }

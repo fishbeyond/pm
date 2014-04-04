@@ -1,8 +1,7 @@
 package com.hs.whocan.service.social;
 
 import com.hs.whocan.component.account.user.UserMapperComponent;
-import com.hs.whocan.service.WhoCanExecutor;
-import com.hs.whocan.service.WhocanFilterExecutor;
+import com.hs.whocan.service.WhocanNeedLoginService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +16,10 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SocialAddFriendNoRegister extends WhocanFilterExecutor {
+public class SocialAddFriendNoRegister extends WhocanNeedLoginService {
     private String phoneNo;
     @Resource
     private UserMapperComponent userMapperComponent;
-    private String userId;
 
     public Boolean execute() {
         userMapperComponent.addFriendNoRegister(userId, phoneNo);
@@ -34,13 +32,5 @@ public class SocialAddFriendNoRegister extends WhocanFilterExecutor {
 
     public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 }

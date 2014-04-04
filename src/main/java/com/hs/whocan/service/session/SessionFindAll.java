@@ -3,8 +3,7 @@ package com.hs.whocan.service.session;
 import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.SessionQuery;
 import com.hs.whocan.component.session.dao.Session;
-import com.hs.whocan.service.WhoCanExecutor;
-import com.hs.whocan.service.WhocanFilterExecutor;
+import com.hs.whocan.service.WhocanNeedLoginService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -23,9 +22,8 @@ import java.util.List;
  */
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class SessionFindAll extends WhocanFilterExecutor {
+public class SessionFindAll extends WhocanNeedLoginService {
 
-    private String userId;
     @Resource
     private SessionComponent sessionComponent;
     @Resource
@@ -42,11 +40,4 @@ public class SessionFindAll extends WhocanFilterExecutor {
         return sessionInfos;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 }

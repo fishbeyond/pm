@@ -7,6 +7,6 @@ package com.hs.whocan.service;
  * Time: 下午7:57
  * To change this template use File | Settings | File Templates.
  */
-public interface WhoCanExecutor {
+public interface WhoCanService {
     public Object execute();
 }

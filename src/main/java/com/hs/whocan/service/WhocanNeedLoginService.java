@@ -7,13 +7,11 @@ import com.hs.whocan.component.account.user.info.dao.User;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * User: fish
  */
-public abstract class WhocanFilterExecutor implements WhoCanExecutor {
+public abstract class WhocanNeedLoginService implements WhoCanService {
 
     public String userId;
     public String token;
@@ -24,7 +22,7 @@ public abstract class WhocanFilterExecutor implements WhoCanExecutor {
     private UserComponent userComponent;
 
     @Transactional
-    public WhocanFilterExecutor verifyTokenAndSetUserId() {
+    public WhocanNeedLoginService verifyTokenAndSetUserId() {
         Access access = securityComponent.findAccessInfoByToken(token);
         User user = userComponent.findUserNameInfoById(access.getAccessId());
         this.setUserId(access.getAccessId());

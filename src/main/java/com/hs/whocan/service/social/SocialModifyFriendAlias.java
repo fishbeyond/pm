@@ -2,8 +2,7 @@ package com.hs.whocan.service.social;
 
 import com.hs.whocan.component.account.user.UserMapperComponent;
 import com.hs.whocan.component.account.user.friend.dao.UserMapper;
-import com.hs.whocan.service.WhoCanExecutor;
-import com.hs.whocan.service.WhocanFilterExecutor;
+import com.hs.whocan.service.WhocanNeedLoginService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +17,12 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SocialModifyFriendAlias extends WhocanFilterExecutor {
+public class SocialModifyFriendAlias extends WhocanNeedLoginService {
     private String mapperId;
     private String friendId;
     private String alias;
     @Resource
     private UserMapperComponent userMapperComponent;
-    private String userId;
 
     public Boolean execute() {
         UserMapper userMapper = new UserMapper();
@@ -57,13 +55,5 @@ public class SocialModifyFriendAlias extends WhocanFilterExecutor {
 
     public void setAlias(String alias) {
         this.alias = alias;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 }

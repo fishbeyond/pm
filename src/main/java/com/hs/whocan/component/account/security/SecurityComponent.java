@@ -5,6 +5,7 @@ import com.hs.whocan.component.account.security.access.dao.AccessDao;
 import com.hs.whocan.component.account.security.authcode.dao.PhoneAuthCode;
 import com.hs.whocan.component.account.security.authcode.dao.PhoneAuthCodeDao;
 import com.hs.whocan.component.account.security.exception.AuthCodeDisableException;
+import com.hs.whocan.component.account.security.exception.TokenErrorException;
 import com.hs.whocan.framework.utils.RandomGenerator;
 import com.hs.whocan.framework.utils.UUIDGenerator;
 import com.hs.whocan.component.account.security.exception.AuthCodeErrorException;
@@ -50,10 +51,11 @@ public class SecurityComponent {
         if(null == phoneAuthCode){
             throw new AuthCodeErrorException();
         }
-        long applyTime = System.currentTimeMillis()-phoneAuthCode.getCreateTime().getTime();
-        if(applyTime>VALID_TIME){
-            throw new AuthCodeDisableException();
-        }
+        //验证码超时
+//        long applyTime = System.currentTimeMillis()-phoneAuthCode.getCreateTime().getTime();
+//        if(applyTime>VALID_TIME){
+//            throw new AuthCodeDisableException();
+//        }
 
     }
 
@@ -84,9 +86,13 @@ public class SecurityComponent {
 
     private Access tokenIsValid(String token){
         Access access = accessDao.findAccessInfoByToken(token);
-        if (null == access || (System.currentTimeMillis()- access.getAccessTime().getTime() > access.getAliveTime())) {
-            throw new TokenDisableException();
+        if (null == access) {
+            throw new TokenErrorException();
         }
+        //token超时
+//        if(System.currentTimeMillis()- access.getAccessTime().getTime() > access.getAliveTime()){
+//            throw new TokenDisableException();
+//        }
         return access;
     }
 }

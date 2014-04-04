@@ -4,8 +4,7 @@ import com.hs.whocan.component.account.user.info.dao.User;
 import com.hs.whocan.component.account.security.PushMessageComponent;
 import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.dao.Message;
-import com.hs.whocan.service.WhoCanExecutor;
-import com.hs.whocan.service.WhocanFilterExecutor;
+import com.hs.whocan.service.WhocanNeedLoginService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +22,9 @@ import java.util.List;
  */
 @Service
 @Scope("prototype")
-public class SessionSendMessage extends WhocanFilterExecutor {
+public class SessionSendMessage extends WhocanNeedLoginService {
     private String content;
     private String sessionId;
-    private String userId;
     private String messageId;
     @Resource
     private SessionComponent sessionComponent;
@@ -67,14 +65,6 @@ public class SessionSendMessage extends WhocanFilterExecutor {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public String getMessageId() {

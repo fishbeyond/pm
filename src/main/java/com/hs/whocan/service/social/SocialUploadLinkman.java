@@ -1,8 +1,7 @@
 package com.hs.whocan.service.social;
 
 import com.hs.whocan.component.account.user.UserMapperComponent;
-import com.hs.whocan.service.WhoCanExecutor;
-import com.hs.whocan.service.WhocanFilterExecutor;
+import com.hs.whocan.service.WhocanNeedLoginService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +16,11 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SocialUploadLinkman extends WhocanFilterExecutor {
+public class SocialUploadLinkman extends WhocanNeedLoginService {
 
     private String phones;
     @Resource
     private UserMapperComponent userMapperComponent;
-    private String userId;
 
     public Boolean execute() {
         String[] phoneArray = phones.split(",");
@@ -36,13 +34,5 @@ public class SocialUploadLinkman extends WhocanFilterExecutor {
 
     public void setPhones(String phones) {
         this.phones = phones;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 }

@@ -2,8 +2,7 @@ package com.hs.whocan.service.session;
 
 import com.hs.whocan.component.account.user.info.dao.User;
 import com.hs.whocan.component.session.SessionComponent;
-import com.hs.whocan.service.WhoCanExecutor;
-import com.hs.whocan.service.WhocanFilterExecutor;
+import com.hs.whocan.service.WhocanNeedLoginService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,12 +19,11 @@ import java.util.List;
  */
 @Service
 @Scope("prototype")
-public class SessionFindUser extends WhocanFilterExecutor {
+public class SessionFindUser extends WhocanNeedLoginService {
 
     private String sessionId;
     @Resource
     private SessionComponent sessionComponent;
-    private String userId;
 
     @Transactional
     public List<User> execute() {
@@ -38,13 +36,5 @@ public class SessionFindUser extends WhocanFilterExecutor {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 }
