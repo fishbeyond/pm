@@ -39,6 +39,9 @@ public class UserMapperComponent {
     }
 
     public void addFriendAlreadyRegister(String userId, String friendId) {
+        if (userId.equals(friendId)) {
+            throw new FriendAlreadyExistException();
+        }
         UserMapper userMapper = userMapperDao.findUserMapper(userId, friendId);
         if (userMapper != null) {
             throw new FriendAlreadyExistException();

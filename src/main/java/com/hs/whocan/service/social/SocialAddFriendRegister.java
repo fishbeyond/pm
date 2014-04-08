@@ -2,6 +2,7 @@ package com.hs.whocan.service.social;
 
 import com.hs.whocan.component.account.security.PushMessageComponent;
 import com.hs.whocan.component.account.user.UserMapperComponent;
+import com.hs.whocan.component.account.user.exception.FriendAlreadyExistException;
 import com.hs.whocan.service.WhocanNeedLoginService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;

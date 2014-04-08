@@ -134,7 +134,8 @@ public class UserRepository implements UserDao {
     public List<FriendInfo> findFriendNotAdd(String userId) {
         final String sql = "select :status as status, null as alias,portrait,userId,gender,mailAddress,phoneNo,remark,userName " +
                 "from (select phoneNo findPhone from user_linkman l where l.userId = :userId) temp inner join user_info u on temp.findPhone = u.phoneNo and" +
-                " u.userId not in (select friendId from user_mapper m where m.userId= :userId)";
+                " u.userId not in (select friendId from user_mapper m where m.userId= :userId) " +
+                "and u.userId not in (select friendId from user_invitation inv where inv.userId= :userId or inv.friendId= :userId)";
         SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(FriendInfo.class);
         sqlQuery.setString("userId", userId);
         sqlQuery.setString("status", LinkmanStatus.NOT_FRIEND);
