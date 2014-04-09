@@ -1,5 +1,7 @@
 package com.hs.whocan.component.account.security.access.dao;
 
+import java.util.Date;
+
 /**
  * Created with IntelliJ IDEA.
  * User: fish
@@ -23,4 +25,8 @@ public interface AccessDao {
     public void modifyAccessInfo(Access access);
 
     public void modifyAccessToken(String accessId,String token);
+
+    public Date findUpdateTimestamp(String accessId);
+
+    public void modifyUpdateTimestamp(String accessId,Date updateTimestamp);
 }

@@ -95,4 +95,12 @@ public class SecurityComponent {
 //        }
         return access;
     }
+
+    public Date findTimestamp(String userId){
+        return accessDao.findUpdateTimestamp(userId);
+    }
+
+    public void modifyTimestamp(String userId,Date updateTimestamp) {
+        accessDao.modifyUpdateTimestamp(userId,updateTimestamp);
+    }
 }

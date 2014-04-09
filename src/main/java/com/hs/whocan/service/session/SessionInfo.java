@@ -21,6 +21,7 @@ public class SessionInfo {
     private Date createTime;
     private String type;
     private List<User> userList;
+    private Date updateTimestamp;
 
     public void setSession(Session session) {
         this.sessionId = session.getSessionId();
@@ -76,5 +77,13 @@ public class SessionInfo {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Date getUpdateTimestamp() {
+        return updateTimestamp;
+    }
+
+    public void setUpdateTimestamp(Date updateTimestamp) {
+        this.updateTimestamp = updateTimestamp;
     }
 }

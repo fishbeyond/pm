@@ -26,7 +26,7 @@ public class AccessRepository implements AccessDao {
         final String hql = "from AccessEntity e where e.phoneNo = :phoneNo";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("phoneNo", phoneNo);
-        com.hs.whocan.component.account.security.access.dao.entity.AccessEntity accessEntity = (com.hs.whocan.component.account.security.access.dao.entity.AccessEntity) query.uniqueResult();
+        AccessEntity accessEntity = (AccessEntity) query.uniqueResult();
         return accessEntity != null ? accessEntity.getAccess() : null;
     }
 
@@ -35,13 +35,13 @@ public class AccessRepository implements AccessDao {
         final String hql = "from AccessEntity e where e.accessToken = :accessToken";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("accessToken", accessToken);
-        com.hs.whocan.component.account.security.access.dao.entity.AccessEntity entity = (com.hs.whocan.component.account.security.access.dao.entity.AccessEntity) query.uniqueResult();
+        AccessEntity entity = (AccessEntity) query.uniqueResult();
         if (null == entity || !isTokenAlive(entity))
             return null;
         return entity.getAccessId();
     }
 
-    private boolean isTokenAlive(com.hs.whocan.component.account.security.access.dao.entity.AccessEntity entity) {
+    private boolean isTokenAlive(AccessEntity entity) {
         return (System.currentTimeMillis() - entity.getAccessTime().getTime()) <= entity.getAliveTime() ? true : false;
     }
 
@@ -50,13 +50,13 @@ public class AccessRepository implements AccessDao {
         final String hql = "from AccessEntity e where e.accessToken = :accessToken";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("accessToken", accessToken);
-        com.hs.whocan.component.account.security.access.dao.entity.AccessEntity entity = (com.hs.whocan.component.account.security.access.dao.entity.AccessEntity) query.uniqueResult();
+        AccessEntity entity = (AccessEntity) query.uniqueResult();
         return entity != null ? entity.getAccess() : null;
     }
 
     @Override
     public void createAccessInfo(Access access) {
-        sessionFactory.getCurrentSession().save(new com.hs.whocan.component.account.security.access.dao.entity.AccessEntity(access));
+        sessionFactory.getCurrentSession().save(new AccessEntity(access));
     }
 
     @Override
@@ -65,7 +65,7 @@ public class AccessRepository implements AccessDao {
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("phoneNo", phoneNo);
         query.setInteger("authCode", authCode);
-        com.hs.whocan.component.account.security.access.dao.entity.AccessEntity entity = (com.hs.whocan.component.account.security.access.dao.entity.AccessEntity) query.uniqueResult();
+        AccessEntity entity = (AccessEntity) query.uniqueResult();
         if (null != entity) {
             entity.setAccessTime(new Date());
             sessionFactory.getCurrentSession().save(entity);
@@ -79,13 +79,13 @@ public class AccessRepository implements AccessDao {
         final String hql = "from AccessEntity e where e.userId = :userId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("userId", userId);
-        com.hs.whocan.component.account.security.access.dao.entity.AccessEntity entity = (com.hs.whocan.component.account.security.access.dao.entity.AccessEntity) query.uniqueResult();
+        AccessEntity entity = (AccessEntity) query.uniqueResult();
         return entity != null ? entity.getAccess() : null;
     }
 
     @Override
     public void modifyAccessInfo(Access access) {
-        sessionFactory.getCurrentSession().update(new com.hs.whocan.component.account.security.access.dao.entity.AccessEntity(access));
+        sessionFactory.getCurrentSession().update(new AccessEntity(access));
     }
 
     @Override
@@ -95,6 +95,24 @@ public class AccessRepository implements AccessDao {
         query.setString("accessToken", accessToken);
         query.setTimestamp("accessTime", new Date());
         query.setString("accessId", accessId);
+        query.executeUpdate();
+    }
+
+    @Override
+    public Date findUpdateTimestamp(String accessId) {
+        final String hql = "select updateTimestamp from AccessEntity e where e.accessId = :accessId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("accessId", accessId);
+        Object result = query.uniqueResult();
+        return result != null ? (Date) result : null;
+    }
+
+    @Override
+    public void modifyUpdateTimestamp(String accessId, Date updateTimestamp) {
+        final String hql = "update AccessEntity e set e.updateTimestamp = :updateTimestamp where e.accessId = :accessId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("accessId",accessId);
+        query.setTimestamp("updateTimestamp",updateTimestamp);
         query.executeUpdate();
     }
 }

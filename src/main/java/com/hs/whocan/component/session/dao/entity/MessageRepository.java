@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,6 +42,20 @@ public class MessageRepository implements MessageDao {
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("messageId", messageId);
         query.executeUpdate();
+    }
+
+    @Override
+    public List<Message> findNewMessageBySessionId(String sessionId, Date updateTimestamp) {
+        final String hql = "from MessageEntity e where e.sessionId = :sessionId and e.createTime >= :updateTimestamp order by e.createTime";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("sessionId", sessionId);
+        query.setDate("updateTimestamp",updateTimestamp);
+        List<MessageEntity> entities = (List<MessageEntity>) query.list();
+        List<Message> list = new ArrayList<Message>();
+        for(MessageEntity entity : entities){
+            list.add(entity.getMessage());
+        }
+        return list;
     }
 
 }

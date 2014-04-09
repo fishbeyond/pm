@@ -8,6 +8,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +25,9 @@ import java.util.List;
 @Service
 @Scope("prototype")
 public class SocialAddFriendRegister extends WhocanNeedLoginService {
+
+
+    @NotNull
     private String friendId;
 
     @Resource

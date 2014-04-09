@@ -22,5 +22,6 @@
     <int:map-to-object-transformer input-channel="session.findMessage" ref="sessionFindMessage"/>
     <int:map-to-object-transformer input-channel="session.sendMessage" ref="sessionSendMessage"/>
     <int:map-to-object-transformer input-channel="session.findPrivate" ref="sessionFindPrivate"/>
-
+    <int:map-to-object-transformer input-channel="session.findNewMessage" ref="sessionFindNewMessage"/>
+    <int:map-to-object-transformer input-channel="session.sendAck" ref="sessionSendAck"/>
 </beans>

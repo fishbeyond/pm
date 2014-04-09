@@ -15,12 +15,15 @@ import java.util.Date;
 public class AccessEntity {
 
     private com.hs.whocan.component.account.security.access.dao.Access access;
-    public AccessEntity(){
+
+    public AccessEntity() {
         this.access = new com.hs.whocan.component.account.security.access.dao.Access();
     }
-    public AccessEntity(com.hs.whocan.component.account.security.access.dao.Access access){
+
+    public AccessEntity(com.hs.whocan.component.account.security.access.dao.Access access) {
         this.access = access;
     }
+
     @Transient
     public com.hs.whocan.component.account.security.access.dao.Access getAccess() {
         return access;
@@ -30,6 +33,7 @@ public class AccessEntity {
     public String getAccessId() {
         return access.getAccessId();
     }
+
     @Column
     public String getPassword() {
         return access.getPassword();
@@ -42,6 +46,7 @@ public class AccessEntity {
     public void setPassword(String password) {
         access.setPassword(password);
     }
+
     @Column
     public long getAliveTime() {
         return access.getAliveTime();
@@ -50,6 +55,7 @@ public class AccessEntity {
     public void setAccessId(String accessId) {
         access.setAccessId(accessId);
     }
+
     @Column
     public Date getAccessTime() {
         return access.getAccessTime();
@@ -62,8 +68,18 @@ public class AccessEntity {
     public void setAccessToken(String accessToken) {
         access.setAccessToken(accessToken);
     }
+
     @Column
     public String getAccessToken() {
         return access.getAccessToken();
+    }
+
+    public void setUpdateTimestamp(Date updateTimestamp) {
+        access.setUpdateTimestamp(updateTimestamp);
+    }
+
+    @Column
+    public Date getUpdateTimestamp() {
+        return access.getUpdateTimestamp();
     }
 }

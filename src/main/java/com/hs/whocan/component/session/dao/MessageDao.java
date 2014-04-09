@@ -1,5 +1,6 @@
 package com.hs.whocan.component.session.dao;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,4 +13,6 @@ public interface MessageDao {
     public List<Message> findMessageBySessionId(String sessionId);
 
     public void deleteMessage(String messageId);
+
+    public List<Message> findNewMessageBySessionId(String sessionId, Date updateTimestamp);
 }
