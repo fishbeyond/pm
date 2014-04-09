@@ -4,7 +4,7 @@ import com.hs.whocan.component.account.security.SecurityComponent;
 import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.dao.Message;
 import com.hs.whocan.component.session.dao.Session;
-import com.hs.whocan.service.WhocanNeedLoginService;
+import com.hs.whocan.service.WhoCanNeedLoginService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Service
 @Scope("prototype")
-public class SessionFindNewMessage extends WhocanNeedLoginService {
+public class SessionFindNewMessage extends WhoCanNeedLoginService {
 
     @Resource
     private SecurityComponent securityComponent;
@@ -30,6 +30,9 @@ public class SessionFindNewMessage extends WhocanNeedLoginService {
     @Transactional
     public List<Message> execute() {
         Date updateTimestamp = securityComponent.findTimestamp(userId);
+        if(null==updateTimestamp){
+            updateTimestamp = new Date(0);
+        }
         List<Session> sessions = sessionComponent.findSession(userId);
         List<Message> messages = new ArrayList<Message>();
         for (Session session : sessions) {

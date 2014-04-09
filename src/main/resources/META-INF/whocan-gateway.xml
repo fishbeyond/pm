@@ -36,7 +36,7 @@
 
     <int:channel id="executeRouter"/>
     <int:payload-type-router input-channel="executeRouter" default-output-channel="noPayloadChannel">
-        <int:mapping type="com.hs.whocan.service.WhocanNeedLoginService" channel="verifyLoginChannel"/>
+        <int:mapping type="com.hs.whocan.service.WhoCanNeedLoginService" channel="verifyLoginChannel"/>
         <int:mapping type="com.hs.whocan.service.WhoCanService" channel="executeChannel"/>
         <int:mapping type="com.hs.whocan.framework.transform.JsonResult" channel="noTypeTransformChannel"/>
     </int:payload-type-router>

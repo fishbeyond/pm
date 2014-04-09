@@ -2,7 +2,7 @@ package com.hs.whocan.service.session;
 
 import com.hs.whocan.component.account.user.info.dao.User;
 import com.hs.whocan.component.session.SessionComponent;
-import com.hs.whocan.service.WhocanNeedLoginService;
+import com.hs.whocan.service.WhoCanNeedLoginService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Service
 @Scope("prototype")
-public class SessionFindUser extends WhocanNeedLoginService {
+public class SessionFindUser extends WhoCanNeedLoginService {
 
     private String sessionId;
     @Resource

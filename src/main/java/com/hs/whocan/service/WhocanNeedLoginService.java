@@ -7,41 +7,31 @@ import com.hs.whocan.component.account.user.info.dao.User;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import java.util.Set;
+import javax.validation.constraints.NotNull;
 
 /**
  * User: fish
  */
-public abstract class WhocanNeedLoginService implements WhoCanService {
-
-    public String userId;
+public abstract class WhoCanNeedLoginService implements WhoCanService {
+    @NotNull
     public String token;
+    public String userId;
     public String operator;
+    @Resource
+    private ValidatorService validatorService;
     @Resource
     private SecurityComponent securityComponent;
     @Resource
     private UserComponent userComponent;
 
     @Transactional
-    public WhocanNeedLoginService verifyTokenAndSetUserId() {
+    public WhoCanNeedLoginService verifyTokenAndSetUserId() {
+        validatorService.validate(this);
         Access access = securityComponent.findAccessInfoByToken(token);
         User user = userComponent.findUserNameInfoById(access.getAccessId());
         this.setUserId(access.getAccessId());
         this.setOperator(user.getUserName());
         return this;
-    }
-
-    public static Validator getValidator() {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        return factory.getValidator();
-    }
-
-    public void validate(Object obj){
-        Set<ConstraintViolation<Object>> validate = getValidator().validate(obj);
     }
 
     public abstract Object execute();
