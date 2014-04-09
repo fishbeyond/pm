@@ -1,7 +1,7 @@
 package com.hs.whocan.service.session;
 
 import com.hs.whocan.component.account.security.SecurityComponent;
-import com.hs.whocan.service.WhoCanNeedLoginService;
+import com.hs.whocan.service.WhoCanVerifyLoginService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +14,7 @@ import java.util.Date;
  */
 @Service
 @Scope("prototype")
-public class SessionSendAck extends WhoCanNeedLoginService {
+public class SessionSendAck extends WhoCanVerifyLoginService {
     private String updateTime;
     @Resource
     private SecurityComponent securityComponent;

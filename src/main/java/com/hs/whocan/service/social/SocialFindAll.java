@@ -1,7 +1,7 @@
 package com.hs.whocan.service.social;
 
 import com.hs.whocan.component.account.user.UserMapperComponent;
-import com.hs.whocan.service.WhoCanNeedLoginService;
+import com.hs.whocan.service.WhoCanVerifyLoginService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Service
 @Scope("prototype")
-public class SocialFindAll extends WhoCanNeedLoginService {
+public class SocialFindAll extends WhoCanVerifyLoginService {
 
     @Resource
     private UserMapperComponent userMapperComponent;

@@ -7,26 +7,22 @@ import com.hs.whocan.component.account.user.info.dao.User;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.validation.constraints.NotNull;
 
 /**
  * User: fish
  */
-public abstract class WhoCanNeedLoginService implements WhoCanService {
-    @NotNull
+public abstract class WhoCanVerifyLoginService implements WhoCanService {
     public String token;
     public String userId;
     public String operator;
-    @Resource
-    private ValidatorService validatorService;
+
     @Resource
     private SecurityComponent securityComponent;
     @Resource
     private UserComponent userComponent;
 
     @Transactional
-    public WhoCanNeedLoginService verifyTokenAndSetUserId() {
-        validatorService.validate(this);
+    public WhoCanVerifyLoginService verifyTokenAndSetUserId() {
         Access access = securityComponent.findAccessInfoByToken(token);
         User user = userComponent.findUserNameInfoById(access.getAccessId());
         this.setUserId(access.getAccessId());

@@ -4,7 +4,7 @@ import com.hs.whocan.component.account.security.PushMessageComponent;
 import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.SessionQuery;
 import com.hs.whocan.component.session.dao.Session;
-import com.hs.whocan.service.WhoCanNeedLoginService;
+import com.hs.whocan.service.WhoCanVerifyLoginService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Service
 @Scope("prototype")
-public class SessionAddUser extends WhoCanNeedLoginService {
+public class SessionAddUser extends WhoCanVerifyLoginService {
     private String sessionId;
     private String userIds;
     @Resource

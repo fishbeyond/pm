@@ -1,7 +1,7 @@
 package com.hs.whocan.service.social;
 
 import com.hs.whocan.component.account.user.UserMapperComponent;
-import com.hs.whocan.service.WhoCanNeedLoginService;
+import com.hs.whocan.service.WhoCanVerifyLoginService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SocialUploadLinkman extends WhoCanNeedLoginService {
+public class SocialUploadLinkman extends WhoCanVerifyLoginService {
 
     private String phones;
     @Resource

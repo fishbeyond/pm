@@ -4,7 +4,7 @@ import com.hs.whocan.component.account.security.SecurityComponent;
 import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.dao.Message;
 import com.hs.whocan.component.session.dao.Session;
-import com.hs.whocan.service.WhoCanNeedLoginService;
+import com.hs.whocan.service.WhoCanVerifyLoginService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Service
 @Scope("prototype")
-public class SessionFindNewMessage extends WhoCanNeedLoginService {
+public class SessionFindNewMessage extends WhoCanVerifyLoginService {
 
     @Resource
     private SecurityComponent securityComponent;
