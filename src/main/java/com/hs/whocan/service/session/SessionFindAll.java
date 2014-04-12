@@ -4,6 +4,7 @@ import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.SessionQuery;
 import com.hs.whocan.component.session.dao.Session;
 import com.hs.whocan.service.WhoCanVerifyLoginService;
+import com.hs.whocan.service.session.dto.SessionUserInfo;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -30,14 +31,14 @@ public class SessionFindAll extends WhoCanVerifyLoginService {
     private SessionQuery sessionQuery;
 
     @Transactional
-    public List<SessionInfo> execute() {
+    public List<SessionUserInfo> execute() {
         List<Session> sessions = sessionComponent.findSession(userId);
-        List<SessionInfo> sessionInfos = new ArrayList<SessionInfo>();
+        List<SessionUserInfo> sessionUserInfos = new ArrayList<SessionUserInfo>();
         for (Session session : sessions) {
-            SessionInfo sessionInfo = sessionQuery.querySessionInfo(userId, session);
-            sessionInfos.add(sessionInfo);
+            SessionUserInfo sessionUserInfo = sessionQuery.querySessionInfo(userId, session);
+            sessionUserInfos.add(sessionUserInfo);
         }
-        return sessionInfos;
+        return sessionUserInfos;
     }
 
 }

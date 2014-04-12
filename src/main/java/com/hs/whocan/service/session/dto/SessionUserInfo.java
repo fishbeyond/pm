@@ -1,4 +1,4 @@
-package com.hs.whocan.service.session;
+package com.hs.whocan.service.session.dto;
 
 import com.hs.whocan.component.account.user.info.dao.User;
 import com.hs.whocan.component.session.SessionType;
@@ -14,7 +14,7 @@ import java.util.List;
  * Time: 上午10:32
  * To change this template use File | Settings | File Templates.
  */
-public class SessionInfo {
+public class SessionUserInfo {
     private String sessionId;
     private String userId;
     private String sessionName;

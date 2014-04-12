@@ -5,6 +5,7 @@ import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.dao.Message;
 import com.hs.whocan.component.session.dao.Session;
 import com.hs.whocan.service.WhoCanVerifyLoginService;
+import com.hs.whocan.service.session.dto.SessionMessageInfo;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,7 @@ public class SessionFindNewMessage extends WhoCanVerifyLoginService {
 
     @Override
     @Transactional
-    public List<Message> execute() {
+    public SessionMessageInfo execute() {
         Date updateTimestamp = securityComponent.findTimestamp(userId);
         if(null==updateTimestamp){
             updateTimestamp = new Date(0);
@@ -39,6 +40,9 @@ public class SessionFindNewMessage extends WhoCanVerifyLoginService {
             List<Message> list = sessionComponent.findNewMessage(session.getSessionId(), updateTimestamp);
             messages.addAll(list);
         }
-        return messages;
+        SessionMessageInfo sessionMessageInfo = new SessionMessageInfo();
+        sessionMessageInfo.setUpdateTimestamp(new Date());
+        sessionMessageInfo.setMessages(messages);
+        return sessionMessageInfo;
     }
 }

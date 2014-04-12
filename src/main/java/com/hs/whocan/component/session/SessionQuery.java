@@ -3,7 +3,7 @@ package com.hs.whocan.component.session;
 import com.hs.whocan.component.account.user.info.dao.User;
 import com.hs.whocan.component.session.dao.Session;
 import com.hs.whocan.component.session.dao.SessionDao;
-import com.hs.whocan.service.session.SessionInfo;
+import com.hs.whocan.service.session.dto.SessionUserInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,26 +23,26 @@ public class SessionQuery {
     @Resource
     private SessionDao sessionDao;
     @Transactional
-    public SessionInfo querySessionInfo(String userId, Session session) {
-        SessionInfo sessionInfo = new SessionInfo();
+    public SessionUserInfo querySessionInfo(String userId, Session session) {
+        SessionUserInfo sessionUserInfo = new SessionUserInfo();
         List<User> users = sessionDao.findSessionUserBySessionId(session.getSessionId());
-        sessionInfo.setUserList(users);
-        sessionInfo.setSession(session);
-        setSessionInfoName(sessionInfo, userId, users);
-        return sessionInfo;
+        sessionUserInfo.setUserList(users);
+        sessionUserInfo.setSession(session);
+        setSessionInfoName(sessionUserInfo, userId, users);
+        return sessionUserInfo;
     }
 
-    private void setSessionInfoName(SessionInfo sessionInfo, String userId, List<User> users) {
-        if (sessionInfo.getType().equals(SessionType.PRIVATE_SESSION)) {
+    private void setSessionInfoName(SessionUserInfo sessionUserInfo, String userId, List<User> users) {
+        if (sessionUserInfo.getType().equals(SessionType.PRIVATE_SESSION)) {
             for (User user : users) {
                 if (userId.equals(user.getUserId())) {
                 } else {
-                    sessionInfo.setSessionName(user.getUserName());
+                    sessionUserInfo.setSessionName(user.getUserName());
                 }
             }
-        } else if (null == sessionInfo.getSessionName() || "".equals(sessionInfo.getSessionName())) {
-            int userNum = sessionDao.findUserNumInSession(sessionInfo.getSessionId());
-            sessionInfo.setSessionName("群聊(" + userNum + "人)");
+        } else if (null == sessionUserInfo.getSessionName() || "".equals(sessionUserInfo.getSessionName())) {
+            int userNum = sessionDao.findUserNumInSession(sessionUserInfo.getSessionId());
+            sessionUserInfo.setSessionName("群聊(" + userNum + "人)");
         }
     }
 }

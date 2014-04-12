@@ -5,6 +5,7 @@ import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.SessionQuery;
 import com.hs.whocan.component.session.dao.Session;
 import com.hs.whocan.service.WhoCanVerifyLoginService;
+import com.hs.whocan.service.session.dto.SessionUserInfo;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -31,13 +32,13 @@ public class SessionAddUser extends WhoCanVerifyLoginService {
     @Resource
     private PushMessageComponent pushMessageComponent;
 
-    public SessionInfo execute() {
+    public SessionUserInfo execute() {
         String[] userArray = userIds.split(",");
         List<String> userList = Arrays.asList(userArray);
         Session session = sessionComponent.addPeopleToSession(sessionId, userId, userList);
-        SessionInfo sessionInfo = sessionQuery.querySessionInfo(userId, session);
-        pushMessageComponent.push(userList, "您被加入群:" + sessionInfo.getSessionName());
-        return sessionInfo;
+        SessionUserInfo sessionUserInfo = sessionQuery.querySessionInfo(userId, session);
+        pushMessageComponent.push(userList, "您被加入群:" + sessionUserInfo.getSessionName());
+        return sessionUserInfo;
     }
 
     public String getSessionId() {
