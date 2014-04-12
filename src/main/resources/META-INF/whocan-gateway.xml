@@ -39,7 +39,16 @@
         <int:mapping type="com.hs.whocan.service.WhoCanVerifyLoginService" channel="verifyLoginChannel"/>
         <int:mapping type="com.hs.whocan.service.WhoCanService" channel="executeChannel"/>
         <int:mapping type="com.hs.whocan.framework.transform.JsonResult" channel="noTypeTransformChannel"/>
+        <int:mapping type="com.hs.whocan.service.ReceiveError" channel="receiveErrorChannel"/>
     </int:payload-type-router>
+
+    <!--test error-->
+    <int:channel id="receiveErrorChannel"/>
+    <int:chain input-channel="receiveErrorChannel" output-channel="noHandleChannel">
+        <int:gateway request-channel="executeChannel" error-channel="noHandleChannel"/>
+    </int:chain>
+    <int:service-activator input-channel="noHandleChannel" expression="@noHandleService.handle()"/>
+    <!--end-->
 
     <int:service-activator input-channel="verifyLoginChannel" output-channel="executeChannel"
                            expression="payload.verifyTokenAndSetUserId()"/>

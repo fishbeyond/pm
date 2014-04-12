@@ -28,6 +28,7 @@
     <import resource="service/access-service.xml"/>
     <import resource="service/user-service.xml"/>
     <import resource="service/social-service.xml"/>
+    <import resource="service/error-service.xml"/>
 
     <bean id="fileUploadSavePath" class="java.lang.String">
         <constructor-arg value="${upload.file.image.path}"></constructor-arg>
