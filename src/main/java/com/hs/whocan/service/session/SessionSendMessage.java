@@ -1,5 +1,6 @@
 package com.hs.whocan.service.session;
 
+import com.hs.whocan.component.account.security.device.DeviceComponent;
 import com.hs.whocan.component.account.user.info.dao.User;
 import com.hs.whocan.component.account.security.PushMessageComponent;
 import com.hs.whocan.component.session.SessionComponent;

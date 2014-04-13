@@ -4,12 +4,10 @@ import com.hs.whocan.component.account.security.access.dao.Access;
 import com.hs.whocan.component.account.security.access.dao.AccessDao;
 import com.hs.whocan.component.account.security.authcode.dao.PhoneAuthCode;
 import com.hs.whocan.component.account.security.authcode.dao.PhoneAuthCodeDao;
-import com.hs.whocan.component.account.security.exception.AuthCodeDisableException;
 import com.hs.whocan.component.account.security.exception.TokenErrorException;
 import com.hs.whocan.framework.utils.RandomGenerator;
 import com.hs.whocan.framework.utils.UUIDGenerator;
 import com.hs.whocan.component.account.security.exception.AuthCodeErrorException;
-import com.hs.whocan.component.account.security.exception.TokenDisableException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -96,11 +94,11 @@ public class SecurityComponent {
         return access;
     }
 
-    public Date findTimestamp(String userId){
-        return accessDao.findUpdateTimestamp(userId);
+    public String findReadTag(String userId){
+        return accessDao.findReadTag(userId);
     }
 
-    public void modifyTimestamp(String userId,Date updateTimestamp) {
-        accessDao.modifyUpdateTimestamp(userId,updateTimestamp);
+    public void modifyReadTag(String userId, String readTag) {
+        accessDao.modifyReadTag(userId,readTag);
     }
 }

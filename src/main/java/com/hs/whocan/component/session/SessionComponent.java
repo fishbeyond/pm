@@ -116,7 +116,14 @@ public class SessionComponent {
         messageDao.deleteMessage(chatId);
     }
 
-    public List<Message> findNewMessage(String sessionId, Date updateTimestamp) {
-        return messageDao.findNewMessageBySessionId(sessionId, updateTimestamp);
+    public List<Message> findNewMessage(String sessionId, String readTag) {
+        Message message = messageDao.findMessage(readTag);
+        Date date = null;
+        if (null == message) {
+            date = new Date(0);
+        } else {
+            date = message.getCreateTime();
+        }
+        return messageDao.findNewMessageBySessionId(sessionId, date);
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -36,7 +37,7 @@ public class SessionRepository implements SessionDao {
     }
 
     @Override
-    public void modifySessionName(String sessionId,String sessionName) {
+    public void modifySessionName(String sessionId, String sessionName) {
         final String hql = "update SessionEntity e set e.sessionName = :sessionName where e.sessionId = :sessionId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("sessionName", sessionName);
@@ -97,7 +98,7 @@ public class SessionRepository implements SessionDao {
         final String hql = "select e.userId from SessionMapper e where e.sessionId = :sessionId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("sessionId", sessionId);
-        return (List<String>)query.list();
+        return (List<String>) query.list();
     }
 
     @Override
@@ -107,7 +108,7 @@ public class SessionRepository implements SessionDao {
         query.setString("sessionId", sessionId);
         List<UserEntity> entities = (List<UserEntity>) query.list();
         List<User> users = new ArrayList<User>();
-        for(UserEntity entity : entities){
+        for (UserEntity entity : entities) {
             users.add(entity.getUser());
         }
         return users;  //To change body of implemented methods use File | Settings | File Templates.
@@ -117,7 +118,7 @@ public class SessionRepository implements SessionDao {
     public int findUserNumInSession(String sessionId) {
         final String hql = "select count(e.sessionId) from SessionMapper e where e.sessionId = :sessionId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setString("sessionId",sessionId);
+        query.setString("sessionId", sessionId);
         String result = query.uniqueResult().toString();
         return Integer.valueOf(result);
     }
@@ -126,18 +127,18 @@ public class SessionRepository implements SessionDao {
     public SessionMapper findSessionMapper(String sessionId, String userId) {
         final String hql = "from SessionMapper e where e.sessionId = :sessionId and e.userId = :userId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setString("sessionId",sessionId);
-        query.setString("userId",userId);
-        return (SessionMapper)query.uniqueResult();
+        query.setString("sessionId", sessionId);
+        query.setString("userId", userId);
+        return (SessionMapper) query.uniqueResult();
     }
 
     @Override
     public Session findSessionById(String sessionId) {
         final String hql = "from SessionEntity e where e.sessionId = :sessionId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setString("sessionId",sessionId);
+        query.setString("sessionId", sessionId);
         SessionEntity entity = (SessionEntity) query.uniqueResult();
-        return entity!=null?entity.getSession():null;
+        return entity != null ? entity.getSession() : null;
     }
 
 }

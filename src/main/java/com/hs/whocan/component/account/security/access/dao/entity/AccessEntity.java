@@ -1,7 +1,13 @@
 package com.hs.whocan.component.account.security.access.dao.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.Column;
+import javax.persistence.Transient;
 import java.util.Date;
+
+import com.hs.whocan.component.account.security.access.dao.Access;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,18 +20,18 @@ import java.util.Date;
 @Table(name = "security_access")
 public class AccessEntity {
 
-    private com.hs.whocan.component.account.security.access.dao.Access access;
+    private Access access;
 
     public AccessEntity() {
-        this.access = new com.hs.whocan.component.account.security.access.dao.Access();
+        this.access = new Access();
     }
 
-    public AccessEntity(com.hs.whocan.component.account.security.access.dao.Access access) {
+    public AccessEntity(Access access) {
         this.access = access;
     }
 
     @Transient
-    public com.hs.whocan.component.account.security.access.dao.Access getAccess() {
+    public Access getAccess() {
         return access;
     }
 
@@ -74,12 +80,12 @@ public class AccessEntity {
         return access.getAccessToken();
     }
 
-    public void setUpdateTimestamp(Date updateTimestamp) {
-        access.setUpdateTimestamp(updateTimestamp);
+    @Column
+    public String getReadTag() {
+        return access.getReadTag();
     }
 
-    @Column
-    public Date getUpdateTimestamp() {
-        return access.getUpdateTimestamp();
+    public void setReadTag(String readTag) {
+        access.setReadTag(readTag);
     }
 }

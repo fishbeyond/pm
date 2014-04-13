@@ -1,2 +1,16 @@
-drop database if exists pm;
-create database pm DEFAULT CHARACTER SET utf8;
+use whocan;
+SET SQL_SAFE_UPDATES = 0;
+DELETE FROM operate_record;
+DELETE FROM project;
+DELETE FROM project_user_mapper;
+DELETE FROM project_work;
+DELETE FROM security_access;
+DELETE FROM security_authCode;
+DELETE FROM security_deviceToken;
+DELETE FROM session;
+DELETE FROM session_mapper;
+DELETE FROM session_message;
+DELETE FROM user_info;
+DELETE FROM user_invitation;
+DELETE FROM user_linkman;
+DELETE FROM user_mapper;

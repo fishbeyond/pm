@@ -1,17 +1,13 @@
 package com.hs.whocan.component.push;
 
-import com.hs.whocan.component.account.security.device.dao.DeviceDao;
+import com.hs.whocan.component.account.security.device.dao.DeviceToken;
 import com.hs.whocan.component.push.exception.PushFailException;
 import javapns.devices.Device;
 import javapns.devices.implementations.basic.BasicDevice;
 import javapns.notification.AppleNotificationServerBasicImpl;
 import javapns.notification.PushNotificationManager;
 import javapns.notification.PushNotificationPayload;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,14 +17,13 @@ import java.util.List;
  * Time: 下午6:22
  * To change this template use File | Settings | File Templates.
  */
-public class PushComponent implements Runnable{
-    private static final String p12File = PushComponent.class.getClassLoader().getResource("").getPath()+ "Certificates_whocan.p12";
+public class PushComponent implements Runnable {
+    private static final String p12File = PushComponent.class.getClassLoader().getResource("").getPath() + "Certificates_whocan.p12";
     private static final String p12FilePassword = "1234qwer";
-    private String deviceToken = "25ecb9e6226034c17b162230fbffbe30fdb7f635afaf7112d43ad902e7bcba8a";//test
-    private List<String> deviceTokens;
+    private List<DeviceToken> deviceTokens;
     private String content;
 
-    public PushComponent(List<String> deviceTokens, String content) {
+    public PushComponent(List<DeviceToken> deviceTokens, String content) {
         this.deviceTokens = deviceTokens;
         this.content = content;
     }
@@ -38,19 +33,17 @@ public class PushComponent implements Runnable{
         try {
             PushNotificationPayload payLoad = new PushNotificationPayload();
             payLoad.addAlert(content);
-            payLoad.addBadge(1);
             payLoad.addSound("default");
-            List<Device> devices = new ArrayList<Device>();
-            for (String deviceToken : deviceTokens) {
-                Device device = new BasicDevice(deviceToken);
-                devices.add(device);
-            }
             PushNotificationManager pushManager = new PushNotificationManager();
             //测试
             AppleNotificationServerBasicImpl appleNotificationServerBasic =
                     new AppleNotificationServerBasicImpl(p12File, p12FilePassword, false);
             pushManager.initializeConnection(appleNotificationServerBasic);
-            pushManager.sendNotifications(payLoad, devices);
+            for (DeviceToken deviceToken : deviceTokens) {
+                Device device = new BasicDevice(deviceToken.getToken());
+                payLoad.addBadge(deviceToken.getUnreadNum());
+                pushManager.sendNotification(device, payLoad);
+            }
             pushManager.stopConnection();
         } catch (Exception e) {
             throw new PushFailException();

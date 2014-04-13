@@ -47,7 +47,7 @@ public class SecurityLoginAuthCode implements WhoCanService {
         } else {
             token = securityComponent.modifyAccessToken(user.getUserId());
         }
-        deviceComponent.createDeviceToken(new DeviceToken(user.getUserId(),deviceToken));
+        deviceComponent.createDeviceToken(new DeviceToken(user.getUserId(),deviceToken,0));
         return userTransformer.transform2UserInfo(user, token);
     }
 

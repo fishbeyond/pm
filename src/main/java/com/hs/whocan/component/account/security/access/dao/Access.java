@@ -11,8 +11,7 @@ public class Access {
     private Date accessTime;
     private long aliveTime;
     private String accessToken;
-    private Date updateTimestamp;
-
+    private  String readTag;
     private static long ALIVE_TIME = 1000 * 60 * 60 * 1;
 
     public Access() {
@@ -65,11 +64,11 @@ public class Access {
         this.accessToken = accessToken;
     }
 
-    public Date getUpdateTimestamp() {
-        return updateTimestamp;
+    public String getReadTag() {
+        return readTag;
     }
 
-    public void setUpdateTimestamp(Date updateTimestamp) {
-        this.updateTimestamp = updateTimestamp;
+    public void setReadTag(String readTag) {
+        this.readTag = readTag;
     }
 }

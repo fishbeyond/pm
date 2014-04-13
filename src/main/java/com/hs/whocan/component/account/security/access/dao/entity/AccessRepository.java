@@ -99,20 +99,20 @@ public class AccessRepository implements AccessDao {
     }
 
     @Override
-    public Date findUpdateTimestamp(String accessId) {
-        final String hql = "select updateTimestamp from AccessEntity e where e.accessId = :accessId";
+    public String findReadTag(String accessId) {
+        final String hql = "select readTag from AccessEntity e where e.accessId = :accessId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("accessId", accessId);
         Object result = query.uniqueResult();
-        return result != null ? (Date) result : null;
+        return result != null ? (String) result : null;
     }
 
     @Override
-    public void modifyUpdateTimestamp(String accessId, Date updateTimestamp) {
-        final String hql = "update AccessEntity e set e.updateTimestamp = :updateTimestamp where e.accessId = :accessId";
+    public void modifyReadTag(String accessId, String readTag) {
+        final String hql = "update AccessEntity e set e.readTag = :readTag where e.accessId = :accessId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("accessId",accessId);
-        query.setTimestamp("updateTimestamp",updateTimestamp);
+        query.setString("readTag",readTag);
         query.executeUpdate();
     }
 }

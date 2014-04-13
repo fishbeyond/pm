@@ -29,11 +29,14 @@ public class DeviceComponent {
             deviceDao.modifyDeviceToken(oldDeviceToken);
         }
     }
-    public List<String> findDeviceTokenByUser(String userId){
+    public List<String> findTokenByUser(String userId){
+        return deviceDao.findToken(userId);
+    }
+    public List<DeviceToken> findDeviceTokenByUser(String userId){
         return deviceDao.findDeviceToken(userId);
     }
 
-    public List<String> findDeviceTokenByUsers(List<String> userIds){
+    public List<DeviceToken> findDeviceTokenByUsers(List<String> userIds){
         return deviceDao.findDeviceToken(userIds);
     }
 }

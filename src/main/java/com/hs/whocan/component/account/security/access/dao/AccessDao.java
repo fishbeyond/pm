@@ -26,7 +26,7 @@ public interface AccessDao {
 
     public void modifyAccessToken(String accessId,String token);
 
-    public Date findUpdateTimestamp(String accessId);
+    public String findReadTag(String accessId);
 
-    public void modifyUpdateTimestamp(String accessId,Date updateTimestamp);
+    public void modifyReadTag(String accessId,String readTag);
 }

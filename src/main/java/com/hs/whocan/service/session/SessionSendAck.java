@@ -15,23 +15,22 @@ import java.util.Date;
 @Service
 @Scope("prototype")
 public class SessionSendAck extends WhoCanVerifyLoginService {
-    private String updateTime;
+    private String readTag;
     @Resource
     private SecurityComponent securityComponent;
 
     @Override
     @Transactional
     public Boolean execute() {
-        Long updateTimestamp = Long.valueOf(updateTime);
-        securityComponent.modifyTimestamp(userId,new Date(updateTimestamp));
+        securityComponent.modifyReadTag(userId, readTag);
         return true;
     }
 
-    public String getUpdateTime() {
-        return updateTime;
+    public String getReadTag() {
+        return readTag;
     }
 
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
+    public void setReadTag(String readTag) {
+        this.readTag = readTag;
     }
 }

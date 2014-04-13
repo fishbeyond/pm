@@ -15,11 +15,13 @@ public class DeviceToken {
     private int tokenId;
     private String userId;
     private String token;
+    private int unreadNum;
     public DeviceToken(){}
 
-    public DeviceToken(String userId, String token) {
+    public DeviceToken(String userId, String token,int unreadNum) {
         this.userId = userId;
         this.token = token;
+        this.unreadNum = unreadNum;
     }
 
     @Id
@@ -46,5 +48,13 @@ public class DeviceToken {
 
     public void setToken(String token) {
         this.token = token;
+    }
+    @Transient
+    public int getUnreadNum() {
+        return unreadNum;
+    }
+
+    public void setUnreadNum(int unreadNum) {
+        this.unreadNum = unreadNum;
     }
 }
