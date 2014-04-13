@@ -55,7 +55,7 @@ public class MessageRepository implements MessageDao {
 
     @Override
     public List<Message> findNewMessageBySessionId(String sessionId, Date createTime) {
-        final String hql = "from MessageEntity e where e.sessionId = :sessionId and e.createTime > :createTime";
+        final String hql = "from MessageEntity e where e.sessionId = :sessionId and e.createTime > :createTime order by e.createTime";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("sessionId", sessionId);
         query.setTimestamp("createTime", createTime);
