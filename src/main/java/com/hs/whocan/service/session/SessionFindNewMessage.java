@@ -35,6 +35,8 @@ public class SessionFindNewMessage extends WhoCanVerifyLoginService {
         SessionInfo sessionInfo = new SessionInfo();
         List<Message> messages = sessionComponent.findNewMessage(userId);
         if (messages.size() == 0) {
+            sessionInfo.setMessages(new ArrayList<Message>());
+            sessionInfo.setSessionUserInfos(new ArrayList<SessionUserInfo>());
             return sessionInfo;
         }
         Map<String, String> map = new HashMap<String, String>();
