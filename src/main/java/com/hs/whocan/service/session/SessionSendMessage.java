@@ -45,7 +45,7 @@ public class SessionSendMessage extends WhoCanVerifyLoginService {
         message.setCreateTime(new Date());
         message.setContent(content);
         message.setFromUser(userId);
-        message.setSessionId(sessionId);
+        message.setSessionId(userId);
         List<String> userIds = new ArrayList<String>();
         User user = userComponent.findUser(sessionId);
         if (null != user) {
