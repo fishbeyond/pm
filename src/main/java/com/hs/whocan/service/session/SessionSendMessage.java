@@ -57,10 +57,10 @@ public class SessionSendMessage extends WhoCanVerifyLoginService {
             sessionComponent.sendMessage(message, userId);
             System.out.println("=====================findUserIdInSession=======================sessionId:" + sessionId);
             List<String> userIdList = sessionComponent.findUserIdInSession(sessionId);
-            for (String userId : userIdList) {
-                if (userId.equals(userId)) {
+            for (String allUserId : userIdList) {
+                if (userId.equals(allUserId)) {
                 } else {
-                    userIds.add(userId);
+                    userIds.add(allUserId);
                 }
             }
         }
