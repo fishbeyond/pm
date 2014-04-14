@@ -51,7 +51,7 @@ public class SessionComponent {
     @Transactional
     public void sendMessage(Message message, String userId) {
         messageDao.createMessage(message);
-        distributeMessage(message, userId);
+        findUserIdInSession(message, userId);
     }
 
     public List<Session> findSession(String userId) {
@@ -108,10 +108,10 @@ public class SessionComponent {
         message.setMsgType(msgType);
         message.setMessageId(uuidGenerator.shortUuid());
         messageDao.createMessage(message);
-        distributeMessage(message, null);
+        findUserIdInSession(message, null);
     }
 
-    private void distributeMessage(Message message, String excludeUserId) {
+    private void findUserIdInSession(Message message, String excludeUserId) {
         List<String> userIds = null;
         if (null == excludeUserId) {
             userIds = sessionDao.findUserIdInSession(message.getSessionId());
@@ -127,11 +127,15 @@ public class SessionComponent {
                 }
             }
         }
+        distributeMessage(message, userIds);
+    }
+    @Transactional
+    public void distributeMessage(Message message, List<String> userIds) {
         for (String userId : userIds) {
             MessageUserMapper messageUserMapper = new MessageUserMapper();
             messageUserMapper.setMapperId(uuidGenerator.shortUuid());
             messageUserMapper.setUserId(userId);
-            messageUserMapper.setSessionId(message.getSessionId());
+            messageUserMapper.setSessionId(message.getFromUser());
             messageUserMapper.setMessageId(message.getMessageId());
             messageUserMapper.setReceiveTime(message.getCreateTime());
             messageUserMapperDao.createMessageUserMapper(messageUserMapper);

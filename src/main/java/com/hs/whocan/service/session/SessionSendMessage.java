@@ -1,5 +1,6 @@
 package com.hs.whocan.service.session;
 
+import com.hs.whocan.component.account.user.UserComponent;
 import com.hs.whocan.component.account.user.info.dao.User;
 import com.hs.whocan.component.account.security.PushMessageComponent;
 import com.hs.whocan.component.session.SessionComponent;
@@ -31,6 +32,8 @@ public class SessionSendMessage extends WhoCanVerifyLoginService {
     private SessionComponent sessionComponent;
     @Resource
     private PushMessageComponent pushMessageComponent;
+    @Resource
+    private UserComponent userComponent;
 
     public Boolean execute() {
         Message message = new Message();
@@ -39,23 +42,23 @@ public class SessionSendMessage extends WhoCanVerifyLoginService {
         message.setContent(content);
         message.setFromUser(userId);
         message.setSessionId(sessionId);
-        sessionComponent.sendMessage(message, userId);
-        System.out.println("=================SessionSendMessage====================sessionId:" + sessionId);
-        List<String> userIdList = sessionComponent.findUserIdInSession(sessionId);
-        if (userIdList.size() == 0) {
-            String[] split = sessionId.split("_");
-            userIdList.add(split[0]);
-            userIdList.add(split[1]);
-        }
         List<String> userIds = new ArrayList<String>();
-        for (String userId : userIdList) {
-            if (userId.equals(userId)) {
-            } else {
-                userIds.add(userId);
+        User user = userComponent.findUser(sessionId);
+        if (null != user) {
+            userIds.add(sessionId);
+            sessionComponent.distributeMessage(message, userIds);
+        } else {
+            sessionComponent.sendMessage(message, userId);
+            List<String> userIdList = sessionComponent.findUserIdInSession(sessionId);
+            for (String userId : userIdList) {
+                if (userId.equals(userId)) {
+                } else {
+                    userIds.add(userId);
+                }
             }
         }
-        System.out.println("=================SessionSendMessage====================userIds.size:" + userIds.size());
         pushMessageComponent.push(userIds, "您有新的消息");
+
         return true;
     }
 

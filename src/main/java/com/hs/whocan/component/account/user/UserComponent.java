@@ -11,6 +11,7 @@ import com.hs.whocan.framework.utils.UUIDGenerator;
 import com.hs.whocan.component.account.user.exception.PhoneNoDisableException;
 import com.hs.whocan.component.account.security.exception.TokenDisableException;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -108,6 +109,11 @@ public class UserComponent {
     }
 
     public void modifyPortrait(String userId, String portrait) {
-        userInfoDao.modifyPortrait(userId,portrait);
+        userInfoDao.modifyPortrait(userId, portrait);
+    }
+
+    @Transactional
+    public User findUser(String sessionId) {
+        return userInfoDao.findUserById(sessionId);
     }
 }
