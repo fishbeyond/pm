@@ -39,7 +39,7 @@ public class PushMessageComponent {
         for (DeviceToken deviceToken : deviceTokens) {
             String userId = deviceToken.getUserId();
             int unreadNum = messageUserMapperDao.findUnreadNum(userId);
-            deviceToken.setUnreadNum(unreadNum);
+            deviceToken.setUnreadNum(unreadNum == 0 ? 1 : unreadNum);
         }
     }
 
