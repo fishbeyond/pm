@@ -38,6 +38,7 @@ public class SessionSendMessage extends WhoCanVerifyLoginService {
     @Resource
     private MessageDao messageDao;
 
+    @Transactional
     public Boolean execute() {
         Message message = new Message();
         message.setMessageId(messageId);
