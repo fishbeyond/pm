@@ -152,7 +152,7 @@ public class SessionRepository implements SessionDao {
 
     @Override
     public List<Session> findSessionByIds(List<String> sessionIds) {
-        final String hql = "from SessionEntity e where e.sessionId in :sessionIds";
+        final String hql = "from SessionEntity e where e.sessionId in (:sessionIds)";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setParameterList("sessionIds", sessionIds);
         List<SessionEntity> entities = (List<SessionEntity>) query.list();

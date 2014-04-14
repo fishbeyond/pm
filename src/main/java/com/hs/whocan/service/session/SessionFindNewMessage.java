@@ -32,7 +32,11 @@ public class SessionFindNewMessage extends WhoCanVerifyLoginService {
     @Override
     @Transactional
     public SessionInfo execute() {
+        SessionInfo sessionInfo = new SessionInfo();
         List<Message> messages = sessionComponent.findNewMessage(userId);
+        if (messages.size() == 0) {
+            return sessionInfo;
+        }
         Map<String, String> map = new HashMap<String, String>();
         for (Message message : messages) {
             map.put(message.getSessionId(), null);
@@ -48,7 +52,7 @@ public class SessionFindNewMessage extends WhoCanVerifyLoginService {
             SessionUserInfo sessionUserInfo = sessionQuery.querySessionInfo(userId, session);
             sessionUserInfos.add(sessionUserInfo);
         }
-        SessionInfo sessionInfo = new SessionInfo();
+
         sessionInfo.setMessages(messages);
         sessionInfo.setSessionUserInfos(sessionUserInfos);
         return sessionInfo;
