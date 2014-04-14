@@ -5,6 +5,7 @@ import com.hs.whocan.component.account.user.info.dao.User;
 import com.hs.whocan.component.account.security.PushMessageComponent;
 import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.dao.Message;
+import com.hs.whocan.component.session.dao.MessageDao;
 import com.hs.whocan.service.WhoCanVerifyLoginService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,8 @@ public class SessionSendMessage extends WhoCanVerifyLoginService {
     private PushMessageComponent pushMessageComponent;
     @Resource
     private UserComponent userComponent;
+    @Resource
+    private MessageDao messageDao;
 
     public Boolean execute() {
         Message message = new Message();
@@ -45,6 +48,7 @@ public class SessionSendMessage extends WhoCanVerifyLoginService {
         List<String> userIds = new ArrayList<String>();
         User user = userComponent.findUser(sessionId);
         if (null != user) {
+            messageDao.createMessage(message);
             userIds.add(sessionId);
             sessionComponent.distributeMessage(message, userIds);
         } else {
