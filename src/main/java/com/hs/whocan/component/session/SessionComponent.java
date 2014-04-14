@@ -118,15 +118,6 @@ public class SessionComponent {
         } else {
             userIds = sessionDao.findUserIdInSessionExcludeOwn(message.getSessionId(), excludeUserId);
         }
-        if (userIds.size() == 0) {
-            String[] split = message.getSessionId().split("_");
-            for(String userId : split){
-                if(userId.equals(excludeUserId)){
-                }else {
-                    userIds.add(userId);
-                }
-            }
-        }
         distributeMessage(message, userIds);
     }
     @Transactional
