@@ -7,6 +7,7 @@ import com.hs.whocan.component.session.dao.Message;
 import com.hs.whocan.service.WhoCanVerifyLoginService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -40,12 +41,17 @@ public class SessionSendMessage extends WhoCanVerifyLoginService {
         message.setSessionId(sessionId);
         sessionComponent.sendMessage(message, userId);
         System.out.println("=================SessionSendMessage====================sessionId:" + sessionId);
-        List<User> users = sessionComponent.findUserInSession(sessionId);
+        List<String> userIdList = sessionComponent.findUserIdInSession(sessionId);
+        if (userIdList.size() == 0) {
+            String[] split = sessionId.split("_");
+            userIdList.add(split[0]);
+            userIdList.add(split[1]);
+        }
         List<String> userIds = new ArrayList<String>();
-        for (User user : users) {
-            if (userId.equals(user.getUserId())) {
+        for (String userId : userIdList) {
+            if (userId.equals(userId)) {
             } else {
-                userIds.add(user.getUserId());
+                userIds.add(userId);
             }
         }
         System.out.println("=================SessionSendMessage====================userIds.size:" + userIds.size());

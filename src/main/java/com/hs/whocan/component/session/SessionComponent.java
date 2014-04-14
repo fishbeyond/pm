@@ -118,6 +118,15 @@ public class SessionComponent {
         } else {
             userIds = sessionDao.findUserIdInSessionExcludeOwn(message.getSessionId(), excludeUserId);
         }
+        if (userIds.size() == 0) {
+            String[] split = message.getSessionId().split("_");
+            for(String userId : split){
+                if(userId.equals(excludeUserId)){
+                }else {
+                    userIds.add(userId);
+                }
+            }
+        }
         for (String userId : userIds) {
             MessageUserMapper messageUserMapper = new MessageUserMapper();
             messageUserMapper.setMapperId(uuidGenerator.shortUuid());
@@ -141,6 +150,10 @@ public class SessionComponent {
     public List<User> findUserInSession(String sessionId) {
         return sessionDao.findUserInSession(sessionId);
     }
+    @Transactional
+    public List<String> findUserIdInSession(String sessionId) {
+        return sessionDao.findUserIdInSession(sessionId);
+    }
 
     @Transactional
     public void deleteMessage(String chatId) {
@@ -158,15 +171,5 @@ public class SessionComponent {
 
     public List<Session> findSessionByIds(List<String> sessionIds) {
         return sessionDao.findSessionByIds(sessionIds);
-    }
-
-    public void createSessionMapper(String sessionId, List<String> userIds) {
-        for (String addUserId : userIds) {
-            SessionMapper sessionMapper = sessionDao.findSessionMapper(sessionId, addUserId);
-            if (null == sessionMapper) {
-                sessionMapper = new SessionMapper(sessionId, addUserId);
-                sessionDao.createSessionMapper(sessionMapper);
-            }
-        }
     }
 }

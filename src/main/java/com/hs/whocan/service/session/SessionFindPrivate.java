@@ -32,8 +32,6 @@ public class SessionFindPrivate extends WhoCanVerifyLoginService {
 
     public SessionUserInfo execute() {
         Session session = sessionComponent.getPrivateSession(userId, friendId);
-        List<String> userList = new ArrayList<String>();
-        sessionComponent.createSessionMapper(session.getSessionId(),userList);
         return sessionQuery.querySessionInfo(userId, session);
     }
 
