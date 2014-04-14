@@ -2,7 +2,6 @@ package com.hs.whocan.component.session.dao.entity;
 
 
 import com.hs.whocan.component.session.dao.Message;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -27,6 +26,7 @@ public class MessageEntity {
     public Message getMessage() {
         return this.message;
     }
+
     @Id
     public String getMessageId() {
         return message.getMessageId();
@@ -49,13 +49,6 @@ public class MessageEntity {
         this.message.setContent(message);
     }
 
-    public void setUserId(String userId) {
-        message.setUserId(userId);
-    }
-    @Column
-    public String getUserId() {
-        return message.getUserId();
-    }
     @Column
     public Date getCreateTime() {
         return message.getCreateTime();
@@ -64,6 +57,7 @@ public class MessageEntity {
     public void setCreateTime(Date createTime) {
         message.setCreateTime(createTime);
     }
+
     @Column
     public String getSessionId() {
         return message.getSessionId();
@@ -71,5 +65,23 @@ public class MessageEntity {
 
     public void setSessionId(String sessionId) {
         message.setSessionId(sessionId);
+    }
+
+    @Column
+    public String getMsgType() {
+        return message.getMsgType();
+    }
+
+    public void setMsgType(String msgType) {
+        message.setMsgType(msgType);
+    }
+
+    public void setFormUser(String formUser) {
+        message.setFormUser(formUser);
+    }
+
+    @Column
+    public String getFormUser() {
+        return message.getFormUser();
     }
 }

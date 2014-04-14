@@ -1,6 +1,5 @@
 package com.hs.whocan.service.session;
 
-import com.hs.whocan.component.account.security.device.DeviceComponent;
 import com.hs.whocan.component.account.user.info.dao.User;
 import com.hs.whocan.component.account.security.PushMessageComponent;
 import com.hs.whocan.component.session.SessionComponent;
@@ -37,10 +36,10 @@ public class SessionSendMessage extends WhoCanVerifyLoginService {
         message.setMessageId(messageId);
         message.setCreateTime(new Date());
         message.setContent(content);
-        message.setUserId(userId);
+        message.setFormUser(userId);
         message.setSessionId(sessionId);
-        sessionComponent.sendMessage(message);
-        List<User> users = sessionComponent.findUserIdInSession(sessionId);
+        sessionComponent.sendMessage(message,userId);
+        List<User> users = sessionComponent.findUserInSession(sessionId);
         List<String> userIds = new ArrayList<String>();
         for (User user : users) {
             if (userId.equals(user.getUserId())) {

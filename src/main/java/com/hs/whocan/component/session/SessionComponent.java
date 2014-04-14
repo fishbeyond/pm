@@ -3,6 +3,7 @@ package com.hs.whocan.component.session;
 import com.hs.whocan.component.account.user.info.dao.User;
 import com.hs.whocan.component.account.user.info.dao.UserDao;
 import com.hs.whocan.component.session.dao.*;
+import com.hs.whocan.component.session.exception.SessionNotExistException;
 import com.hs.whocan.framework.utils.UUIDGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +30,8 @@ public class SessionComponent {
     private UUIDGenerator uuidGenerator;
     @Resource
     private UserDao userDao;
+    @Resource
+    private MessageUserMapperDao messageUserMapperDao;
 
     @Transactional
     public Session getPrivateSession(String userId, String friendId) {
@@ -46,8 +49,9 @@ public class SessionComponent {
     }
 
     @Transactional
-    public void sendMessage(Message message) {
+    public void sendMessage(Message message, String userId) {
         messageDao.createMessage(message);
+        distributeMessage(message, userId);
     }
 
     public List<Session> findSession(String userId) {
@@ -62,53 +66,80 @@ public class SessionComponent {
     @Transactional
     public Session addPeopleToSession(String sessionId, String userId, List<String> userIds) {
         Session session = null;
+        List<String> userList = new ArrayList<String>();
+        userList.addAll(userIds);
         if (null == sessionId) {
             sessionId = uuidGenerator.shortUuid();
             session = new Session(sessionId, userId);
             session.setType(SessionType.PUBLIC_SESSION);
             sessionDao.createSession(session);
-            List<String> oneUserId = new ArrayList<String>();
-            oneUserId.add(userId);
-            relateSessionUser(sessionId, oneUserId);
+            userList.add(userId);
         } else {
             session = sessionDao.findSessionById(sessionId);
         }
-        relateSessionUser(sessionId, userIds);
+        if (null == session) {
+            throw new SessionNotExistException();
+        }
+        relateSessionUser(sessionId, userList, userId);
         return session;
     }
 
-    private void relateSessionUser(String sessionId, List<String> userIds) {
+    private void relateSessionUser(String sessionId, List<String> userIds, String operateUserId) {
+        StringBuilder content = new StringBuilder();
         for (String addUserId : userIds) {
             SessionMapper sessionMapper = sessionDao.findSessionMapper(sessionId, addUserId);
             if (null == sessionMapper) {
                 sessionMapper = new SessionMapper(sessionId, addUserId);
                 sessionDao.createSessionMapper(sessionMapper);
-                createSessionSystemMessage(sessionId, addUserId, "被加入群");
+                User user = userDao.findUserById(addUserId);
+                content.append(user.getUserName() + ", ");
             }
+        }
+        content.append("被加入群");
+        createSystemMessage(sessionId, operateUserId, content.toString(), "SYSTEM");
+    }
+
+    private void createSystemMessage(String sessionId, String fromUserId, String content, String msgType) {
+        Message message = new Message();
+        message.setContent(content);
+        message.setCreateTime(new Date());
+        message.setSessionId(sessionId);
+        message.setFormUser(fromUserId);
+        message.setMsgType(msgType);
+        message.setMessageId(uuidGenerator.shortUuid());
+        messageDao.createMessage(message);
+        distributeMessage(message, null);
+    }
+
+    private void distributeMessage(Message message, String excludeUserId) {
+        List<String> userIds = null;
+        if (null == excludeUserId) {
+            userIds = sessionDao.findUserIdInSession(message.getSessionId());
+        } else {
+            userIds = sessionDao.findUserIdInSessionExcludeOwn(message.getSessionId(), excludeUserId);
+        }
+        for (String userId : userIds) {
+            MessageUserMapper messageUserMapper = new MessageUserMapper();
+            messageUserMapper.setMapperId(uuidGenerator.shortUuid());
+            messageUserMapper.setUserId(userId);
+            messageUserMapper.setSessionId(message.getSessionId());
+            messageUserMapper.setMessageId(message.getMessageId());
+            messageUserMapper.setReceiveTime(message.getCreateTime());
+            messageUserMapperDao.createMessageUserMapper(messageUserMapper);
         }
     }
 
-    private void createSessionSystemMessage(String sessionId, String userId, String content) {
-        User user = userDao.findUserById(userId);
-        Message message = new Message();
-        message.setMessageId(uuidGenerator.shortUuid());
-        message.setCreateTime(new Date());
-        message.setSessionId(sessionId);
-        message.setContent(user.getUserName() + content);
-        message.setUserId("SYSTEM");
-        messageDao.createMessage(message);
-    }
-
 
     @Transactional
-    public void deleteUser(String sessionId, String deleteUserId) {
+    public void deleteUser(String sessionId, String userId, String deleteUserId) {
         sessionDao.deleteSessionMapperByUserId(sessionId, deleteUserId);
-        createSessionSystemMessage(sessionId, deleteUserId, "被请出群");
+        User user = userDao.findUserById(deleteUserId);
+        createSystemMessage(sessionId, userId, user.getUserName() + "被请出群", "SYSTEM");
     }
 
     @Transactional
-    public List<User> findUserIdInSession(String sessionId) {
-        return sessionDao.findSessionUserBySessionId(sessionId);
+    public List<User> findUserInSession(String sessionId) {
+        return sessionDao.findUserInSession(sessionId);
     }
 
     @Transactional
@@ -116,14 +147,16 @@ public class SessionComponent {
         messageDao.deleteMessage(chatId);
     }
 
-    public List<Message> findNewMessage(String sessionId, String readTag) {
+    public List<Message> findNewMessage(String userId) {
+        return messageDao.findNewMessage(userId);
+    }
+
+    public void deleteReadMessage(String userId, String readTag) {
         Message message = messageDao.findMessage(readTag);
-        Date date = null;
-        if (null == message) {
-            date = new Date(0);
-        } else {
-            date = message.getCreateTime();
-        }
-        return messageDao.findNewMessageBySessionId(sessionId, date);
+        messageUserMapperDao.deleteReadMessage(userId, message.getSessionId(), message.getCreateTime());
+    }
+
+    public List<Session> findSessionByIds(List<String> sessionIds) {
+        return sessionDao.findSessionByIds(sessionIds);
     }
 }

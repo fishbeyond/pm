@@ -94,7 +94,7 @@ public class SessionRepository implements SessionDao {
     }
 
     @Override
-    public List<String> findUserIdBySessionId(String sessionId) {
+    public List<String> findUserIdInSession(String sessionId) {
         final String hql = "select e.userId from SessionMapper e where e.sessionId = :sessionId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("sessionId", sessionId);
@@ -102,7 +102,7 @@ public class SessionRepository implements SessionDao {
     }
 
     @Override
-    public List<User> findSessionUserBySessionId(String sessionId) {
+    public List<User> findUserInSession(String sessionId) {
         final String hql = "from UserEntity e where e.userId in (select m.userId from SessionMapper m where m.sessionId = :sessionId)";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("sessionId", sessionId);
@@ -111,7 +111,16 @@ public class SessionRepository implements SessionDao {
         for (UserEntity entity : entities) {
             users.add(entity.getUser());
         }
-        return users;  //To change body of implemented methods use File | Settings | File Templates.
+        return users;
+    }
+
+    @Override
+    public List<String> findUserIdInSessionExcludeOwn(String sessionId, String userId) {
+        final String hql = "select m.userId from SessionMapper m where m.sessionId = :sessionId and m.userId != :userId";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("sessionId", sessionId);
+        query.setString("userId", userId);
+        return (List<String>) query.list();
     }
 
     @Override
@@ -139,6 +148,19 @@ public class SessionRepository implements SessionDao {
         query.setString("sessionId", sessionId);
         SessionEntity entity = (SessionEntity) query.uniqueResult();
         return entity != null ? entity.getSession() : null;
+    }
+
+    @Override
+    public List<Session> findSessionByIds(List<String> sessionIds) {
+        final String hql = "from SessionEntity e where e.sessionId in :sessionIds";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setParameterList("sessionIds", sessionIds);
+        List<SessionEntity> entities = (List<SessionEntity>) query.list();
+        List<Session> sessions = new ArrayList<Session>();
+        for (SessionEntity entity : entities) {
+            sessions.add(entity.getSession());
+        }
+        return sessions;
     }
 
 }

@@ -25,7 +25,7 @@ public class SessionDeleteUser extends WhoCanVerifyLoginService {
     private String userId;
 
     public Boolean execute() {
-        sessionComponent.deleteUser(sessionId, deleteUserId);
+        sessionComponent.deleteUser(sessionId, userId,deleteUserId);
         return true;
     }
 

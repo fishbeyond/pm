@@ -25,7 +25,7 @@ public class SessionQuery {
     @Transactional
     public SessionUserInfo querySessionInfo(String userId, Session session) {
         SessionUserInfo sessionUserInfo = new SessionUserInfo();
-        List<User> users = sessionDao.findSessionUserBySessionId(session.getSessionId());
+        List<User> users = sessionDao.findUserInSession(session.getSessionId());
         sessionUserInfo.setUserList(users);
         sessionUserInfo.setSession(session);
         setSessionInfoName(sessionUserInfo, userId, users);

@@ -13,8 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: fish
@@ -33,19 +32,19 @@ public class SessionFindNewMessage extends WhoCanVerifyLoginService {
     @Override
     @Transactional
     public SessionInfo execute() {
-        String readTag = securityComponent.findReadTag(userId);
-        List<Session> sessions = sessionComponent.findSession(userId);
-        List<Session> newSessions = new ArrayList<Session>();
-        List<Message> messages = new ArrayList<Message>();
-        for (Session session : sessions) {
-            List<Message> list = sessionComponent.findNewMessage(session.getSessionId(), readTag);
-            if(list.size()!=0){
-                newSessions.add(session);
-            }
-            messages.addAll(list);
+        List<Message> messages = sessionComponent.findNewMessage(userId);
+        Map<String, String> map = new HashMap<String, String>();
+        for (Message message : messages) {
+            map.put(message.getSessionId(), null);
         }
+        Set<Map.Entry<String, String>> entries = map.entrySet();
+        List<String> sessionIds = new ArrayList<String>();
+        for (Map.Entry<String, String> entry : entries) {
+            sessionIds.add(entry.getKey());
+        }
+        List<Session> sessions = sessionComponent.findSessionByIds(sessionIds);
         ArrayList<SessionUserInfo> sessionUserInfos = new ArrayList<SessionUserInfo>();
-        for (Session session : newSessions) {
+        for (Session session : sessions) {
             SessionUserInfo sessionUserInfo = sessionQuery.querySessionInfo(userId, session);
             sessionUserInfos.add(sessionUserInfo);
         }

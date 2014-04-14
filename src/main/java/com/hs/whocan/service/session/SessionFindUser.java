@@ -27,7 +27,7 @@ public class SessionFindUser extends WhoCanVerifyLoginService {
 
     @Transactional
     public List<User> execute() {
-        return sessionComponent.findUserIdInSession(sessionId);
+        return sessionComponent.findUserInSession(sessionId);
     }
 
     public String getSessionId() {

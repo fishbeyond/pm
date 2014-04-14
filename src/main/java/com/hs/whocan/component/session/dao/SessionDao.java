@@ -28,13 +28,17 @@ public interface SessionDao {
 
     public void deleteSessionMapperByUserId(String sessionId, String deleteUserId);
 
-    public List<String> findUserIdBySessionId(String sessionId);
+    public List<String> findUserIdInSession(String sessionId);
 
-    public List<User> findSessionUserBySessionId(String sessionId);
+    public List<User> findUserInSession(String sessionId);
+
+    public List<String> findUserIdInSessionExcludeOwn(String sessionId, String userId);
 
     public int findUserNumInSession(String sessionId);
 
     public SessionMapper findSessionMapper(String sessionId, String userId);
 
     public Session findSessionById(String sessionId);
+
+    public List<Session> findSessionByIds(List<String> sessionIds);
 }

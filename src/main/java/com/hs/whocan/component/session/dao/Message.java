@@ -12,9 +12,10 @@ import java.util.Date;
 public class Message {
     private String messageId;
     private String content;
-    private String userId;
+    private String formUser;
     private String sessionId;
     private Date createTime;
+    private String msgType;
 
     public String getMessageId() {
         return messageId;
@@ -32,12 +33,12 @@ public class Message {
         this.content = content;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getFormUser() {
+        return formUser;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setFormUser(String formUser) {
+        this.formUser = formUser;
     }
 
     public String getSessionId() {
@@ -54,5 +55,13 @@ public class Message {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getMsgType() {
+        return msgType;
+    }
+
+    public void setMsgType(String msgType) {
+        this.msgType = msgType;
     }
 }

@@ -1,8 +1,11 @@
 package com.hs.whocan.component.session.dao.entity;
 
+import com.hs.whocan.component.account.user.linkman.LinkmanStatus;
 import com.hs.whocan.component.session.dao.Message;
 import com.hs.whocan.component.session.dao.MessageDao;
+import com.hs.whocan.service.social.FriendInfo;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
 
@@ -55,12 +58,21 @@ public class MessageRepository implements MessageDao {
     }
 
     @Override
-    public List<Message> findNewMessageBySessionId(String sessionId, Date createTime) {
-        final String hql = "from MessageEntity e where e.sessionId = :sessionId and e.createTime > :createTime and userId != 'SYSTEM' order by e.createTime";
+    public void deleteMessage(String userId, String sessionId, Date createTime) {
+        final String hql = "delete from MessageEntity e where e.toUser = :userId and e.sessionId = :sessionId and e.createTime <= :createTime";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setString("userId", userId);
         query.setString("sessionId", sessionId);
         query.setTimestamp("createTime", createTime);
-        List<MessageEntity> entities = (List<MessageEntity>) query.list();
+        query.executeUpdate();
+    }
+
+    @Override
+    public List<Message> findNewMessage(String userId) {
+        final String sql = "select * from session_message e inner join message_user_mapper m on e.messageId = m.messageId and m.userId = :userId order by createTime";
+        SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(MessageEntity.class);
+        sqlQuery.setString("userId", userId);
+        List<MessageEntity> entities = (List<MessageEntity>) sqlQuery.list();
         List<Message> list = new ArrayList<Message>();
         for (MessageEntity entity : entities) {
             list.add(entity.getMessage());

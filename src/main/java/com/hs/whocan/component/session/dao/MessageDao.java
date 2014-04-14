@@ -14,7 +14,9 @@ public interface MessageDao {
 
     public void deleteMessage(String messageId);
 
-    public List<Message> findNewMessageBySessionId(String sessionId, Date createTime);
+    public List<Message> findNewMessage(String userId);
 
     public Message findMessage(String messageId);
+
+    public void deleteMessage(String userId, String sessionId, Date createTime);
 }

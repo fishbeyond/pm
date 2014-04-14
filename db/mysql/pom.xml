@@ -6,7 +6,7 @@
 
     <version>1.0.0</version>
 	<properties>
-		<db.url>jdbc:mysql://117.121.25.232:3306/whocan?autoReconnect=true</db.url>
+		<db.url>jdbc:mysql://localhost:3306/whocan?autoReconnect=true</db.url>
 		<db.usr>root</db.usr>
 		<db.pwd>root123</db.pwd>
         <ac.test.db.host>10.67.4.206</ac.test.db.host>
