@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,6 +38,12 @@ public class DeviceDao {
     }
 
     public List<DeviceToken> findDeviceToken(List<String> userIds) {
+        for (String userId : userIds) {
+            System.out.println("===========================userId:" + userId);
+        }
+        if (userIds.size() == 0) {
+            return new ArrayList<DeviceToken>();
+        }
         final String hql = "from DeviceToken t where t.userId in ( :userIds )";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setParameterList("userIds", userIds);
@@ -49,14 +56,14 @@ public class DeviceDao {
         query.setString("userId", userId);
         query.setString("token", token);
         Object result = query.uniqueResult();
-        return result!=null?(DeviceToken)result:null;
+        return result != null ? (DeviceToken) result : null;
     }
 
     public void modifyDeviceToken(DeviceToken deviceToken) {
         final String hql = "update DeviceToken t set t.token = :token where t.userId = :userId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setString("token",deviceToken.getToken());
-        query.setString("userId",deviceToken.getUserId());
+        query.setString("token", deviceToken.getToken());
+        query.setString("userId", deviceToken.getUserId());
         query.executeUpdate();
     }
 
@@ -64,6 +71,6 @@ public class DeviceDao {
         final String hql = "from DeviceToken t where t.userId = :userId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("userId", userId);
-        return (List<DeviceToken>)query.list();
+        return (List<DeviceToken>) query.list();
     }
 }
