@@ -38,7 +38,7 @@ public class SessionSendMessage extends WhoCanVerifyLoginService {
         message.setContent(content);
         message.setFromUser(userId);
         message.setSessionId(sessionId);
-        sessionComponent.sendMessage(message,userId);
+        sessionComponent.sendMessage(message, userId);
         List<User> users = sessionComponent.findUserInSession(sessionId);
         List<String> userIds = new ArrayList<String>();
         for (User user : users) {
@@ -47,6 +47,7 @@ public class SessionSendMessage extends WhoCanVerifyLoginService {
                 userIds.add(user.getUserId());
             }
         }
+        System.out.println("=================SessionSendMessage====================userIds.size:" + userIds.size());
         pushMessageComponent.push(userIds, "您有新的消息");
         return true;
     }

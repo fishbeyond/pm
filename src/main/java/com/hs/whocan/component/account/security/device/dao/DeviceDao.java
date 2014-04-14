@@ -38,6 +38,7 @@ public class DeviceDao {
     }
 
     public List<DeviceToken> findDeviceToken(List<String> userIds) {
+        System.out.println("===========================findDeviceToken===========================" + userIds);
         for (String userId : userIds) {
             System.out.println("===========================userId:" + userId);
         }
