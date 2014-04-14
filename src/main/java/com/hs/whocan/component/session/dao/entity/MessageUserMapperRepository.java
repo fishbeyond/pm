@@ -39,6 +39,7 @@ public class MessageUserMapperRepository implements MessageUserMapperDao {
         final String hql = "select count(e.mapperId) from MessageUserMapperEntity e where e.userId = :userId ";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("userId", userId);
-        return (Integer) query.uniqueResult();
+        Long result = (Long) query.uniqueResult();
+        return result.intValue();
     }
 }

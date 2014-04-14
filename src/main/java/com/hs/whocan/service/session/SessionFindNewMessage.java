@@ -39,6 +39,20 @@ public class SessionFindNewMessage extends WhoCanVerifyLoginService {
             sessionInfo.setSessionUserInfos(new ArrayList<SessionUserInfo>());
             return sessionInfo;
         }
+        List<String> sessionIds = distinctSessionId(messages);
+        List<Session> sessions = sessionComponent.findSessionByIds(sessionIds);
+        List<SessionUserInfo> sessionUserInfos = new ArrayList<SessionUserInfo>();
+        for (Session session : sessions) {
+            SessionUserInfo sessionUserInfo = sessionQuery.querySessionInfo(userId, session);
+            sessionUserInfos.add(sessionUserInfo);
+        }
+
+        sessionInfo.setMessages(messages);
+        sessionInfo.setSessionUserInfos(sessionUserInfos);
+        return sessionInfo;
+    }
+
+    private List<String> distinctSessionId(List<Message> messages) {
         Map<String, String> map = new HashMap<String, String>();
         for (Message message : messages) {
             map.put(message.getSessionId(), null);
@@ -48,15 +62,6 @@ public class SessionFindNewMessage extends WhoCanVerifyLoginService {
         for (Map.Entry<String, String> entry : entries) {
             sessionIds.add(entry.getKey());
         }
-        List<Session> sessions = sessionComponent.findSessionByIds(sessionIds);
-        ArrayList<SessionUserInfo> sessionUserInfos = new ArrayList<SessionUserInfo>();
-        for (Session session : sessions) {
-            SessionUserInfo sessionUserInfo = sessionQuery.querySessionInfo(userId, session);
-            sessionUserInfos.add(sessionUserInfo);
-        }
-
-        sessionInfo.setMessages(messages);
-        sessionInfo.setSessionUserInfos(sessionUserInfos);
-        return sessionInfo;
+        return sessionIds;
     }
 }
