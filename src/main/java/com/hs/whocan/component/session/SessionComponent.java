@@ -126,7 +126,7 @@ public class SessionComponent {
             MessageUserMapper messageUserMapper = new MessageUserMapper();
             messageUserMapper.setMapperId(uuidGenerator.shortUuid());
             messageUserMapper.setUserId(userId);
-            messageUserMapper.setSessionId(message.getFromUser());
+            messageUserMapper.setSessionId(message.getSessionId());
             messageUserMapper.setMessageId(message.getMessageId());
             messageUserMapper.setReceiveTime(message.getCreateTime());
             messageUserMapperDao.createMessageUserMapper(messageUserMapper);
