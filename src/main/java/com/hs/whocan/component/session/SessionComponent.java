@@ -120,7 +120,7 @@ public class SessionComponent {
         }
         distributeMessage(message, userIds);
     }
-    @Transactional
+
     public void distributeMessage(Message message, List<String> userIds) {
         for (String userId : userIds) {
             MessageUserMapper messageUserMapper = new MessageUserMapper();
@@ -145,6 +145,7 @@ public class SessionComponent {
     public List<User> findUserInSession(String sessionId) {
         return sessionDao.findUserInSession(sessionId);
     }
+
     @Transactional
     public List<String> findUserIdInSession(String sessionId) {
         return sessionDao.findUserIdInSession(sessionId);
@@ -161,7 +162,9 @@ public class SessionComponent {
 
     public void deleteReadMessage(String userId, String readTag) {
         Message message = messageDao.findMessage(readTag);
-        messageUserMapperDao.deleteReadMessage(userId, message.getSessionId(), message.getCreateTime());
+        if (null != message) {
+            messageUserMapperDao.deleteReadMessage(userId, message.getSessionId(), message.getCreateTime());
+        }
     }
 
     public List<Session> findSessionByIds(List<String> sessionIds) {
