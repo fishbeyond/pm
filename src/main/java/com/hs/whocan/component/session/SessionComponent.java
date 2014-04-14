@@ -159,4 +159,14 @@ public class SessionComponent {
     public List<Session> findSessionByIds(List<String> sessionIds) {
         return sessionDao.findSessionByIds(sessionIds);
     }
+
+    public void createSessionMapper(String sessionId, List<String> userIds) {
+        for (String addUserId : userIds) {
+            SessionMapper sessionMapper = sessionDao.findSessionMapper(sessionId, addUserId);
+            if (null == sessionMapper) {
+                sessionMapper = new SessionMapper(sessionId, addUserId);
+                sessionDao.createSessionMapper(sessionMapper);
+            }
+        }
+    }
 }

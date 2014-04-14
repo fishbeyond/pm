@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,6 +32,8 @@ public class SessionFindPrivate extends WhoCanVerifyLoginService {
 
     public SessionUserInfo execute() {
         Session session = sessionComponent.getPrivateSession(userId, friendId);
+        List<String> userList = new ArrayList<String>();
+        sessionComponent.createSessionMapper(session.getSessionId(),userList);
         return sessionQuery.querySessionInfo(userId, session);
     }
 
