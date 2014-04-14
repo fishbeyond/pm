@@ -55,6 +55,7 @@ public class SessionSendMessage extends WhoCanVerifyLoginService {
         } else {
             message.setSessionId(sessionId);
             sessionComponent.sendMessage(message, userId);
+            System.out.println("=====================findUserIdInSession=======================sessionId:" + sessionId);
             List<String> userIdList = sessionComponent.findUserIdInSession(sessionId);
             for (String userId : userIdList) {
                 if (userId.equals(userId)) {
@@ -63,6 +64,7 @@ public class SessionSendMessage extends WhoCanVerifyLoginService {
                 }
             }
         }
+        System.out.println("=====================findUserIdInSession=======================userIds:" + userIds);
         pushMessageComponent.push(userIds, "您有新的消息");
 
         return true;
