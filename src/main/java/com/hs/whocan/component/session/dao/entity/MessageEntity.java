@@ -76,12 +76,12 @@ public class MessageEntity {
         message.setMsgType(msgType);
     }
 
-    public void setFormUser(String formUser) {
-        message.setFormUser(formUser);
+    public void setFromUser(String fromUser) {
+        message.setFromUser(fromUser);
     }
 
     @Column
-    public String getFormUser() {
-        return message.getFormUser();
+    public String getFromUser() {
+        return message.getFromUser();
     }
 }

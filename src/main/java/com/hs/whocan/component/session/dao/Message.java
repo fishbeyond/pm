@@ -12,7 +12,7 @@ import java.util.Date;
 public class Message {
     private String messageId;
     private String content;
-    private String formUser;
+    private String fromUser;
     private String sessionId;
     private Date createTime;
     private String msgType;
@@ -33,12 +33,12 @@ public class Message {
         this.content = content;
     }
 
-    public String getFormUser() {
-        return formUser;
+    public String getFromUser() {
+        return fromUser;
     }
 
-    public void setFormUser(String formUser) {
-        this.formUser = formUser;
+    public void setFromUser(String fromUser) {
+        this.fromUser = fromUser;
     }
 
     public String getSessionId() {

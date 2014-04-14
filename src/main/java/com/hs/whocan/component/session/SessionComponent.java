@@ -104,7 +104,7 @@ public class SessionComponent {
         message.setContent(content);
         message.setCreateTime(new Date());
         message.setSessionId(sessionId);
-        message.setFormUser(fromUserId);
+        message.setFromUser(fromUserId);
         message.setMsgType(msgType);
         message.setMessageId(uuidGenerator.shortUuid());
         messageDao.createMessage(message);
