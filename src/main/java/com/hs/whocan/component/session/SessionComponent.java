@@ -49,10 +49,11 @@ public class SessionComponent {
     }
 
     @Transactional
-    public void sendMessage(Message message, String userId) {
+    public void sendMessage(Message message, List<String> userIds) {
         messageDao.createMessage(message);
-        findUserIdInSession(message, userId);
+        distributeMessage(message, userIds);
     }
+
 
     public List<Session> findSession(String userId) {
         return sessionDao.findSessionByUserId(userId);
@@ -64,61 +65,40 @@ public class SessionComponent {
     }
 
     @Transactional
-    public Session addPeopleToSession(String sessionId, String userId, List<String> userIds) {
+    public Session createSession(String sessionId, String userId) {
         Session session = null;
-        List<String> userList = new ArrayList<String>();
-        userList.addAll(userIds);
         if (null == sessionId) {
             sessionId = uuidGenerator.shortUuid();
             session = new Session(sessionId, userId);
-            session.setType(SessionType.PUBLIC_SESSION);
             sessionDao.createSession(session);
-            userList.add(userId);
         } else {
             session = sessionDao.findSessionById(sessionId);
         }
         if (null == session) {
             throw new SessionNotExistException();
         }
-        relateSessionUser(sessionId, userList, userId);
         return session;
     }
 
-    private void relateSessionUser(String sessionId, List<String> userIds, String operateUserId) {
-        StringBuilder content = new StringBuilder();
+    @Transactional
+    public void relateSessionUser(String sessionId, List<String> userIds) {
         for (String addUserId : userIds) {
             SessionMapper sessionMapper = sessionDao.findSessionMapper(sessionId, addUserId);
             if (null == sessionMapper) {
                 sessionMapper = new SessionMapper(sessionId, addUserId);
                 sessionDao.createSessionMapper(sessionMapper);
-                User user = userDao.findUserById(addUserId);
-                content.append(user.getUserName() + ", ");
             }
         }
-        content.append("被加入群");
-        createSystemMessage(sessionId, operateUserId, content.toString(), "SYSTEM");
     }
 
-    private void createSystemMessage(String sessionId, String fromUserId, String content, String msgType) {
-        Message message = new Message();
-        message.setContent(content);
-        message.setCreateTime(new Date());
-        message.setSessionId(sessionId);
-        message.setFromUser(fromUserId);
-        message.setMsgType(msgType);
-        message.setMessageId(uuidGenerator.shortUuid());
-        messageDao.createMessage(message);
-        findUserIdInSession(message, null);
-    }
-
-    private void findUserIdInSession(Message message, String excludeUserId) {
+    public List<String> findUserIdInSession(String sessionId, String excludeUserId) {
         List<String> userIds = null;
         if (null == excludeUserId) {
-            userIds = sessionDao.findUserIdInSession(message.getSessionId());
+            userIds = sessionDao.findUserIdInSession(sessionId);
         } else {
-            userIds = sessionDao.findUserIdInSessionExcludeOwn(message.getSessionId(), excludeUserId);
+            userIds = sessionDao.findUserIdInSessionExcludeOwn(sessionId, excludeUserId);
         }
-        distributeMessage(message, userIds);
+        return userIds;
     }
 
     public void distributeMessage(Message message, List<String> userIds) {
@@ -135,20 +115,13 @@ public class SessionComponent {
 
 
     @Transactional
-    public void deleteUser(String sessionId, String userId, String deleteUserId) {
+    public void deleteUser(String sessionId, String deleteUserId) {
         sessionDao.deleteSessionMapperByUserId(sessionId, deleteUserId);
-        User user = userDao.findUserById(deleteUserId);
-        createSystemMessage(sessionId, userId, user.getUserName() + "被请出群", "SYSTEM");
     }
 
     @Transactional
     public List<User> findUserInSession(String sessionId) {
         return sessionDao.findUserInSession(sessionId);
-    }
-
-    @Transactional
-    public List<String> findUserIdInSession(String sessionId) {
-        return sessionDao.findUserIdInSession(sessionId);
     }
 
     @Transactional

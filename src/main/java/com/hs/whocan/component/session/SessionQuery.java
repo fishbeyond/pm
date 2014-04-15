@@ -22,8 +22,9 @@ public class SessionQuery {
 
     @Resource
     private SessionDao sessionDao;
+
     @Transactional
-    public SessionUserInfo querySessionInfo(String userId, Session session) {
+    public SessionUserInfo querySessionUserInfo(String userId, Session session) {
         SessionUserInfo sessionUserInfo = new SessionUserInfo();
         List<User> users = sessionDao.findUserInSession(session.getSessionId());
         sessionUserInfo.setUserList(users);
@@ -33,14 +34,7 @@ public class SessionQuery {
     }
 
     private void setSessionInfoName(SessionUserInfo sessionUserInfo, String userId, List<User> users) {
-        if (sessionUserInfo.getType().equals(SessionType.PRIVATE_SESSION)) {
-            for (User user : users) {
-                if (userId.equals(user.getUserId())) {
-                } else {
-                    sessionUserInfo.setSessionName(user.getUserName());
-                }
-            }
-        } else if (null == sessionUserInfo.getSessionName() || "".equals(sessionUserInfo.getSessionName())) {
+        if (null == sessionUserInfo.getSessionName() || "".equals(sessionUserInfo.getSessionName())) {
             int userNum = sessionDao.findUserNumInSession(sessionUserInfo.getSessionId());
             sessionUserInfo.setSessionName("群聊(" + userNum + "人)");
         }

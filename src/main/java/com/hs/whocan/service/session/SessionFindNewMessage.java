@@ -34,22 +34,27 @@ public class SessionFindNewMessage extends WhoCanVerifyLoginService {
     public SessionInfo execute() {
         SessionInfo sessionInfo = new SessionInfo();
         List<Message> messages = sessionComponent.findNewMessage(userId);
-        if (messages.size() == 0) {
-            sessionInfo.setMessages(new ArrayList<Message>());
-            sessionInfo.setSessionUserInfos(new ArrayList<SessionUserInfo>());
-            return sessionInfo;
-        }
+        if (noNewMessage(sessionInfo, messages)) return sessionInfo;
         List<String> sessionIds = distinctSessionId(messages);
         List<Session> sessions = sessionComponent.findSessionByIds(sessionIds);
         List<SessionUserInfo> sessionUserInfos = new ArrayList<SessionUserInfo>();
         for (Session session : sessions) {
-            SessionUserInfo sessionUserInfo = sessionQuery.querySessionInfo(userId, session);
+            SessionUserInfo sessionUserInfo = sessionQuery.querySessionUserInfo(userId, session);
             sessionUserInfos.add(sessionUserInfo);
         }
 
         sessionInfo.setMessages(messages);
         sessionInfo.setSessionUserInfos(sessionUserInfos);
         return sessionInfo;
+    }
+
+    private boolean noNewMessage(SessionInfo sessionInfo, List<Message> messages) {
+        if (messages.size() == 0) {
+            sessionInfo.setMessages(new ArrayList<Message>());
+            sessionInfo.setSessionUserInfos(new ArrayList<SessionUserInfo>());
+            return true;
+        }
+        return false;
     }
 
     private List<String> distinctSessionId(List<Message> messages) {

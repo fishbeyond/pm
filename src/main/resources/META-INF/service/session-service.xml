@@ -14,14 +14,12 @@
                   http://www.springframework.org/schema/integration/jdbc
                   http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 
-    <int:map-to-object-transformer input-channel="session.findAll" ref="sessionFindAll"/>
     <int:map-to-object-transformer input-channel="session.findUser" ref="sessionFindUser"/>
     <int:map-to-object-transformer input-channel="session.addUser" ref="sessionAddUser"/>
     <int:map-to-object-transformer input-channel="session.deleteUser" ref="sessionDeleteUser"/>
     <int:map-to-object-transformer input-channel="session.deleteMessage" ref="sessionDeleteMessage"/>
     <int:map-to-object-transformer input-channel="session.findMessage" ref="sessionFindMessage"/>
     <int:map-to-object-transformer input-channel="session.sendMessage" ref="sessionSendMessage"/>
-    <int:map-to-object-transformer input-channel="session.findPrivate" ref="sessionFindPrivate"/>
     <int:map-to-object-transformer input-channel="session.findNewMessage" ref="sessionFindNewMessage"/>
     <int:map-to-object-transformer input-channel="session.sendAck" ref="sessionSendAck"/>
 </beans>

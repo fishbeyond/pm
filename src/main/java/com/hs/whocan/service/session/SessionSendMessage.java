@@ -49,24 +49,13 @@ public class SessionSendMessage extends WhoCanVerifyLoginService {
         User user = userComponent.findUser(sessionId);
         if (null != user) {
             message.setSessionId(userId);
-            messageDao.createMessage(message);
             userIds.add(sessionId);
-            sessionComponent.distributeMessage(message, userIds);
         } else {
             message.setSessionId(sessionId);
-            sessionComponent.sendMessage(message, userId);
-            System.out.println("=====================findUserIdInSession=======================sessionId:" + sessionId);
-            List<String> userIdList = sessionComponent.findUserIdInSession(sessionId);
-            for (String allUserId : userIdList) {
-                if (userId.equals(allUserId)) {
-                } else {
-                    userIds.add(allUserId);
-                }
-            }
+            userIds = sessionComponent.findUserIdInSession(sessionId, userId);
         }
-        System.out.println("=====================findUserIdInSession=======================userIds:" + userIds);
+        sessionComponent.sendMessage(message, userIds);
         pushMessageComponent.push(userIds, "您有新的消息");
-
         return true;
     }
 

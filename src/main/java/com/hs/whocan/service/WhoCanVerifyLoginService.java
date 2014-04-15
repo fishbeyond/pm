@@ -24,7 +24,7 @@ public abstract class WhoCanVerifyLoginService implements WhoCanService {
     @Transactional
     public WhoCanVerifyLoginService verifyTokenAndSetUserId() {
         Access access = securityComponent.findAccessInfoByToken(token);
-        User user = userComponent.findUserNameInfoById(access.getAccessId());
+        User user = userComponent.findUserById(access.getAccessId());
         this.setUserId(access.getAccessId());
         this.setOperator(user.getUserName());
         return this;

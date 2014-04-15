@@ -103,8 +103,8 @@ public class UserComponent {
         User user = userInfoDao.findUserById(userId);
         return user;
     }
-
-    public User findUserNameInfoById(String userId) {
+    @Transactional
+    public User findUserById(String userId) {
         return userInfoDao.findUserById(userId);
     }
 
