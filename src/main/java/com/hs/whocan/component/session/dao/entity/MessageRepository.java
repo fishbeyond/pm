@@ -18,6 +18,7 @@ import java.util.List;
 public class MessageRepository implements MessageDao {
     @Resource
     private SessionFactory sessionFactory;
+
     @Override
     public void createMessage(Message message) {
         sessionFactory.getCurrentSession().save(new MessageEntity(message));
@@ -30,7 +31,7 @@ public class MessageRepository implements MessageDao {
         query.setString("sessionId", sessionId);
         List<MessageEntity> entities = (List<MessageEntity>) query.list();
         List<Message> list = new ArrayList<Message>();
-        for(MessageEntity entity : entities){
+        for (MessageEntity entity : entities) {
             list.add(entity.getMessage());
         }
         return list;
@@ -49,19 +50,19 @@ public class MessageRepository implements MessageDao {
         final String hql = "from MessageEntity e where e.messageId = :messageId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("messageId", messageId);
-        MessageEntity entity = (MessageEntity)query.uniqueResult();
-        return entity!=null?entity.getMessage():null;
+        MessageEntity entity = (MessageEntity) query.uniqueResult();
+        return entity != null ? entity.getMessage() : null;
     }
 
     @Override
     public List<Message> findNewMessageBySessionId(String sessionId, Date createTime) {
-        final String hql = "from MessageEntity e where e.sessionId = :sessionId and e.createTime > :createTime order by e.createTime";
+        final String hql = "from MessageEntity e where e.sessionId = :sessionId and e.createTime > :createTime and userId != 'SYSTEM' order by e.createTime";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("sessionId", sessionId);
         query.setTimestamp("createTime", createTime);
         List<MessageEntity> entities = (List<MessageEntity>) query.list();
         List<Message> list = new ArrayList<Message>();
-        for(MessageEntity entity : entities){
+        for (MessageEntity entity : entities) {
             list.add(entity.getMessage());
         }
         return list;
