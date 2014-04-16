@@ -6,6 +6,7 @@ package com.hs.whocan.framework.exception;
 public class FriendlyMessageException extends RuntimeException {
 
     private Object data;
+    private String msg;
 
     public FriendlyMessageException() {
     }
@@ -23,12 +24,19 @@ public class FriendlyMessageException extends RuntimeException {
         this.data = data;
     }
 
-    public String getErrorCode(){
+    public FriendlyMessageException(Throwable cause, String msg, Object data) {
+        super(cause);
+        this.msg = msg;
+        this.data = data;
+    }
+
+    public String getErrorCode() {
         return this.getClass().getSimpleName();
     }
 
-    public String getFriendlyMessage(){
-        return this.getClass().getSimpleName();
+    public String getFriendlyMessage() {
+//        return this.getClass().getSimpleName();
+        return this.msg;
     }
 
     public Object getData() {

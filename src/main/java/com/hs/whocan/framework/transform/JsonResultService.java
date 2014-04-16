@@ -25,7 +25,7 @@ public class JsonResultService {
         if (fme == null) {
             return new JsonResult(exceptionCode, exceptionMsg);
         }
-        return new JsonResult(fme.getErrorCode(), fme.getFriendlyMessage(),fme.getData());
+        return new JsonResult(fme.getErrorCode(), fme.getFriendlyMessage(), fme.getData());
     }
 
     public JsonResult createExceptionResult(String code, String msg) {
@@ -75,11 +75,10 @@ public class JsonResultService {
         if (e instanceof FriendlyMessageException) {
             return (FriendlyMessageException) e;
         }
-        if(e.getCause() instanceof FriendlyMessageException){
-            return (FriendlyMessageException)e.getCause();
+        if (e.getCause() instanceof FriendlyMessageException) {
+            return (FriendlyMessageException) e.getCause();
         }
 //        return getFriendlyMessageException(e.getCause());
-        return new FriendlyMessageException(e,e.getCause().getMessage());
+        return new FriendlyMessageException(e, e.getCause().getMessage().toString(), null);
     }
-
 }
