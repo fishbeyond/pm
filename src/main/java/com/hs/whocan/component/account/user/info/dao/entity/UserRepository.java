@@ -136,7 +136,7 @@ public class UserRepository implements UserDao {
                 "from (select phoneNo findPhone from user_linkman l where l.userId = :userId) temp inner join user_info u on temp.findPhone = u.phoneNo " +
                 "and u.userId != :userId " +
                 "and u.userId not in (select friendId from user_mapper m where m.userId = :userId) " +
-                "and u.userId not in (select friendId from user_invitation inv1 where inv2.userId = :userId)" +
+                "and u.userId not in (select friendId from user_invitation inv1 where inv1.userId = :userId)" +
                 "and u.userId not in (select userId from user_invitation inv2 where inv2.friendId = :userId)";
         SQLQuery sqlQuery = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(FriendInfo.class);
         sqlQuery.setString("userId", userId);
