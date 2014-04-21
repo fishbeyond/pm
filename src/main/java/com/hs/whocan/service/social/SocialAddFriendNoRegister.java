@@ -22,7 +22,7 @@ public class SocialAddFriendNoRegister extends WhoCanVerifyLoginService {
     private UserMapperComponent userMapperComponent;
 
     public Boolean execute() {
-        userMapperComponent.addFriendNoRegister(userId, phoneNo);
+        userMapperComponent.createInvitation(userId, null,phoneNo);
         return true;
     }
 

@@ -38,32 +38,23 @@ public class UserMapperComponent {
         linkmanDao.createLinkman(userId, phones);
     }
 
-    public void addFriendAlreadyRegister(String userId, String friendId) {
-        if (userId.equals(friendId)) {
-            return;
-        }
-        UserMapper userMapper = userMapperDao.findUserMapper(userId, friendId);
-        if (userMapper != null) {
-            return;
-        }
+    public boolean isExistInvitation(String userId, String friendId) {
         if (0 != userInvitationDao.findUserInvitation(friendId, userId).size()) {
-            confirmFriend(userId, friendId);
+            return true;
         } else {
-            UserInvitation userInvitation = new UserInvitation();
-            userInvitation.setUserId(userId);
-            userInvitation.setFriendId(friendId);
-            userInvitationDao.createUserInvitation(userInvitation);
+            return false;
         }
     }
 
-    public void addFriendNoRegister(String userId, String phoneNo) {
+    public void createInvitation(String userId, String friendId, String phoneNo) {
         UserInvitation userInvitation = new UserInvitation();
         userInvitation.setUserId(userId);
+        userInvitation.setFriendId(friendId);
         userInvitation.setInvitePhoneNo(phoneNo);
         userInvitationDao.createUserInvitation(userInvitation);
     }
 
-    private void confirmFriend(String userId, String friendId) {
+    public void createFriend(String userId, String friendId) {
         userInvitationDao.deleteUserInvitation(friendId, userId);
         userMapperDao.createUserMapper(new UserMapper(userId, friendId));
         userMapperDao.createUserMapper(new UserMapper(friendId, userId));

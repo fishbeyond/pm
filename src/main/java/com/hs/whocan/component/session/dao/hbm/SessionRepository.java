@@ -4,7 +4,7 @@ import com.hs.whocan.component.session.dao.Session;
 import com.hs.whocan.component.session.dao.SessionDao;
 import com.hs.whocan.component.session.dao.SessionMapper;
 import com.hs.whocan.component.account.user.dao.User;
-import com.hs.whocan.component.account.user.dao.hbm.UserEntity;
+import com.hs.whocan.component.account.user.dao.hbn.UserEntity;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;

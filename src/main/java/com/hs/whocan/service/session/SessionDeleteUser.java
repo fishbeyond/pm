@@ -25,7 +25,7 @@ import java.util.List;
 public class SessionDeleteUser extends WhoCanVerifyLoginService {
 
     private String sessionId;
-    private String deleteUserId;
+    private String deleteUserIds;
     @Resource
     private SessionComponent sessionComponent;
     @Resource
@@ -34,17 +34,23 @@ public class SessionDeleteUser extends WhoCanVerifyLoginService {
     private UUIDGenerator uuidGenerator;
 
     public Boolean execute() {
-        sessionComponent.deleteUser(sessionId, deleteUserId);
-        Message message = getDeleteUserMessage(deleteUserId);
+        String[] deleteIds = deleteUserIds.split(",");
+        StringBuilder content = new StringBuilder();
+        for(String deleteId :deleteIds){
+            sessionComponent.deleteUser(sessionId, deleteId);
+            User user = userComponent.findUserById(deleteId);
+            content.append(user.getUserName()+",");
+        }
+        content.append("被请出群");
+        Message message = getDeleteUserMessage(content.toString());
         List<String> userIds = sessionComponent.findUserIdInSession(sessionId, null);
         sessionComponent.sendMessage(message, userIds);
         return true;
     }
 
-    private Message getDeleteUserMessage(String deleteUserId) {
-        User user = userComponent.findUserById(deleteUserId);
+    private Message getDeleteUserMessage(String content) {
         Message message = new Message();
-        message.setContent(user.getUserName() + "被请出群");
+        message.setContent(content);
         message.setCreateTime(new Date());
         message.setSessionId(sessionId);
         message.setFromUser(userId);
@@ -61,12 +67,12 @@ public class SessionDeleteUser extends WhoCanVerifyLoginService {
         this.sessionId = sessionId;
     }
 
-    public String getDeleteUserId() {
-        return deleteUserId;
+    public String getDeleteUserIds() {
+        return deleteUserIds;
     }
 
-    public void setDeleteUserId(String deleteUserId) {
-        this.deleteUserId = deleteUserId;
+    public void setDeleteUserIds(String deleteUserIds) {
+        this.deleteUserIds = deleteUserIds;
     }
 
     public String getUserId() {

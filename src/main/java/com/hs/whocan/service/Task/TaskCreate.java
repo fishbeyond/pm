@@ -1,36 +1,51 @@
-package com.hs.whocan.component.task.dao;
+package com.hs.whocan.service.Task;
 
-import org.hibernate.annotations.GenericGenerator;
+import com.hs.whocan.component.task.TaskComponent;
+import com.hs.whocan.component.task.dao.Task;
+import com.hs.whocan.service.WhoCanVerifyLoginService;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.annotation.Resource;
 import java.util.Date;
 
 /**
  * Created by fish on 14-4-21.
  */
-public class Task {
-    private String taskId;
+@Service
+@Scope("prototype")
+public class TaskCreate extends WhoCanVerifyLoginService {
     private String title;
     private String groupId;
     private String description;
     private int rate;
     private int top;
     private String createUser;
-    private Date createTime;
-    private Date deadline;
     private String owner;
+    private long deadline;
     private String status;
     private String parentId;
     private String type;
+    @Resource
+    private TaskComponent taskComponent;
 
-    public String getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(String taskId) {
-        this.taskId = taskId;
+    @Override
+    public Boolean execute() {
+        Task task = new Task();
+        task.setTitle(title);
+        task.setGroupId(groupId);
+        task.setDescription(description);
+        task.setRate(rate);
+        task.setTop(top);
+        task.setCreateUser(userId);
+        task.setOwner(owner);
+        task.setCreateTime(new Date());
+        task.setDeadline(new Date(deadline));
+        task.setStatus(status);
+        task.setParentId(parentId);
+        task.setType(type);
+        taskComponent.create(task);
+        return true;
     }
 
     public String getTitle() {
@@ -81,19 +96,11 @@ public class Task {
         this.createUser = createUser;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getDeadline() {
+    public long getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Date deadline) {
+    public void setDeadline(long deadline) {
         this.deadline = deadline;
     }
 

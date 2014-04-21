@@ -37,7 +37,7 @@
         <!-- if you don't specify an output file, dbdeploy will apply the changes for you
 
         you may need to specify delimiter and delimitertype for your scripts to be split properly - these
-         work the same as in the ant sql task, see http://ant.apache.org/manual/CoreTasks/sql.html
+         task the same as in the ant sql task, see http://ant.apache.org/manual/CoreTasks/sql.html
         -->
         <dbdeploy driver="${db.driver}" url="${db.url}"
                   userid="${db.username}"

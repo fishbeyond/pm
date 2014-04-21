@@ -27,39 +27,12 @@ public class SessionComponent {
     @Resource
     private UUIDGenerator uuidGenerator;
     @Resource
-    private UserDao userDao;
-    @Resource
     private MessageUserMapperDao messageUserMapperDao;
-
-    @Transactional
-    public Session getPrivateSession(String userId, String friendId) {
-        String roomId1 = userId + "_" + friendId;
-        String roomId2 = friendId + "_" + userId;
-        Session session = sessionDao.findSessionByUnionId(roomId1, roomId2);
-        if (null == session) {
-            session = new Session(roomId1, userId);
-            session.setType(SessionType.PRIVATE_SESSION);
-            sessionDao.createSession(session);
-            sessionDao.createSessionMapper(new SessionMapper(roomId1, userId));
-            sessionDao.createSessionMapper(new SessionMapper(roomId1, friendId));
-        }
-        return session;
-    }
 
     @Transactional
     public void sendMessage(Message message, List<String> userIds) {
         messageDao.createMessage(message);
         distributeMessage(message, userIds);
-    }
-
-
-    public List<Session> findSession(String userId) {
-        return sessionDao.findSessionByUserId(userId);
-    }
-
-    @Transactional
-    public List<Message> findMessageBySession(String roomId) {
-        return messageDao.findMessageBySessionId(roomId);
     }
 
     @Transactional
@@ -122,11 +95,6 @@ public class SessionComponent {
         return sessionDao.findUserInSession(sessionId);
     }
 
-    @Transactional
-    public void deleteMessage(String chatId) {
-        messageDao.deleteMessage(chatId);
-    }
-
     public List<Message> findNewMessage(String userId) {
         return messageDao.findNewMessage(userId);
     }
@@ -140,5 +108,9 @@ public class SessionComponent {
 
     public List<Session> findSessionByIds(List<String> sessionIds) {
         return sessionDao.findSessionByIds(sessionIds);
+    }
+
+    public void modifySessionName(String sessionId, String name) {
+        sessionDao.modifySessionName(sessionId,name);
     }
 }
