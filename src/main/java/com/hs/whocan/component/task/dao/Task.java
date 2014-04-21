@@ -14,7 +14,7 @@ public class Task {
     private int top;
     private String createUser;
     private Date createTime;
-    private Date deadLine;
+    private Date deadline;
     private String owner;
     private String status;
     private String parentId;
@@ -84,12 +84,12 @@ public class Task {
         this.createTime = createTime;
     }
 
-    public Date getDeadLine() {
-        return deadLine;
+    public Date getDeadline() {
+        return deadline;
     }
 
-    public void setDeadLine(Date deadLine) {
-        this.deadLine = deadLine;
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
     }
 
     public String getOwner() {
