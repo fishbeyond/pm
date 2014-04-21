@@ -62,6 +62,7 @@ public class SessionComponent {
         }
     }
 
+    @Transactional
     public List<String> findUserIdInSession(String sessionId, String excludeUserId) {
         List<String> userIds = null;
         if (null == excludeUserId) {
