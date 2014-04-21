@@ -1,13 +1,13 @@
 package com.hs.whocan.component.account.user;
 
-import com.hs.whocan.component.account.user.exception.FriendAlreadyExistException;
-import com.hs.whocan.component.account.user.info.dao.User;
-import com.hs.whocan.component.account.user.info.dao.UserDao;
-import com.hs.whocan.component.account.user.invitation.dao.UserInvitation;
-import com.hs.whocan.component.account.user.invitation.dao.UserInvitationDao;
-import com.hs.whocan.component.account.user.linkman.dao.LinkmanDao;
+import com.hs.whocan.component.account.user.dao.UserMapper;
+import com.hs.whocan.component.account.user.dao.UserMapperDao;
+import com.hs.whocan.component.account.user.dao.User;
+import com.hs.whocan.component.account.user.dao.UserDao;
+import com.hs.whocan.component.account.user.dao.UserInvitation;
+import com.hs.whocan.component.account.user.dao.UserInvitationDao;
+import com.hs.whocan.component.account.user.dao.LinkmanDao;
 import com.hs.whocan.service.social.FriendInfo;
-import com.hs.whocan.component.account.user.friend.dao.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

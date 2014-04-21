@@ -1,9 +1,9 @@
 package com.hs.whocan.component.account.security;
 
-import com.hs.whocan.component.account.security.access.dao.Access;
-import com.hs.whocan.component.account.security.access.dao.AccessDao;
-import com.hs.whocan.component.account.security.authcode.dao.PhoneAuthCode;
-import com.hs.whocan.component.account.security.authcode.dao.PhoneAuthCodeDao;
+import com.hs.whocan.component.account.security.dao.Access;
+import com.hs.whocan.component.account.security.dao.AccessDao;
+import com.hs.whocan.component.account.security.dao.PhoneAuthCode;
+import com.hs.whocan.component.account.security.dao.PhoneAuthCodeDao;
 import com.hs.whocan.component.account.security.exception.TokenErrorException;
 import com.hs.whocan.framework.utils.RandomGenerator;
 import com.hs.whocan.framework.utils.UUIDGenerator;
@@ -60,7 +60,7 @@ public class SecurityComponent {
     public String createAccessInfo(String accessId){
         String token = uuidGenerator.shortUuid();
         Access access = new Access(accessId, token);
-        accessDao.createAccessInfo(access);
+        accessDao.createAccess(access);
         return token;
     }
 
@@ -83,7 +83,7 @@ public class SecurityComponent {
     }
 
     private Access tokenIsValid(String token){
-        Access access = accessDao.findAccessInfoByToken(token);
+        Access access = accessDao.findAccessByToken(token);
         if (null == access) {
             throw new TokenErrorException();
         }
@@ -94,11 +94,4 @@ public class SecurityComponent {
         return access;
     }
 
-    public String findReadTag(String userId){
-        return accessDao.findReadTag(userId);
-    }
-
-    public void modifyReadTag(String userId, String readTag) {
-        accessDao.modifyReadTag(userId,readTag);
-    }
 }

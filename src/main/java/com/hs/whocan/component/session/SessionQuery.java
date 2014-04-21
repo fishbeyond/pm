@@ -1,6 +1,6 @@
 package com.hs.whocan.component.session;
 
-import com.hs.whocan.component.account.user.info.dao.User;
+import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.component.session.dao.Session;
 import com.hs.whocan.component.session.dao.SessionDao;
 import com.hs.whocan.service.session.dto.SessionUserInfo;

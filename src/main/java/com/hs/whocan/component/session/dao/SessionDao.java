@@ -1,6 +1,6 @@
 package com.hs.whocan.component.session.dao;
 
-import com.hs.whocan.component.account.user.info.dao.User;
+import com.hs.whocan.component.account.user.dao.User;
 
 import java.util.List;
 

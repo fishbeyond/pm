@@ -1,21 +1,18 @@
 package com.hs.whocan.component.account.user;
 
-import com.hs.whocan.component.account.security.access.dao.AccessDao;
-import com.hs.whocan.component.account.security.authcode.dao.PhoneAuthCode;
-import com.hs.whocan.component.account.security.authcode.dao.PhoneAuthCodeDao;
-import com.hs.whocan.component.account.user.info.dao.User;
-import com.hs.whocan.component.account.user.info.dao.UserDao;
-import com.hs.whocan.component.account.user.invitation.dao.UserInvitationDao;
+import com.hs.whocan.component.account.security.dao.AccessDao;
+import com.hs.whocan.component.account.security.dao.PhoneAuthCode;
+import com.hs.whocan.component.account.security.dao.PhoneAuthCodeDao;
+import com.hs.whocan.component.account.user.dao.User;
+import com.hs.whocan.component.account.user.dao.UserDao;
+import com.hs.whocan.component.account.user.dao.UserInvitationDao;
 import com.hs.whocan.framework.utils.RandomGenerator;
 import com.hs.whocan.framework.utils.UUIDGenerator;
 import com.hs.whocan.component.account.user.exception.PhoneNoDisableException;
-import com.hs.whocan.component.account.security.exception.TokenDisableException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -43,24 +40,6 @@ public class UserComponent {
 
     public void relateUserInvitationByPhoneNo(String phoneNo, String userId) {
         userInvitationDao.relateUserInvitationByPhoneNo(phoneNo, userId);
-    }
-
-    public List<String> findUserIdByToken(String token) {
-        User operator = findOperatorInfoByToken(token);
-        if (null == operator) {
-            throw new TokenDisableException();
-        }
-        List<String> list = new ArrayList<String>();
-        list.add(operator.getUserId());
-        return list;
-    }
-
-    public List<String> findOperatorByToken(String token) {
-        User operator = findOperatorInfoByToken(token);
-        List<String> list = new ArrayList<String>();
-        String operatorName = operator.getUserName() != null ? operator.getUserName() : operator.getPhoneNo();
-        list.add(operatorName);
-        return list;
     }
 
     public int getAuthCode(String phoneNo) {
@@ -98,11 +77,6 @@ public class UserComponent {
         userInfoDao.modifyUser(user);
     }
 
-    private User findOperatorInfoByToken(String token) {
-        String userId = accessDao.findAccessIdByToken(token);
-        User user = userInfoDao.findUserById(userId);
-        return user;
-    }
     @Transactional
     public User findUserById(String userId) {
         return userInfoDao.findUserById(userId);

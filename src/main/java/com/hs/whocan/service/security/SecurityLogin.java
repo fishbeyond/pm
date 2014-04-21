@@ -1,9 +1,9 @@
 package com.hs.whocan.service.security;
 
 import com.hs.whocan.component.account.security.SecurityComponent;
-import com.hs.whocan.component.account.security.access.dao.Access;
+import com.hs.whocan.component.account.security.dao.Access;
 import com.hs.whocan.component.account.user.UserComponent;
-import com.hs.whocan.component.account.user.info.dao.User;
+import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.service.WhoCanService;
 import com.hs.whocan.service.security.transformer.UserTransformer;
 import org.springframework.context.annotation.Scope;

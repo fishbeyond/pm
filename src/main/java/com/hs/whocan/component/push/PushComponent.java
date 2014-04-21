@@ -1,6 +1,6 @@
 package com.hs.whocan.component.push;
 
-import com.hs.whocan.component.account.security.device.dao.DeviceToken;
+import com.hs.whocan.component.account.user.dao.DeviceToken;
 import com.hs.whocan.component.push.exception.PushFailException;
 import javapns.devices.Device;
 import javapns.devices.implementations.basic.BasicDevice;

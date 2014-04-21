@@ -1,6 +1,5 @@
 package com.hs.whocan.service.session.dto;
 
-import com.hs.whocan.component.account.user.info.dao.User;
 import com.hs.whocan.component.session.dao.Message;
 
 import java.util.List;

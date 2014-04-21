@@ -10,4 +10,8 @@ import com.hs.whocan.framework.exception.FriendlyMessageException;
  * To change this template use File | Settings | File Templates.
  */
 public class PhoneNoDisableException extends FriendlyMessageException {
+    @Override
+    public String getMessage() {
+        return "手机号不正确";
+    }
 }

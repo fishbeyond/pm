@@ -1,6 +1,6 @@
 package com.hs.whocan.service.session;
 
-import com.hs.whocan.component.account.user.info.dao.User;
+import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.service.WhoCanVerifyLoginService;
 import org.springframework.context.annotation.Scope;

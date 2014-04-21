@@ -1,6 +1,6 @@
 package com.hs.whocan.service.social;
 
-import com.hs.whocan.component.account.security.PushMessageComponent;
+import com.hs.whocan.component.account.user.PushMessageComponent;
 import com.hs.whocan.component.account.user.UserMapperComponent;
 import com.hs.whocan.service.ValidatorService;
 import com.hs.whocan.service.WhoCanVerifyLoginService;

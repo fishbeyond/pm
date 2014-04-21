@@ -1,7 +1,7 @@
 package com.hs.whocan.service.session;
 
 import com.hs.whocan.component.account.user.UserComponent;
-import com.hs.whocan.component.account.user.info.dao.User;
+import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.dao.Message;
 import com.hs.whocan.framework.utils.UUIDGenerator;

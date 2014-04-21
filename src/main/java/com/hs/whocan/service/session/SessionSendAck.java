@@ -24,7 +24,6 @@ public class SessionSendAck extends WhoCanVerifyLoginService {
     @Override
     @Transactional
     public Boolean execute() {
-        securityComponent.modifyReadTag(userId, readTag);
         sessionComponent.deleteReadMessage(userId,readTag);
         return true;
     }

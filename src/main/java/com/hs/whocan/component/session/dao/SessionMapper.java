@@ -1,6 +1,5 @@
 package com.hs.whocan.component.session.dao;
 
-import com.hs.whocan.component.session.dao.entity.SessionEntity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;

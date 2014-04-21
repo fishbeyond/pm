@@ -1,18 +1,11 @@
 package com.hs.pm.test;
 
-import com.hs.whocan.component.account.security.authcode.dao.PhoneAuthCode;
-import com.hs.whocan.component.account.security.authcode.dao.PhoneAuthCodeDao;
+import com.hs.whocan.component.account.security.dao.PhoneAuthCode;
+import com.hs.whocan.component.account.security.dao.PhoneAuthCodeDao;
 import com.hs.whocan.service.security.SecurityLoginAuthCode;
 import com.hs.whocan.service.security.SecuritySendAuthCode;
 import com.hs.whocan.service.security.UserInfoResult;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
-import org.unitils.spring.annotation.SpringBeanByType;
 
 import javax.annotation.Resource;
 

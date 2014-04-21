@@ -1,9 +1,9 @@
 package com.hs.whocan.service;
 
 import com.hs.whocan.component.account.security.SecurityComponent;
-import com.hs.whocan.component.account.security.access.dao.Access;
+import com.hs.whocan.component.account.security.dao.Access;
 import com.hs.whocan.component.account.user.UserComponent;
-import com.hs.whocan.component.account.user.info.dao.User;
+import com.hs.whocan.component.account.user.dao.User;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;

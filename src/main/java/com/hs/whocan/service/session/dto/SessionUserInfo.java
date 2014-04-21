@@ -1,7 +1,6 @@
 package com.hs.whocan.service.session.dto;
 
-import com.hs.whocan.component.account.user.info.dao.User;
-import com.hs.whocan.component.session.SessionType;
+import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.component.session.dao.Session;
 
 import java.util.Date;

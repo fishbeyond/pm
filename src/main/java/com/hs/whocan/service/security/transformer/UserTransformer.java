@@ -1,6 +1,6 @@
 package com.hs.whocan.service.security.transformer;
 
-import com.hs.whocan.component.account.user.info.dao.User;
+import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.service.security.UserInfoResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
