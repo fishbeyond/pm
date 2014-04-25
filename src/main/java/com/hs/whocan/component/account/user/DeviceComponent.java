@@ -22,21 +22,13 @@ public class DeviceComponent {
     private DeviceTokenDao deviceTokenDao;
 
     public void createDeviceToken(DeviceToken deviceToken) {
-        DeviceToken oldDeviceToken = deviceTokenDao.findDeviceToken(deviceToken.getUserId(), deviceToken.getToken());
+        DeviceToken oldDeviceToken = deviceTokenDao.findDeviceToken(deviceToken.getUserId());
         if (null == oldDeviceToken) {
             deviceTokenDao.createDeviceToken(deviceToken);
         } else {
             oldDeviceToken.setToken(deviceToken.getToken());
             deviceTokenDao.modifyDeviceToken(oldDeviceToken);
         }
-    }
-
-    public List<String> findTokenByUser(String userId) {
-        return deviceTokenDao.findToken(userId);
-    }
-
-    public List<DeviceToken> findDeviceTokenByUser(String userId) {
-        return deviceTokenDao.findDeviceToken(userId);
     }
 
     public List<DeviceToken> findDeviceTokenByUsers(List<String> userIds) {

@@ -24,19 +24,6 @@ public class DeviceTokenDao {
         sessionFactory.getCurrentSession().save(deviceToken);
     }
 
-    public List<String> findAllDeviceToken() {
-        final String hql = "select t.token from DeviceToken t";
-        Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        return (List<String>) query.list();
-    }
-
-    public List<String> findToken(String userId) {
-        final String hql = "select t.token from DeviceToken t where t.userId = :userId";
-        Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setString("userId", userId);
-        return (List<String>) query.list();
-    }
-
     public List<DeviceToken> findDeviceToken(List<String> userIds) {
         for (String userId : userIds) {
         }
@@ -49,11 +36,10 @@ public class DeviceTokenDao {
         return (List<DeviceToken>) query.list();
     }
 
-    public DeviceToken findDeviceToken(String userId, String token) {
-        final String hql = "from DeviceToken t where t.userId = :userId and t.token = :token";
+    public DeviceToken findDeviceToken(String userId) {
+        final String hql = "from DeviceToken t where t.userId = :userId";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("userId", userId);
-        query.setString("token", token);
         Object result = query.uniqueResult();
         return result != null ? (DeviceToken) result : null;
     }
@@ -64,12 +50,5 @@ public class DeviceTokenDao {
         query.setString("token", deviceToken.getToken());
         query.setString("userId", deviceToken.getUserId());
         query.executeUpdate();
-    }
-
-    public List<DeviceToken> findDeviceToken(String userId) {
-        final String hql = "from DeviceToken t where t.userId = :userId";
-        Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setString("userId", userId);
-        return (List<DeviceToken>) query.list();
     }
 }
