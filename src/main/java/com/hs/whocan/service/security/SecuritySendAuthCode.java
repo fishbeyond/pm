@@ -1,8 +1,9 @@
 package com.hs.whocan.service.security;
 
 import com.hs.whocan.component.account.security.SecurityComponent;
+import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.component.sms.SmsService;
-import com.hs.whocan.service.WhoCanService;
+import com.hs.whocan.service.ServiceInterface;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SecuritySendAuthCode implements WhoCanService {
+public class SecuritySendAuthCode implements ServiceInterface {
     private String phoneNo;
     @Resource
     private SecurityComponent securityComponent;

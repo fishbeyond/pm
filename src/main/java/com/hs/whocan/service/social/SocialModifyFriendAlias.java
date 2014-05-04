@@ -1,8 +1,9 @@
 package com.hs.whocan.service.social;
 
 import com.hs.whocan.component.account.user.UserMapperComponent;
+import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.component.account.user.dao.UserMapper;
-import com.hs.whocan.service.WhoCanVerifyLoginService;
+import com.hs.whocan.service.NeedSignInService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +18,14 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SocialModifyFriendAlias extends WhoCanVerifyLoginService {
+public class SocialModifyFriendAlias extends NeedSignInService {
     private String mapperId;
     private String friendId;
     private String alias;
     @Resource
     private UserMapperComponent userMapperComponent;
 
-    public Boolean execute() {
+    public Boolean execute(User user) {
         UserMapper userMapper = new UserMapper();
         userMapper.setUserId(userId);
         userMapper.setAlias(alias);

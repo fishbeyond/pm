@@ -4,7 +4,7 @@ import com.hs.whocan.component.account.security.SecurityComponent;
 import com.hs.whocan.component.account.security.dao.Access;
 import com.hs.whocan.component.account.user.UserComponent;
 import com.hs.whocan.component.account.user.dao.User;
-import com.hs.whocan.service.WhoCanService;
+import com.hs.whocan.service.ServiceInterface;
 import com.hs.whocan.service.security.transformer.UserTransformer;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SecurityLogin implements WhoCanService {
+public class SecurityLogin implements ServiceInterface {
     private String token;
     private String phoneNo;
     @Resource

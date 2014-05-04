@@ -5,7 +5,7 @@ import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.dao.Message;
 import com.hs.whocan.framework.utils.UUIDGenerator;
-import com.hs.whocan.service.WhoCanVerifyLoginService;
+import com.hs.whocan.service.NeedSignInService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Service
 @Scope("prototype")
-public class SessionDeleteUser extends WhoCanVerifyLoginService {
+public class SessionDeleteUser extends NeedSignInService {
 
     private String sessionId;
     private String deleteUserIds;
@@ -33,13 +33,12 @@ public class SessionDeleteUser extends WhoCanVerifyLoginService {
     @Resource
     private UUIDGenerator uuidGenerator;
 
-    public Boolean execute() {
+    public Boolean execute(User user) {
         String[] deleteIds = deleteUserIds.split(",");
         StringBuilder content = new StringBuilder();
         for(String deleteId :deleteIds){
             sessionComponent.deleteUser(sessionId, deleteId);
-            User user = userComponent.findUserById(deleteId);
-            content.append(user.getUserName()+",");
+            content.append(userComponent.findUserById(deleteId).getUserName()+",");
         }
         content.append("被请出群");
         Message message = getDeleteUserMessage(content.toString());

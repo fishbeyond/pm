@@ -1,7 +1,8 @@
 package com.hs.whocan.service.social;
 
 import com.hs.whocan.component.account.user.UserMapperComponent;
-import com.hs.whocan.service.WhoCanVerifyLoginService;
+import com.hs.whocan.component.account.user.dao.User;
+import com.hs.whocan.service.NeedSignInService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +17,13 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SocialUploadLinkman extends WhoCanVerifyLoginService {
+public class SocialUploadLinkman extends NeedSignInService {
 
     private String phones;
     @Resource
     private UserMapperComponent userMapperComponent;
 
-    public Boolean execute() {
+    public Boolean execute(User user) {
         String[] phoneArray = phones.split(",");
         userMapperComponent.createLinkman(userId, phoneArray);
         return true;

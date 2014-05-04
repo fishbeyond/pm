@@ -1,7 +1,8 @@
 package com.hs.whocan.service.social;
 
 import com.hs.whocan.component.account.user.UserMapperComponent;
-import com.hs.whocan.service.WhoCanVerifyLoginService;
+import com.hs.whocan.component.account.user.dao.User;
+import com.hs.whocan.service.NeedSignInService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +17,12 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class SocialAddFriendNoRegister extends WhoCanVerifyLoginService {
+public class SocialAddFriendNoRegister extends NeedSignInService {
     private String phoneNo;
     @Resource
     private UserMapperComponent userMapperComponent;
 
-    public Boolean execute() {
+    public Boolean execute(User user) {
         userMapperComponent.createInvitation(userId, null,phoneNo);
         return true;
     }

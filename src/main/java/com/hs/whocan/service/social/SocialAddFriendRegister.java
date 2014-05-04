@@ -2,9 +2,9 @@ package com.hs.whocan.service.social;
 
 import com.hs.whocan.component.account.user.PushMessageComponent;
 import com.hs.whocan.component.account.user.UserMapperComponent;
-import com.hs.whocan.component.session.dao.Message;
+import com.hs.whocan.component.account.user.dao.User;
+import com.hs.whocan.service.NeedSignInService;
 import com.hs.whocan.service.ValidatorService;
-import com.hs.whocan.service.WhoCanVerifyLoginService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,7 +23,7 @@ import java.util.List;
  */
 @Service
 @Scope("prototype")
-public class SocialAddFriendRegister extends WhoCanVerifyLoginService {
+public class SocialAddFriendRegister extends NeedSignInService {
 
 
     @NotNull
@@ -38,7 +37,7 @@ public class SocialAddFriendRegister extends WhoCanVerifyLoginService {
     private PushMessageComponent pushMessageComponent;
 
     @Transactional
-    public Boolean execute() {
+    public Boolean execute(User user) {
         validatorService.validate(this);
         if (userId.equals(friendId)) {
             return true;

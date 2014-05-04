@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-http="http://www.springframework.org/schema/integration/http"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                  http://www.springframework.org/schema/beans/spring-beans.xsd
+                  http://www.springframework.org/schema/integration
+                  http://www.springframework.org/schema/integration/spring-integration.xsd
+                  http://www.springframework.org/schema/integration/http
+                  http://www.springframework.org/schema/integration/http/spring-integration-http.xsd">
+
+
+    <int:channel id="jsonReplayChannel"/>
+    <int-http:inbound-gateway supported-methods="GET,POST" path="/{service}/{method}.json"
+                              request-channel="jsonServiceChannel"
+                              reply-timeout="5000" reply-channel="jsonReplayChannel"
+                              mapped-request-headers="Content-Type,user-agent,host,outbound"
+                              mapped-response-headers="Content-Type">
+        <int-http:header name="serviceName" expression="#pathVariables.service + '.' + #pathVariables.method"/>
+    </int-http:inbound-gateway>
+
+
+    <int:chain input-channel="jsonServiceChannel" output-channel="jsonReplayTransformerRouter">
+        <int:gateway request-channel="jsonServiceTransformerRouter" error-channel="jsonErrorChannel"/>
+    </int:chain>
+    <int:header-value-router input-channel="jsonServiceTransformerRouter" header-name="serviceName"
+                             default-output-channel="serviceNotExistsChannel" resolution-required="false"/>
+
+    <int:transformer input-channel="serviceNotExistsChannel"
+                     expression="new com.hs.whocan.json.ServiceNotExistsResult()"/>
+
+    <int:payload-type-router input-channel="jsonReplayTransformerRouter" default-output-channel="jsonTransformerChannel">
+        <int:mapping type="com.hs.whocan.service.ServiceInterface" channel="jsonServiceExecuteChannel"/>
+    </int:payload-type-router>
+
+    <int:transformer input-channel="jsonErrorChannel" output-channel="jsonTransformerChannel"
+                     expression="new com.hs.whocan.json.ExceptionResult(payload)"/>
+
+    <int:transformer input-channel="jsonServiceExecuteChannel" output-channel="jsonTransformerChannel"
+                     expression="@jsonResultService.doService(payload)"/>
+
+
+    <int:object-to-json-transformer input-channel="jsonTransformerChannel" output-channel="jsonReplayChannel"
+                                    content-type="text/json;charset=utf-8"/>
+
+
+
+</beans>

@@ -1,5 +1,7 @@
 package com.hs.whocan.service;
 
+import com.hs.whocan.component.account.user.dao.User;
+
 /**
  * Created with IntelliJ IDEA.
  * User: fish
@@ -7,6 +9,6 @@ package com.hs.whocan.service;
  * Time: 下午7:57
  * To change this template use File | Settings | File Templates.
  */
-public interface WhoCanService {
+public interface ServiceInterface {
     public Object execute();
 }

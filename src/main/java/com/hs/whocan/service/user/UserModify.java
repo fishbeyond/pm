@@ -2,7 +2,7 @@ package com.hs.whocan.service.user;
 
 import com.hs.whocan.component.account.user.UserComponent;
 import com.hs.whocan.component.account.user.dao.User;
-import com.hs.whocan.service.WhoCanVerifyLoginService;
+import com.hs.whocan.service.NeedSignInService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,8 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class UserModify extends WhoCanVerifyLoginService {
+public class UserModify extends NeedSignInService {
+
     private String userName;
     private String mailAddress;
     private String gender;
@@ -30,8 +31,7 @@ public class UserModify extends WhoCanVerifyLoginService {
     private UserComponent userComponent;
 
     @Transactional
-    public Boolean execute() {
-        User user = new User();
+    public Boolean execute(User user) {
         BeanUtils.copyProperties(this, user);
         userComponent.modifyUser(user);
         return true;

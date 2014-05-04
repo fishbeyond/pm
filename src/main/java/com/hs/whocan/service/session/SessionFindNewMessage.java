@@ -1,11 +1,12 @@
 package com.hs.whocan.service.session;
 
 import com.hs.whocan.component.account.security.SecurityComponent;
+import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.SessionQuery;
 import com.hs.whocan.component.session.dao.Message;
 import com.hs.whocan.component.session.dao.Session;
-import com.hs.whocan.service.WhoCanVerifyLoginService;
+import com.hs.whocan.service.NeedSignInService;
 import com.hs.whocan.service.session.dto.SessionInfo;
 import com.hs.whocan.service.session.dto.SessionUserInfo;
 import org.springframework.context.annotation.Scope;
@@ -20,7 +21,7 @@ import java.util.*;
  */
 @Service
 @Scope("prototype")
-public class SessionFindNewMessage extends WhoCanVerifyLoginService {
+public class SessionFindNewMessage extends NeedSignInService {
 
     @Resource
     private SecurityComponent securityComponent;
@@ -31,7 +32,7 @@ public class SessionFindNewMessage extends WhoCanVerifyLoginService {
 
     @Override
     @Transactional
-    public SessionInfo execute() {
+    public SessionInfo execute(User user) {
         SessionInfo sessionInfo = new SessionInfo();
         List<Message> messages = sessionComponent.findNewMessage(userId);
         if (noNewMessage(sessionInfo, messages)) return sessionInfo;

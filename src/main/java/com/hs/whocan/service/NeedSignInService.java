@@ -11,7 +11,8 @@ import javax.annotation.Resource;
 /**
  * User: fish
  */
-public abstract class WhoCanVerifyLoginService implements WhoCanService {
+public abstract class NeedSignInService implements ServiceInterface {
+
     public String token;
     public String userId;
     public String operator;
@@ -22,15 +23,15 @@ public abstract class WhoCanVerifyLoginService implements WhoCanService {
     private UserComponent userComponent;
 
     @Transactional
-    public WhoCanVerifyLoginService verifyTokenAndSetUserId() {
+    public final Object execute() {
         Access access = securityComponent.findAccessInfoByToken(token);
         User user = userComponent.findUserById(access.getAccessId());
         this.setUserId(access.getAccessId());
         this.setOperator(user.getUserName());
-        return this;
+        return execute(user);
     }
 
-    public abstract Object execute();
+    public abstract Object execute(User user);
 
     public String getUserId() {
         return userId;

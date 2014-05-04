@@ -6,7 +6,7 @@ import com.hs.whocan.component.account.user.PushMessageComponent;
 import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.dao.Message;
 import com.hs.whocan.component.session.dao.MessageDao;
-import com.hs.whocan.service.WhoCanVerifyLoginService;
+import com.hs.whocan.service.NeedSignInService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Service
 @Scope("prototype")
-public class SessionSendMessage extends WhoCanVerifyLoginService {
+public class SessionSendMessage extends NeedSignInService {
     private String content;
     private String sessionId;
     private String messageId;
@@ -39,15 +39,15 @@ public class SessionSendMessage extends WhoCanVerifyLoginService {
     private MessageDao messageDao;
 
     @Transactional
-    public Boolean execute() {
+    public Boolean execute(User user) {
         Message message = new Message();
         message.setMessageId(messageId);
         message.setCreateTime(new Date());
         message.setContent(content);
         message.setFromUser(userId);
         List<String> userIds = new ArrayList<String>();
-        User user = userComponent.findUser(sessionId);
-        if (null != user) {
+        User user1 = userComponent.findUser(sessionId);
+        if (null != user1) {
             message.setSessionId(userId);
             userIds.add(sessionId);
         } else {

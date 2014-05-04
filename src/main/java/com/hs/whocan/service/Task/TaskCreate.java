@@ -1,8 +1,9 @@
 package com.hs.whocan.service.Task;
 
+import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.component.task.TaskComponent;
 import com.hs.whocan.component.task.dao.Task;
-import com.hs.whocan.service.WhoCanVerifyLoginService;
+import com.hs.whocan.service.NeedSignInService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ import java.util.Date;
  */
 @Service
 @Scope("prototype")
-public class TaskCreate extends WhoCanVerifyLoginService {
+public class TaskCreate extends NeedSignInService {
     private String title;
     private String groupId;
     private String description;
@@ -30,7 +31,7 @@ public class TaskCreate extends WhoCanVerifyLoginService {
     private TaskComponent taskComponent;
 
     @Override
-    public Boolean execute() {
+    public String execute(User user) {
         Task task = new Task();
         task.setTitle(title);
         task.setGroupId(groupId);
@@ -45,7 +46,7 @@ public class TaskCreate extends WhoCanVerifyLoginService {
         task.setParentId(parentId);
         task.setType(type);
         taskComponent.create(task);
-        return true;
+        return task.getTaskId();
     }
 
     public String getTitle() {

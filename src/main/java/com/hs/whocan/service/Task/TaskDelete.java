@@ -1,7 +1,8 @@
 package com.hs.whocan.service.Task;
 
+import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.component.task.TaskComponent;
-import com.hs.whocan.service.WhoCanVerifyLoginService;
+import com.hs.whocan.service.NeedSignInService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -13,14 +14,14 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class TaskDelete extends WhoCanVerifyLoginService{
+public class TaskDelete extends NeedSignInService {
     private String taskId;
 
     @Resource
     private TaskComponent taskComponent;
 
     @Override
-    public Boolean execute() {
+    public Boolean execute(User user) {
         taskComponent.delete(taskId);
         return true;
     }

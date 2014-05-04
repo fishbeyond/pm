@@ -18,15 +18,15 @@
     </context:component-scan>
     <import resource="whocan-ds.xml"/>
     <import resource="whocan-repository.xml"/>
-    <!--===========================================================-->
-    <import resource="whocan-mvc.xml"/>
-    <import resource="whocan-gateway.xml"/>
+    <!--<import resource="whocan-mvc.xml"/>-->
+    <!--<import resource="whocan-gateway.xml"/>-->
+    <import resource="whocan-api-json.xml"/>
+
     <import resource="service/session-service.xml"/>
     <import resource="service/access-service.xml"/>
     <import resource="service/user-service.xml"/>
     <import resource="service/social-service.xml"/>
     <import resource="service/task-service.xml"/>
-    <import resource="service/error-service.xml"/>
 
     <bean id="fileUploadSavePath" class="java.lang.String">
         <constructor-arg value="${upload.file.image.path}"></constructor-arg>

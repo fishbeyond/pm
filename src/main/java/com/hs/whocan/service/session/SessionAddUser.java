@@ -8,7 +8,7 @@ import com.hs.whocan.component.session.SessionQuery;
 import com.hs.whocan.component.session.dao.Message;
 import com.hs.whocan.component.session.dao.Session;
 import com.hs.whocan.framework.utils.UUIDGenerator;
-import com.hs.whocan.service.WhoCanVerifyLoginService;
+import com.hs.whocan.service.NeedSignInService;
 import com.hs.whocan.service.session.dto.SessionUserInfo;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ import java.util.List;
  */
 @Service
 @Scope("prototype")
-public class SessionAddUser extends WhoCanVerifyLoginService {
+public class SessionAddUser extends NeedSignInService {
     private String sessionId;
     private String userIds;
     @Resource
@@ -42,7 +42,7 @@ public class SessionAddUser extends WhoCanVerifyLoginService {
     @Resource
     private UserComponent userComponent;
 
-    public SessionUserInfo execute() {
+    public SessionUserInfo execute(User user) {
         List<String> userIdList = getAddUserIdList();
         List<String> relateSessionUserIdList = getRelateSessionUserIdList(userIdList, userId, sessionId);
         Session session = sessionComponent.createSession(sessionId, userId);

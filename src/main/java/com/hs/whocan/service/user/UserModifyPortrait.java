@@ -1,9 +1,10 @@
 package com.hs.whocan.service.user;
 
 import com.hs.whocan.component.account.user.UserComponent;
+import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.framework.upload.FileReceiveComponent;
 import com.hs.whocan.framework.upload.SingleUploadedFile;
-import com.hs.whocan.service.WhoCanVerifyLoginService;
+import com.hs.whocan.service.NeedSignInService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,7 +16,7 @@ import javax.annotation.Resource;
  */
 @Service
 @Scope("prototype")
-public class UserModifyPortrait extends WhoCanVerifyLoginService {
+public class UserModifyPortrait extends NeedSignInService {
     private MultipartFile file;
 
     @Resource
@@ -24,7 +25,7 @@ public class UserModifyPortrait extends WhoCanVerifyLoginService {
     private FileReceiveComponent fileReceiveComponent;
 
     @Override
-    public Boolean execute() {
+    public Boolean execute(User user) {
         SingleUploadedFile singleUploadedFile = saveFile(file);
         userComponent.modifyPortrait(userId,singleUploadedFile.getFilePath());
         return true;

@@ -1,7 +1,8 @@
 package com.hs.whocan.service.social;
 
 import com.hs.whocan.component.account.user.UserMapperComponent;
-import com.hs.whocan.service.WhoCanVerifyLoginService;
+import com.hs.whocan.component.account.user.dao.User;
+import com.hs.whocan.service.NeedSignInService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +19,12 @@ import java.util.List;
  */
 @Service
 @Scope("prototype")
-public class SocialFindAll extends WhoCanVerifyLoginService {
+public class SocialFindAll extends NeedSignInService {
 
     @Resource
     private UserMapperComponent userMapperComponent;
 
-    public List<FriendInfo> execute() {
+    public List<FriendInfo> execute(User user) {
         List<FriendInfo> alreadyFriends = userMapperComponent.findFriendByUserId(userId);
         List<FriendInfo> inviteFriends = userMapperComponent.findFriendInvite(userId);
         List<FriendInfo> invitedFriends = userMapperComponent.findFriendInvited(userId);

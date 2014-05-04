@@ -1,6 +1,7 @@
 package com.hs.whocan.service.Task;
 
-import com.hs.whocan.service.WhoCanVerifyLoginService;
+import com.hs.whocan.component.account.user.dao.User;
+import com.hs.whocan.service.NeedSignInService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -9,11 +10,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Scope("prototype")
-public class TaskModify extends WhoCanVerifyLoginService{
+public class TaskModify extends NeedSignInService {
 
 
     @Override
-    public Boolean execute() {
+    public Boolean execute(User user) {
         return true;
     }
 
