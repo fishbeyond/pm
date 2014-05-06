@@ -1,7 +1,5 @@
 package com.hs.whocan.service;
 
-import com.hs.whocan.component.account.user.dao.User;
-
 /**
  * Created with IntelliJ IDEA.
  * User: fish
@@ -10,5 +8,7 @@ import com.hs.whocan.component.account.user.dao.User;
  * To change this template use File | Settings | File Templates.
  */
 public interface ServiceInterface {
-    public Object execute();
+
+    public Object doService();
+
 }

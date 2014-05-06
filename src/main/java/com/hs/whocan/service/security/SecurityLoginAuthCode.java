@@ -1,12 +1,13 @@
 package com.hs.whocan.service.security;
 
 import com.hs.whocan.component.account.security.SecurityComponent;
-import com.hs.whocan.component.account.user.UserComponent;
-import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.component.account.user.DeviceComponent;
+import com.hs.whocan.component.account.user.UserComponent;
 import com.hs.whocan.component.account.user.dao.DeviceToken;
+import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.service.ServiceInterface;
 import com.hs.whocan.service.security.transformer.UserTransformer;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +22,7 @@ import javax.annotation.Resource;
  * To change this template use File | Settings | File Templates.
  */
 @Service
-@Scope("prototype")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class SecurityLoginAuthCode implements ServiceInterface {
     private String phoneNo;
     private int authCode;
@@ -36,7 +37,7 @@ public class SecurityLoginAuthCode implements ServiceInterface {
     private DeviceComponent deviceComponent;
 
     @Transactional
-    public UserInfoResult execute() {
+    public UserInfoResult doService() {
         securityComponent.verifyAuthCode(phoneNo, authCode);
         User user = userComponent.findUserByPhoneNo(phoneNo);
         String token = null;

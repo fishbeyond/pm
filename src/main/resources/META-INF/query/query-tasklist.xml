@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                  http://www.springframework.org/schema/beans/spring-beans.xsd
+                  http://www.springframework.org/schema/integration
+                  http://www.springframework.org/schema/integration/spring-integration.xsd
+                  http://www.springframework.org/schema/integration/jdbc
+                  http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd">
+
+
+
+    <int:gateway id="tasklistQuery" service-interface="com.hs.whocan.service.tasklist.TasklistQuery">
+        <int:method name="findListByGroupId" request-channel="findTasklistByGroupIdChannel"/>
+    </int:gateway>
+
+
+    <int:channel id="findTasklistByGroupIdChannel" />
+    <int-jdbc:outbound-gateway request-channel="findTasklistByGroupIdChannel"
+                               reply-channel="listTransformerChannel"
+                               data-source="queryDataSource" update="" >
+        <int-jdbc:query>
+            select * from task where groupId = :payload.groupId
+        </int-jdbc:query>
+        <int-jdbc:request-handler-advice-chain>
+            <ref bean="queryEmptyResultHandler"/>
+        </int-jdbc:request-handler-advice-chain>
+    </int-jdbc:outbound-gateway>
+
+</beans>

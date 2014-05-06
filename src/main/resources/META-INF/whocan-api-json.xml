@@ -27,15 +27,15 @@
     <int:header-value-router input-channel="jsonServiceTransformerRouter" header-name="serviceName"
                              default-output-channel="serviceNotExistsChannel" resolution-required="false"/>
 
-    <int:transformer input-channel="serviceNotExistsChannel"
-                     expression="new com.hs.whocan.json.ServiceNotExistsResult()"/>
-
     <int:payload-type-router input-channel="jsonReplayTransformerRouter" default-output-channel="jsonTransformerChannel">
         <int:mapping type="com.hs.whocan.service.ServiceInterface" channel="jsonServiceExecuteChannel"/>
     </int:payload-type-router>
 
+    <int:transformer input-channel="serviceNotExistsChannel"
+                     expression="@jsonResultService.getServiceNotExistsResult()"/>
+
     <int:transformer input-channel="jsonErrorChannel" output-channel="jsonTransformerChannel"
-                     expression="new com.hs.whocan.json.ExceptionResult(payload)"/>
+                     expression="@jsonResultService.getExceptionResult(payload)"/>
 
     <int:transformer input-channel="jsonServiceExecuteChannel" output-channel="jsonTransformerChannel"
                      expression="@jsonResultService.doService(payload)"/>

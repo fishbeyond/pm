@@ -2,7 +2,6 @@ package com.hs.whocan.service.social;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 
 /**
  * Created with IntelliJ IDEA.

@@ -1,6 +1,5 @@
 package com.hs.whocan.component.session.dao.hbm;
 
-import com.hs.whocan.component.session.SessionType;
 import com.hs.whocan.component.session.dao.Session;
 
 import javax.persistence.*;

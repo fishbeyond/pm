@@ -2,7 +2,8 @@ package com.hs.whocan.service.social;
 
 import com.hs.whocan.component.account.user.UserMapperComponent;
 import com.hs.whocan.component.account.user.dao.User;
-import com.hs.whocan.service.NeedSignInService;
+import com.hs.whocan.service.VerifySignInService;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +19,8 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Service
-@Scope("prototype")
-public class SocialFindAll extends NeedSignInService {
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class SocialFindAll extends VerifySignInService {
 
     @Resource
     private UserMapperComponent userMapperComponent;

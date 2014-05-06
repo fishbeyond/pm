@@ -6,6 +6,7 @@ import com.hs.whocan.component.account.user.UserComponent;
 import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.service.ServiceInterface;
 import com.hs.whocan.service.security.transformer.UserTransformer;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,7 @@ import javax.annotation.Resource;
  * To change this template use File | Settings | File Templates.
  */
 @Service
-@Scope("prototype")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class SecurityLogin implements ServiceInterface {
     private String token;
     private String phoneNo;
@@ -32,7 +33,7 @@ public class SecurityLogin implements ServiceInterface {
     private UserTransformer userTransformer;
 
     @Transactional
-    public UserInfoResult execute() {
+    public UserInfoResult doService() {
         Access access = securityComponent.verifyAndUpdateToken(token);
         User user = userComponent.verifyPhoneNo(access.getAccessId(), phoneNo);
         return userTransformer.transform2UserInfo(user, access.getAccessToken());

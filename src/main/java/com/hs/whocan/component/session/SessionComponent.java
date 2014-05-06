@@ -1,10 +1,9 @@
 package com.hs.whocan.component.session;
 
 import com.hs.whocan.component.account.user.dao.User;
-import com.hs.whocan.component.account.user.dao.UserDao;
 import com.hs.whocan.component.session.dao.*;
 import com.hs.whocan.component.session.exception.SessionNotExistException;
-import com.hs.whocan.framework.utils.UUIDGenerator;
+import com.hs.whocan.utils.UUIDGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

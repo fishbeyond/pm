@@ -6,9 +6,9 @@ import com.hs.whocan.component.account.security.dao.PhoneAuthCodeDao;
 import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.component.account.user.dao.UserDao;
 import com.hs.whocan.component.account.user.dao.UserInvitationDao;
-import com.hs.whocan.framework.utils.RandomGenerator;
-import com.hs.whocan.framework.utils.UUIDGenerator;
 import com.hs.whocan.component.account.user.exception.PhoneNoDisableException;
+import com.hs.whocan.utils.RandomGenerator;
+import com.hs.whocan.utils.UUIDGenerator;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

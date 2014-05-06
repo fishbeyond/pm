@@ -7,9 +7,10 @@ import com.hs.whocan.component.session.SessionComponent;
 import com.hs.whocan.component.session.SessionQuery;
 import com.hs.whocan.component.session.dao.Message;
 import com.hs.whocan.component.session.dao.Session;
-import com.hs.whocan.framework.utils.UUIDGenerator;
-import com.hs.whocan.service.NeedSignInService;
+import com.hs.whocan.utils.UUIDGenerator;
+import com.hs.whocan.service.VerifySignInService;
 import com.hs.whocan.service.session.dto.SessionUserInfo;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +28,8 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Service
-@Scope("prototype")
-public class SessionAddUser extends NeedSignInService {
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class SessionAddUser extends VerifySignInService {
     private String sessionId;
     private String userIds;
     @Resource

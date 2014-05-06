@@ -1,9 +1,9 @@
 package com.hs.whocan.service.security;
 
 import com.hs.whocan.component.account.security.SecurityComponent;
-import com.hs.whocan.component.account.user.dao.User;
-import com.hs.whocan.component.sms.SmsService;
+import com.hs.whocan.external.sms.SmsService;
 import com.hs.whocan.service.ServiceInterface;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import javax.annotation.Resource;
  * To change this template use File | Settings | File Templates.
  */
 @Service
-@Scope("prototype")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class SecuritySendAuthCode implements ServiceInterface {
     private String phoneNo;
     @Resource
@@ -25,7 +25,7 @@ public class SecuritySendAuthCode implements ServiceInterface {
     @Resource
     private SmsService smsService;
 
-    public Boolean execute() {
+    public Boolean doService() {
         int authCode = securityComponent.getAuthCode(phoneNo);
         smsService.sendAuthCode(phoneNo, authCode);
         return true;

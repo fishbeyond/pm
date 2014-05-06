@@ -4,10 +4,10 @@ import com.hs.whocan.component.account.security.dao.Access;
 import com.hs.whocan.component.account.security.dao.AccessDao;
 import com.hs.whocan.component.account.security.dao.PhoneAuthCode;
 import com.hs.whocan.component.account.security.dao.PhoneAuthCodeDao;
-import com.hs.whocan.component.account.security.exception.TokenErrorException;
-import com.hs.whocan.framework.utils.RandomGenerator;
-import com.hs.whocan.framework.utils.UUIDGenerator;
 import com.hs.whocan.component.account.security.exception.AuthCodeErrorException;
+import com.hs.whocan.component.account.security.exception.TokenErrorException;
+import com.hs.whocan.utils.RandomGenerator;
+import com.hs.whocan.utils.UUIDGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

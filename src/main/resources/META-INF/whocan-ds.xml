@@ -15,4 +15,16 @@
         <property name="idleConnectionTestPeriod" value="18000"></property>
         <property name="preferredTestQuery" value="select 1"></property>
     </bean>
+
+    <bean id="queryDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="maxPoolSize" value="50" />
+        <property name="minPoolSize" value="5" />
+        <property name="maxIdleTime" value="25000"></property>
+        <property name="idleConnectionTestPeriod" value="18000"></property>
+        <property name="preferredTestQuery" value="select 1"></property>
+    </bean>
 </beans>

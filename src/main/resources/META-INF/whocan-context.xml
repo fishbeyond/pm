@@ -3,40 +3,34 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/aop
-		http://www.springframework.org/schema/aop/spring-aop.xsd">
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd">
 
     <context:property-placeholder location="classpath:META-INF/whocan.properties"
                                   ignore-unresolvable="true"/>
+
+    <util:properties id="messages" location="classpath:META-INF/messages.properties" />
+
     <!--<bean class="org.springframework.integration.http.inbound.UriPathHandlerMapping"/>-->
+
     <aop:aspectj-autoproxy proxy-target-class="true"/>
-    <context:component-scan base-package="com.hs.whocan">
-    </context:component-scan>
+    <context:component-scan base-package="com.hs.whocan" />
+
     <import resource="whocan-ds.xml"/>
     <import resource="whocan-repository.xml"/>
-    <!--<import resource="whocan-mvc.xml"/>-->
-    <!--<import resource="whocan-gateway.xml"/>-->
     <import resource="whocan-api-json.xml"/>
 
-    <import resource="service/session-service.xml"/>
-    <import resource="service/access-service.xml"/>
-    <import resource="service/user-service.xml"/>
-    <import resource="service/social-service.xml"/>
-    <import resource="service/task-service.xml"/>
+    <import resource="whocan-service.xml"/>
+    <import resource="whocan-query.xml"/>
 
     <bean id="fileUploadSavePath" class="java.lang.String">
         <constructor-arg value="${upload.file.image.path}"></constructor-arg>
     </bean>
-    <!--<bean id="nullResultHandler" class="com.hs.whocan.framework.transform.NullPayloadHandler"/>-->
-    <!--<aop:config>-->
-        <!--<aop:aspect id="myAop" ref="nullResultHandler">-->
-            <!--<aop:pointcut id="target"-->
-                          <!--expression="execution(* com.hs.whocan.service.*.*(..))"/>-->
-            <!--<aop:around method="handle" pointcut-ref="target"/>-->
-        <!--</aop:aspect>-->
-    <!--</aop:config>-->
 </beans>

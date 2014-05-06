@@ -1,13 +1,9 @@
 package com.hs.whocan.component.account.security.dao.hbn;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.Transient;
-import java.util.Date;
-
 import com.hs.whocan.component.account.security.dao.Access;
+
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.

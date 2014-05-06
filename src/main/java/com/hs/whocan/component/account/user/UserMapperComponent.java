@@ -1,12 +1,6 @@
 package com.hs.whocan.component.account.user;
 
-import com.hs.whocan.component.account.user.dao.UserMapper;
-import com.hs.whocan.component.account.user.dao.UserMapperDao;
-import com.hs.whocan.component.account.user.dao.User;
-import com.hs.whocan.component.account.user.dao.UserDao;
-import com.hs.whocan.component.account.user.dao.UserInvitation;
-import com.hs.whocan.component.account.user.dao.UserInvitationDao;
-import com.hs.whocan.component.account.user.dao.LinkmanDao;
+import com.hs.whocan.component.account.user.dao.*;
 import com.hs.whocan.service.social.FriendInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

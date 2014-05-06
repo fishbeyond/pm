@@ -1,8 +1,8 @@
 package com.hs.whocan.component.account.user.dao.hbn;
 
+import com.hs.whocan.component.account.user.dao.LinkmanStatus;
 import com.hs.whocan.component.account.user.dao.User;
 import com.hs.whocan.component.account.user.dao.UserDao;
-import com.hs.whocan.component.account.user.dao.LinkmanStatus;
 import com.hs.whocan.service.social.FriendInfo;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
