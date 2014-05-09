@@ -1,0 +1,2 @@
+cd ~/code/hoisoft/whocan/pm/db/mysql
+mvn dbdeploy:change-script -Ddbchangefile.name=DML
