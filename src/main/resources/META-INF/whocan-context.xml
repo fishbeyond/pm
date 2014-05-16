@@ -26,6 +26,7 @@
     <import resource="whocan-ds.xml"/>
     <import resource="whocan-repository.xml"/>
     <import resource="whocan-api-json.xml"/>
+    <import resource="whocan-mvc.xml"/>
 
     <import resource="whocan-service.xml"/>
     <import resource="whocan-query.xml"/>
