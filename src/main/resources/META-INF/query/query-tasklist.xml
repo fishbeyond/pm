@@ -20,7 +20,7 @@
     <int:channel id="findTasklistByGroupIdChannel" />
     <int-jdbc:outbound-gateway request-channel="findTasklistByGroupIdChannel"
                                reply-channel="listTransformerChannel"
-                               data-source="queryDataSource" update="" >
+                               data-source="queryDataSource" update="" max-rows-per-poll="0" >
         <int-jdbc:query>
             select * from task where groupId = :payload.groupId
         </int-jdbc:query>
