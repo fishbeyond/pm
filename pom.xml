@@ -251,13 +251,14 @@
         </dependency>
 
         <!--test-->
-
+<!--
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path-parent</artifactId>
             <version>0.9.1</version>
             <scope>test</scope>
         </dependency>
+-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
