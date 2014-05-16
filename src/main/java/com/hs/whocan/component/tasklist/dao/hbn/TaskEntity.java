@@ -10,7 +10,7 @@ import java.util.Date;
  * Created by fish on 14-4-21.
  */
 @Entity
-@Table(name="tasklist")
+@Table(name="task")
 public class TaskEntity {
 
     private Task task;

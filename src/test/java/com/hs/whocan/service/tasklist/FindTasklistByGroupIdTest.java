@@ -5,11 +5,13 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.unitils.easymock.annotation.Mock;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class FindTasklistByGroupIdTest extends ServiceTest {
+
 
     @Before
     public void setUp() throws Exception {
@@ -23,7 +25,7 @@ public class FindTasklistByGroupIdTest extends ServiceTest {
         Assert.assertEquals(expected, actual);
     }
 
-//    @Test
+    @Test
     public void testTaskCreate() throws Exception {
         String expected = getSuccessJson(new ArrayList<Objects>(0));
         MockHttpServletRequestBuilder builder = getSignInRequest("/tasklist/create.json")
