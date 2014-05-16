@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -25,7 +27,7 @@ public class TaskCreate extends VerifySignInService {
     private int top;
     private String createUser;
     private String owner;
-    private long deadline;
+    private String deadline;
     private String status;
     private String parentId;
     private String type;
@@ -35,6 +37,13 @@ public class TaskCreate extends VerifySignInService {
     @Override
     @Transactional
     public String execute(User user) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = dateFormat.parse(deadline);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         Task task = new Task();
         task.setTitle(title);
         task.setGroupId(groupId);
@@ -44,7 +53,7 @@ public class TaskCreate extends VerifySignInService {
         task.setCreateUser(userId);
         task.setOwner(owner);
         task.setCreateTime(new Date());
-        task.setDeadline(new Date(deadline));
+        task.setDeadline(date);
         task.setStatus(status);
         task.setParentId(parentId);
         task.setType(type);
@@ -100,11 +109,11 @@ public class TaskCreate extends VerifySignInService {
         this.createUser = createUser;
     }
 
-    public long getDeadline() {
+    public String getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(long deadline) {
+    public void setDeadline(String deadline) {
         this.deadline = deadline;
     }
 
