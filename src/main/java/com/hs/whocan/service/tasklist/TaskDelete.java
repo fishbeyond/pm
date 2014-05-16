@@ -6,6 +6,7 @@ import com.hs.whocan.service.VerifySignInService;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -22,6 +23,7 @@ public class TaskDelete extends VerifySignInService {
     private TaskComponent taskComponent;
 
     @Override
+    @Transactional
     public Boolean execute(User user) {
         taskComponent.delete(taskId);
         return true;

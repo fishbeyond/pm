@@ -7,6 +7,7 @@ import com.hs.whocan.service.VerifySignInService;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -32,6 +33,7 @@ public class TaskCreate extends VerifySignInService {
     private TaskComponent taskComponent;
 
     @Override
+    @Transactional
     public String execute(User user) {
         Task task = new Task();
         task.setTitle(title);

@@ -7,6 +7,7 @@ import com.hs.whocan.service.VerifySignInService;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -23,6 +24,7 @@ public class TaskFind extends VerifySignInService {
 
 
     @Override
+    @Transactional
     public List<Task> execute(User user) {
         return taskComponent.find(sessionId);
     }
